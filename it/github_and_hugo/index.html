@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>使用Github pages和hugo搭建个人静态博客系统 | 四十荀的博客</title>
+    <meta property="og:title" content="使用Github pages和hugo搭建个人静态博客系统 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-07-11T09:41:41&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-07-11T09:41:41&#43;08:00'>
+        
+    <meta name="Keywords" content="[hugo, github, 博客系统]">
+    <meta name="description" content="使用Github pages和hugo搭建个人静态博客系统">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/github_and_hugo/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#hugo博客系统">Hugo博客系统</a>
+      <ul>
+        <li><a href="#hugo下载安装">Hugo下载安装</a></li>
+        <li><a href="#本地生成一个博客站点">本地生成一个博客站点</a></li>
+        <li><a href="#添加一个博客主题">添加一个博客主题</a></li>
+        <li><a href="#尝试写一篇博客并预览效果">尝试写一篇博客并预览效果</a></li>
+      </ul>
+    </li>
+    <li><a href="#发布博客到github">发布博客到Github</a>
+      <ul>
+        <li><a href="#git基础">Git基础</a></li>
+        <li><a href="#创建github仓库">创建github仓库</a></li>
+        <li><a href="#精简发布模式">精简发布模式</a></li>
+        <li><a href="#完全发布模式git子模块">完全发布模式(git子模块)</a></li>
+      </ul>
+    </li>
+    <li><a href="#常用命令汇总">常用命令汇总</a></li>
+    <li><a href="#其他相关配置改动">其他相关配置改动</a>
+      <ul>
+        <li><a href="#接入utteranc评论系统">接入utteranc评论系统</a></li>
+        <li><a href="#使用图床存储图片">使用图床存储图片</a></li>
+        <li><a href="#主题自定义菜单纳入文章归档">主题自定义菜单纳入文章归档</a></li>
+        <li><a href="#主题文章目录长度溢出自动换行">主题文章目录长度溢出自动换行</a></li>
+        <li><a href="#代码块部分无法对齐">代码块部分无法对齐</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">使用Github pages和hugo搭建个人静态博客系统</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2022年7月11日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/hugo'>hugo</a></span>
+            
+            <span class="meta-category"><a href='/categories/github'>github</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <p>正经人谁写日记, 咱发博客(狗头). 说干就干, 利用hugo和github pages给自己搭建一个博客系统.</p>
+<p>本文主要记录个人的搭建过程, 内容包括<strong>hugo博客本地化部署</strong>, <strong>发布到github实现互联网访问</strong>, <strong>接入第三方评论系统</strong>, <strong>使用图床存储博客图片</strong>, 以及<strong>常用命令汇总</strong>等</p>
+<h2 id="hugo博客系统">Hugo博客系统</h2>
+<p>官方介绍Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。</p>
+<p>确实是非常简单易用, 生成一个站点, 添加一个主题, 然后就可以开始使用Markdown格式写文章了, 一点都不极客(狗头)</p>
+<p>其他类似的还有<strong>Jekyll</strong>和<strong>Hexo</strong>等, 不过貌似还是<strong>Hugo</strong>最快.</p>
+<h3 id="hugo下载安装">Hugo下载安装</h3>
+<p>本人操作系统ubuntu22.04,   采用snap安装:</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xy@TB14G2:~$ snap install hugo --channel<span style="color:#000;font-weight:bold">=</span>extended
+</span></span><span style="display:flex;"><span>xy@TB14G2:~$ hugo version
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>基础安装不需要添加参数, 直接运行<code>snap install hugo</code>即可.</p>
+<p>添加参数<code>--channel=extended</code>可以获取<strong>Sass/SCSS</strong>支持, 有些高大上的主题会需要这玩意.</p>
+<p>两种版本可以通过<code>snap refresh hugo --channel=extended</code> 或者<code>snap refresh hugo --channel=stable</code>来转换.</p>
+<p>如果后面输入<code>hugo version</code>能够看到版本号, 那就说明安装成功了.</p>
+<p>其他操作系统及安装方式参考<a href="https://gohugo.io/getting-started/installing/">官方文档hugo install</a></p>
+<h3 id="本地生成一个博客站点">本地生成一个博客站点</h3>
+<p>本地生成一个博客站点也只需要一条命令即可:</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xy@TB14G2:~$ hugo new site blog
+</span></span><span style="display:flex;"><span>Congratulations! Your new Hugo site is created in /home/xy/blog.
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样就表示创建成功了, 博客站点名称为<strong>blog</strong>, 里面就是该站点相关的各种文件</p>
+<h4 id="hugo博客目录结构">Hugo博客目录结构</h4>
+<p>新生成的博客站点目录结构如下</p>
+<pre tabindex="0"><code class="language-none" data-lang="none">.
+├── archetypes          // 使用hugo new 新建文章时候的文章模板
+├── config.toml         // hugo站点的配置文件, 都在这里面了, 可以拷贝主题里的配置文件
+├── content             // 写博客时候的markdown笔记, 都放在这里面
+├── data                // 基础使用好像不用关注
+├── layouts             // 各种html模板, 用于渲染你的MD笔记,不用关注,基础使用的话主题里已经包含这部分内容了
+├── static              // 放js,css文件的, 不用关注,主题里也有了
+├── public              // 默认不存在,运行`hugo`命令后出现, 用于存放生成的静态站点资源.[重点]
+└── themes              // 博客主题目录, 刚生成的时候也是一个空目录, 相关介绍见后文
+    ├── archetypes      // 将该目录中的default.md复制到根目录的archetypes就好了,或者自己自定义一个
+    ├── layouts         // 用于渲染MD笔记的各种html模板,
+    ├── static          // 放js/css文件的
+    ├── exampleSite     // 主题自带的示例文章等, config.toml(后缀名也可能是yaml或者json)拿来用, 其他可删除
+    └── [others]        // 其他各种文件/目录, 用于实现各种功能, 基本不用关注
+</code></pre><p>其他更多内容同样参考 <a href="https://gohugo.io/getting-started/directory-structure/">官方文档Directory Structure</a></p>
+<h3 id="添加一个博客主题">添加一个博客主题</h3>
+<p>主题是用来渲染你的MD文章的, 你只需要写最简单的内容, 然后主题帮你展示成酷炫的页面. 网上现成的hugo主题有很多, 可以去 <a href="https://themes.gohugo.io/">Hugo官方主题</a> 找喜欢的博客主题, 或者去 <a href="https://github.com/search?q=hugo+theme">Github hugo主题</a>找也可以, 都是可以预览的, 挑一个喜欢的主题, 拿来即用.</p>
+<p>我用的是 <a href="http://www.flysnow.org/">飞雪无情 </a>的maupassant-hugo主题, 比较简洁. <a href="https://github.com/flysnow-org/maupassant-hugo">点击链接</a>跳转到页面下载ZIP包. 参考上面 <a href="#hugo%E5%8D%9A%E5%AE%A2%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">hugo博客目录结构</a> 进行下列操作:</p>
+<ol>
+<li>下载的压缩包解压到<code>blog/theme</code>目录下, [可选]重命名主题目录.</li>
+<li>将<code>exampleSite/config.toml</code>复制到站点根目录替换原有的配置文件, [如果重命名了主题目录, 注意修改文件中的<code>theme</code>选项].</li>
+<li>将<code>archetypes/defalut.md</code>文件复制替换到站点根目录同名文件.</li>
+<li>[可选]将<code>exampleSite/content</code>中的示例文章复制到站点根目录的<code>content</code>目录下.</li>
+<li>阅读<code>README.md</code>说明文档以及<code>config.toml</code>中的注释信息, 为后续其他配置调整做准备.</li>
+</ol>
+<p>经过上述步骤就算完成博客主题的添加了, 其中第4步可以等后面根据自身需求慢慢调整.</p>
+<h3 id="尝试写一篇博客并预览效果">尝试写一篇博客并预览效果</h3>
+<p>写博客可以直接在站点根目录<code>/content/posts</code>目录中新建<code>.md</code>文件, 但是推荐使用hugo命令来新建:</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xy@TB14G2:~$ hugo new posts/first_blog.md
+</span></span><span style="display:flex;"><span>Content <span style="color:#d14">&#34;/home/xy/Documents/blog/content/posts/first_blog.md&#34;</span> created
+</span></span><span style="display:flex;"><span>xy@TB14G2:~$ hugo server -D
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上述命令的意思是: 在<code>站点根目录blog</code>下<code>/content/posts</code>目录下新建文章<code>first_blog.md</code>, 使用该命令新建的文件会包含一些基本信息, 这些基本信息来自<code>archetypes/default.md</code>.</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">+++</span>
+</span></span><span style="display:flex;"><span>title=<span style="color:#d14">&#39;{{ replace .Name &#34;-&#34; &#34; &#34; | title }}&#39;</span>
+</span></span><span style="display:flex;"><span>tags=[]
+</span></span><span style="display:flex;"><span>categories=[]
+</span></span><span style="display:flex;"><span>keywords=<span style="color:#d14">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>description=<span style="color:#d14">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>date=<span style="color:#d14">&#34;{{ .Date }}&#34;</span>
+</span></span><span style="display:flex;"><span>toc=<span style="color:#000;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>draft=<span style="color:#000;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>hiddenFromHomePage= <span style="color:#000;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">+++</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">&lt;!</span>--more--<span style="color:#a61717;background-color:#e3d2d2">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>视你的<code>default.md</code>文件而定, 可能跟我的内容不尽相同. 其中<code>draft=true</code>表示该篇文章目前是草稿, 等到正式发布的时候, 需要修改为<code>draft=false</code>; <code>toc</code>选项是单独控制文章是否启用目录导航; <code>hiddenFromHomePage</code>选项用于控制是否在站点首页文章列表显示该篇文章.</p>
+<p>创建文章后随便写点东西, 然后运行的<code>hugo server -D</code>作用是预览博客站点, 其中的参数<code>-D</code>的意思是预览草稿.</p>
+<p>然后根据提示, 在浏览器中输入<code>http://localhost:1313/ </code>就能看到网站的效果了, 可以使用组合按键<!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted -->+<!-- raw HTML omitted -->C<!-- raw HTML omitted -->来结束预览.</p>
+<h2 id="发布博客到github">发布博客到Github</h2>
+<p>经过以上操作, 你已经成功的在本地搭建起了一个hugo博客系统, 并可以愉快的开始写博客了.  但是<strong>富贵不还乡, 犹如锦衣夜行</strong>, 既然写了博客, 自然<strong>好文共赏析</strong>, 要发出去让让广大网友点评一二^_^</p>
+<p>正好, <a href="https://docs.github.com/cn/pages" title="点击了解更多github pages相关知识">Github pages</a>支持发布静态站点, 而且Github可以免费注册使用, 所以, 赶紧白嫖吧~~. 国内的gitee也可以, 而且速度更快, 只是github面向全球, 显得更主流一些(github偶尔可能国内会无法访问,或者访问很慢). 另外就是gitee前阵子刚进行了一些调整, 经过简单尝试后发现目前大概有以下几个小问题(描述不一定准确, 影响也不算大, 看个人取舍吧):</p>
+<ul>
+<li>需要登录后才能浏览仓库,</li>
+<li>创建公共仓库gitee pages需要实名认证</li>
+</ul>
+<h3 id="git基础">Git基础</h3>
+<p>用于跟github交互的版本控制工具git的下载安装以及基础使用等, 请参考<a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%8E%B7%E5%8F%96-Git-%E4%BB%93%E5%BA%93">官方文档</a>, 或者参考我的另一篇博客, 或者自行网上搜索.</p>
+<h3 id="创建github仓库">创建github仓库</h3>
+<p>首先需要<a href="https://github.com/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F&amp;source=header-home">注册一个github帐号</a>, 然后<a href="https://github.com/new">新建一个仓库</a>用于发布博客, 选择public模式, 这样所有人都可以通过互联网看到你的博客.</p>
+<p>注意仓库名, 如果仓库名是<code>Owner.github.io</code>格式的, 可以直接通过仓库名来访问, 否则需要使用<code>https://owner/github.com/repo</code>的格式来访问仓库, 这种二级目录访问格式可能会让部分链接解析出错, 所以推荐使用前者.</p>
+<p>仓库创建完成后, 点击页面上的<code>Settings</code>, 然后选择侧边栏的<code>Code and automation</code> -&gt; <code>pages</code>, 开通github pages功能.</p>
+<h3 id="精简发布模式">精简发布模式</h3>
+<p>在博客根目录下运行<code>hugo</code>命令, 会在<code>/public/</code>目录下生成一系列的文件, 包含了一个静态站点所需的所有内容, 所以只需要把<code>/public</code>目录下的内容上传到github就可以了. <strong>首先命令行进入<code>public</code>目录</strong>, 然后使用以下命令</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// 初始化本地仓库
+</span></span><span style="display:flex;"><span>$ git init
+</span></span><span style="display:flex;"><span>// 添加远程仓库, 推荐使用ssh模式,下面的owner替换成你自己的实际仓库名, 也可以使用https模式
+</span></span><span style="display:flex;"><span>$ git remote add git@github.com:owner/owner.github.io.git
+</span></span><span style="display:flex;"><span>// 暂存本地仓库文件
+</span></span><span style="display:flex;"><span>$ git add .
+</span></span><span style="display:flex;"><span>// 提交更改到本地仓库
+</span></span><span style="display:flex;"><span>$ git commit -m <span style="color:#d14">&#34;第一次发布博客测试&#34;</span>
+</span></span><span style="display:flex;"><span>// 将本地仓库内容基于远程仓库进行重做
+</span></span><span style="display:flex;"><span>$ git rebase origin/master
+</span></span><span style="display:flex;"><span>// 推送本地仓库内容到远程仓库
+</span></span><span style="display:flex;"><span>$ git push origin
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>远程仓库可能存在本地仓库没有的readme.md等初始化文件, 使用<code>git rebase</code>进行重做而不是<code>git merge</code>合并, 是rebase更加线性. 更多关于两条命令的区别<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">参考官网</a></p>
+<p>当然, 也可以在rebase之后先检查一下public目录, 如果有多出来的无用文件, 可以使用<code>git rm </code>先删除, 然后重新<code>git commit</code>, 最后再push到远程仓库.</p>
+<p>到这个时候, 第一篇博客就已经成功发布出去了, 过一会儿, 就可以通过<code>owner.github.io</code>查看结果了.</p>
+<h3 id="完全发布模式git子模块">完全发布模式(git子模块)</h3>
+<p>尝试过精简发布模式之后, 我们就会发现, 我们只推送了public目录里的静态站点资源, 其他的比如hugo主框架, theme目录下的主题, content目录下的MD源文件这些东西都在本地没有上传.</p>
+<p>在极端环境下, 比如电脑因为意外损坏了, 或者被人永久删除了博客目录, 这样就会导致public之外的其他数据丢失. 又或者有多台电脑同时在写博客, 这也需要至少保持content目录下的MD文件数据同步.  所以我们需要整个博客目录的数据都有一个备份, 方便必要的时候能够快速恢复博客系统环境. 但是, 把整个博客系统都放在一个仓库里发布出去, 也没有必要; 主题也是用的别人的略加修改而来的, 如果能保持一个独立的仓库, 也更容易应用别人的更新&hellip;</p>
+<p>综合考虑, 我们可以使用git子模块功能, 将整个博客系统拆分成如下四个部分, 相对应的也需要四个远程仓库:</p>
+<table>
+<thead>
+<tr>
+<th>功能模块</th>
+<th>模块说明</th>
+<th>仓库名(参考)</th>
+<th>仓库说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>博客主项目</td>
+<td>hugo博客系统主框架</td>
+<td>blog-main</td>
+<td>private,</td>
+</tr>
+<tr>
+<td>主题子模块</td>
+<td>themes博客使用的主题</td>
+<td>[some-theme]</td>
+<td>public, 从你喜欢的主题仓库那fork, 保持同名即可, <!-- raw HTML omitted -->如果有做了一些有趣的修改, 也可供其他人下载使用.</td>
+</tr>
+<tr>
+<td>笔记子模块</td>
+<td>content目录下的markdown源文件</td>
+<td>blog-md</td>
+<td>private, 笔记源文件无需公开</td>
+</tr>
+<tr>
+<td>站点子模块</td>
+<td>public目录下的静态站点资源</td>
+<td>owner.github.io</td>
+<td>public, 对外展示供他人浏览的博客仓库</td>
+</tr>
+</tbody>
+</table>
+<p>以下是大概过程(可能有部分错漏, 欢迎评论区指正) 注意$提示符前面的目录变化, 注意<code>[]</code>部分的内容替换成你自己的:</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// 新建博客站点
+</span></span><span style="display:flex;"><span>~$ hugo new site blog
+</span></span><span style="display:flex;"><span>// 初始化为git仓库
+</span></span><span style="display:flex;"><span>~$ <span style="color:#0086b3">cd</span> blog/
+</span></span><span style="display:flex;"><span>blog$ git init
+</span></span><span style="display:flex;"><span>// 添加远程仓库主框架
+</span></span><span style="display:flex;"><span>blog$ git remote add main <span style="color:#000;font-weight:bold">[</span>blog-main-repo<span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>// 添加子模块仓库, 其中/content和/public目录已经初始化到主仓库中, 需要先删除
+</span></span><span style="display:flex;"><span>blog$ rm -r content/ public/
+</span></span><span style="display:flex;"><span>blog$ git submodule add <span style="color:#000;font-weight:bold">[</span>theme-repo<span style="color:#000;font-weight:bold">]</span> themes/<span style="color:#000;font-weight:bold">[</span>maupassant<span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>blog$ git submodule add <span style="color:#000;font-weight:bold">[</span>blog-md-repo<span style="color:#000;font-weight:bold">]</span> content/
+</span></span><span style="display:flex;"><span>blog$ git submodule add <span style="color:#000;font-weight:bold">[</span>owner.github.io<span style="color:#000;font-weight:bold">]</span> public/
+</span></span><span style="display:flex;"><span>// 修改主题仓库部分配置, 用于适配本地博客系统, 然后将更改后的主题重新推送回远程仓库
+</span></span><span style="display:flex;"><span>blog$ <span style="color:#0086b3">cd</span> themes/maupassant
+</span></span><span style="display:flex;"><span>maupassant$ git add .
+</span></span><span style="display:flex;"><span>maupassant$ git commit -m <span style="color:#d14">&#34;备注本次提交内容概要&#34;</span>
+</span></span><span style="display:flex;"><span>maupassant$ git push origin
+</span></span><span style="display:flex;"><span>// 写博客, 预览效果, 确认完成后推送笔记到远程笔记仓库
+</span></span><span style="display:flex;"><span>maupassant$ <span style="color:#0086b3">cd</span> ../../
+</span></span><span style="display:flex;"><span>blog$ hugo new posts/my_first_blog.md
+</span></span><span style="display:flex;"><span>blog$ hugo server -D
+</span></span><span style="display:flex;"><span>blog$ <span style="color:#0086b3">cd</span> content/
+</span></span><span style="display:flex;"><span>content$ git add .
+</span></span><span style="display:flex;"><span>content$ git commit -m <span style="color:#d14">&#34;我的第一篇博客&#34;</span>
+</span></span><span style="display:flex;"><span>content$ git push origin
+</span></span><span style="display:flex;"><span>// 生成静态资源, 然后推送到远程仓库
+</span></span><span style="display:flex;"><span>content$ <span style="color:#0086b3">cd</span> ../
+</span></span><span style="display:flex;"><span>blog$ hugo
+</span></span><span style="display:flex;"><span>blog$ <span style="color:#0086b3">cd</span> pubic/
+</span></span><span style="display:flex;"><span>public$ git add .
+</span></span><span style="display:flex;"><span>public$ git commit -m <span style="color:#d14">&#34;我的第一篇博客&#34;</span>
+</span></span><span style="display:flex;"><span>public$ git push origin
+</span></span><span style="display:flex;"><span>// 推送博客主框架到远程仓库, 
+</span></span><span style="display:flex;"><span>public$ <span style="color:#0086b3">cd</span> ../
+</span></span><span style="display:flex;"><span>blog$ git add .
+</span></span><span style="display:flex;"><span>blog$ git commit -m <span style="color:#d14">&#34;博客主框架已初步构建完成&#34;</span>
+</span></span><span style="display:flex;"><span>blog$ git push main
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>后续主题部分可能就不再有变化了, 那就不用再推送. 而content笔记部分和public静态资源部分, 会随着我们不停的写博客而变化.</p>
+<p>主框架也会随着content和public两个子模块的变化而变化, 不过这个可以忽略不管.</p>
+<h2 id="常用命令汇总">常用命令汇总</h2>
+<p>如果就只是在一台电脑上写博客的话, 就只参考上一节, 完全发布模式中的命令也够用了.</p>
+<p>其他的后面再补充吧, 最近关于git的一些基础知识有些模糊了, 先温故一下&hellip;</p>
+<h2 id="其他相关配置改动">其他相关配置改动</h2>
+<h3 id="接入utteranc评论系统">接入utteranc评论系统</h3>
+<p><a href="https://utteranc.es/">utteranc评论系统</a>需要登录github才能评论, 而github偶尔可能会无法访问, 或者访问很慢, 会影响体验. 本来想改用<a href="https://waline.js.org/">waline评论系统</a>, 不需要登录, 只要设置昵称/邮箱就可以评论. 但是waline又需要注册LeanCloud数据库(国内版需要绑定已备案域名, 国际版同样存在速度慢), 再使用<a href="https://vercel.com/">Vercel</a> 或者阿里云函数计算等部署 (服务端)也是很麻烦. 所以暂时还是使用utteranc, 以后看情况再更改评论系统.</p>
+<p>接入utteranc评论系统很简单, <a href="https://utteranc.es/">参考官方说明文档</a>, 其实只需要创建一个github公共仓库, 访问<a href="https://github.com/apps/utterances">utterances app</a>将应用接入该公共仓库就已经完成了.  然后将该仓库对应的<code>owner/repo</code>复制粘贴到<code>config.toml</code>配置文件相应位置就算接入成功了.</p>
+<p>如果你选择的主题不支持接入该评论系统(使用别的如valine, waline等评论系统), 而你又想用utteranc, 那会稍微麻烦一点点, 在主题目录的<code>layouts/partials</code>目录下应该有一个<code>comments.html</code>, 将utterances的脚本代码复制进去参考着稍作修改也就可以了.</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;</span>script src<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;https://utteranc.es/client.js&#34;</span>
+</span></span><span style="display:flex;"><span>        repo<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;[ENTER REPO HERE]&#34;</span>  <span style="color:#998;font-style:italic">/* 你的owner/repo */</span>
+</span></span><span style="display:flex;"><span>        issue<span style="color:#000;font-weight:bold">-</span>term<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;pathname&#34;</span>
+</span></span><span style="display:flex;"><span>        theme<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;github-light&#34;</span>
+</span></span><span style="display:flex;"><span>        crossorigin<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;anonymous&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">async</span><span style="color:#000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#a61717;background-color:#e3d2d2">/script&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="使用图床存储图片">使用图床存储图片</h3>
+<p>使用github pages来托管博客, 一个是存储空间, 访问流量等限制, 一个是国内访问github速度比较慢, 所以比较消耗存储空间以及网络流量的图片使用另外的图床来托管. 比如用国内的<a href="https://www.qiniu.com/">七牛云</a>做图床</p>
+<h3 id="主题自定义菜单纳入文章归档">主题自定义菜单纳入文章归档</h3>
+<p>原主题只归档content目录下post/posts目录的文章, 我将博客文章分了&rsquo;计算机&rsquo;, &lsquo;健身&rsquo;等几个大分类, 并分别创建独立目录(未采用所有文章都放在posts目录下)</p>
+<p>修改的位置是<code>layouts/archives/single.html</code>和<code>layouts/index.html</code>, 将<code>it</code>, <code>fitness</code>等分类目录名加入数组</p>
+<pre tabindex="0"><code>    {{ range (where (where .Site.Pages &#34;Type&#34; &#34;in&#34; (slice &#34;post&#34; &#34;posts&#34; &#34;it&#34; &#34;fitness&#34;)) &#34;Kind&#34; &#34;page&#34;).GroupByDate &#34;2006&#34; }}
+</code></pre><p>说明: 其实这个改动没有太大必要, 本身主题就是支持分类的, 只要给文章设定好分类, 相应的文章就自动实现聚合浏览了. 为只是为了将几个大类分开, 并在自定义菜单上显示出来能更醒目一点. 也许这样子用上一段时间后, 又要把这个改动调整回去了&hellip;</p>
+<h3 id="主题文章目录长度溢出自动换行">主题文章目录长度溢出自动换行</h3>
+<p>原主题文章只显示一级目录, 二级目录被隐藏了, 而且目录文字过长不会自动换行, 修改相应的css</p>
+<p>修改位置: <code>layouts/partials/toc.html</code>, 注释了2行css, 其他未改动.</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000080">style</span> <span style="color:#000080">type</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;text/css&#34;</span><span style="color:#000;font-weight:bold">&gt;</span>
+</span></span><span style="display:flex;"><span>    .<span style="color:#458;font-weight:bold">post-toc</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">/* nowrap文字溢出不会换行, 注释掉, 或者改成normal */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">/* white-space: nowrap; */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a61717;background-color:#e3d2d2">...</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    .<span style="color:#458;font-weight:bold">post-toc</span> .<span style="color:#458;font-weight:bold">post-toc-content</span> <span style="color:#000080">ul</span> <span style="color:#000080">ul</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">/* 显示二级目录 */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">/* display: none; */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a61717;background-color:#e3d2d2">...</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">&lt;/</span><span style="color:#000080">style</span><span style="color:#000;font-weight:bold">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="代码块部分无法对齐">代码块部分无法对齐</h3>
+<p>代码块部分本地实际渲染效果, 左边的行号和右边的代码无法对齐, 这个第一感觉需要改动的地方会比较多, 所以就这样吧, 摊手&hellip;</p>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/hugo'>hugo</a></li>
+                
+                <li><a href='/tags/github'>github</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/agriculture/">agriculture (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/finance/">finance (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/fitness/">fitness (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
