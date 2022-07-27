@@ -3,7 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://xy-ylr.github.io/categories/</loc>
-    <lastmod>2022-07-11T09:41:41+08:00</lastmod>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/git/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/git/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/git_submodule/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/</loc>
+    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/git_branch/</loc>
+    <lastmod>2022-07-21T00:37:34+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/git_basic_use/</loc>
+    <lastmod>2022-07-15T15:36:37+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/github/</loc>
     <lastmod>2022-07-11T09:41:41+08:00</lastmod>
@@ -17,23 +41,8 @@
     <loc>https://xy-ylr.github.io/categories/hugo/</loc>
     <lastmod>2022-07-11T09:41:41+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/it/</loc>
-    <lastmod>2022-07-11T09:41:41+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/tags/</loc>
-    <lastmod>2022-07-11T09:41:41+08:00</lastmod>
-  </url><url>
     <loc>https://xy-ylr.github.io/it/github_and_hugo/</loc>
     <lastmod>2022-07-11T09:41:41+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/</loc>
-    <lastmod>2022-07-11T09:41:41+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/categories/agriculture/</loc>
-    <lastmod>2022-07-11T00:47:16+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/categories/finance/</loc>
-    <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/agriculture/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
@@ -44,16 +53,22 @@
     <loc>https://xy-ylr.github.io/fitness/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/categories/fitness/</loc>
+    <loc>https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/</loc>
+    <loc>https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
+    <loc>https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/</loc>
+    <lastmod>2022-07-11T00:47:16+08:00</lastmod>
+  </url><url>
     <loc>https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/</loc>
+    <lastmod>2022-07-11T00:47:16+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/about/</loc>

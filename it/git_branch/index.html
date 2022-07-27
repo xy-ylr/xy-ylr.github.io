@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Git分支 | 四十荀的博客</title>
+    <meta property="og:title" content="Git分支 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-07-21T00:37:34&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-07-21T00:37:34&#43;08:00'>
+        
+    <meta name="Keywords" content="[git分支]">
+    <meta name="description" content="git分支, git远程分支, git切换分支, git合并分支, git分支合并, git查看分支">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/git_branch/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#分支简介">分支简介</a></li>
+    <li><a href="#创建新分支">创建新分支</a></li>
+    <li><a href="#查看分支">查看分支</a></li>
+    <li><a href="#切换分支">切换分支</a></li>
+    <li><a href="#合并分支">合并分支</a>
+      <ul>
+        <li><a href="#冲突合并">冲突合并</a></li>
+      </ul>
+    </li>
+    <li><a href="#变基">变基</a></li>
+    <li><a href="#删除分支">删除分支</a></li>
+    <li><a href="#远程分支">远程分支</a></li>
+    <li><a href="#相关命令汇总">相关命令汇总</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Git分支</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2022年7月21日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/git'>git</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约4051字 </span>
+            <span> 预计阅读时间9分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+
+
+        <div class="post-content">
+            <p>在实际项目开发中, 可能会存在稳定版, 先行版, 内部开发版等, 又或者正在开发新版功能的时候, 老版本爆出致命漏洞需要修复, 又或者开发功能1的时候, 出现了新需求需要满足(功能2), 诸如此类, Git的分支功能可以很好的解决上述问题</p>
+<h2 id="分支简介">分支简介</h2>
+<p>具体内容参考官方<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B">Git分支简介</a>, 本人能看明白, 但是无法举一反三深入理解, 也就记不住, 更加无法自我组织言语表达出来.</p>
+<p>简单理解, Git仓库系统由三个部分组成,</p>
+<ul>
+<li><strong>blob</strong>对象: 保存文件快照, 每个文件一个快照</li>
+<li><strong>树</strong>对象: 记录仓库目录结构和blob对象的索引</li>
+<li><strong>提交</strong>对象: 记录指向树对象的指针和提交信息</li>
+</ul>
+<p>而<strong>Git分支, 是额外的指向提交对象的可移动指针</strong>. 比如Git默认创建的<code>master</code>分支, 在默认单分支开发状态下, 不管经过多少次<code>git commit</code>, 它总是指向最新的一次提交. 可以使用<code>git log </code>来观察这一现象</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git log --oneline --graph 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>* 6fd8734 <span style="color:#719e07">(</span>HEAD -&gt; master, origin/master, origin/HEAD<span style="color:#719e07">)</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>* c52cf19 modify hhh.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>* 2b73bb7 add test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>* 9035ec4 modify git小问题临时记录.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>* 4e0029d add active
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>* 1da5508 Initial commit
+</span></span></code></pre></div><p>其中的<code>HEAD -&gt; master</code>是本地仓库的master分支, 而<code>HEAD</code>是一个特殊指针, 表示当前(工作目录)所处的分支. 而<code>origin/master, origin/HEAD</code>都表示的远程仓库分支.</p>
+<p>了解这些基本概念后, 开始分支练习吧.</p>
+<h2 id="创建新分支">创建新分支</h2>
+<p>要创建分支使用<code>git branch</code>命令, 这会在<strong>当前提交对象</strong>上新建一个指针.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git branch <span style="color:#b58900">test</span>
+</span></span></code></pre></div><h2 id="查看分支">查看分支</h2>
+<p>上述新建分支成功后不会有什么输出反馈, 可以通过以下命令来查看并验证结果</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git branch -vv
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>* master 6fd8734 <span style="color:#719e07">[</span>origin/master<span style="color:#719e07">]</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  <span style="color:#b58900">test</span>   6fd8734 save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>xy@TB14G2:subtest$ git log --oneline --decorate
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>6fd8734 <span style="color:#719e07">(</span>HEAD -&gt; master, origin/master, origin/HEAD, <span style="color:#b58900">test</span><span style="color:#719e07">)</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>c52cf19 modify hhh.html
+</span></span></code></pre></div><p>上述两条命令, <code>git branch -vv</code>命令是列出所有本地分支基本信息以及远程分支名称, 本地分支与远程分支的基本差异, 也可以直接使用<code>git branch</code>, 那就只显示分支名; 或者使用<code>git branch -v</code>, 与<code>-vv</code>相比, 少了远程分支名称. 其输出结果里的 <code>*</code>类似于<code>git log</code>里的<code>HEAD</code>, 都是表示当前活动分支的意思.</p>
+<h2 id="切换分支">切换分支</h2>
+<p>通过刚才的验证结果可以发现, test分支和master分支都指向当前最新提交记录(6fd8734), 但是当前活动分支还是master, 也就是HEAD指针还指向master.</p>
+<p>要想将当前活动分支也就是HEAD指针切换到test分支, 可以使用命令<code>git checkout [branch]</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git checkout <span style="color:#b58900">test</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Switched to branch <span style="color:#2aa198">&#39;test&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>xy@TB14G2:subtest$ git branch -vv
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>  master 6fd8734 <span style="color:#719e07">[</span>origin/master<span style="color:#719e07">]</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>* <span style="color:#b58900">test</span>   6fd8734 save the blog article tmp
+</span></span></code></pre></div><p>可以看到, 活动分支确实已经切换到test了.   另外, 也可以使用<code>git checkout -b</code>创建新分支并同时切换过去.</p>
+<p>接下来我们在两个分支上分别进行一些改动</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 在test分支新增文件并提交
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;ttttt&#34;</span> &gt; test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>xy@TB14G2:subtest$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>xy@TB14G2:subtest$ git commit -m <span style="color:#2aa198">&#34;branch testing&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#719e07">[</span><span style="color:#b58900">test</span> f410fd9<span style="color:#719e07">]</span> branch testing
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span> create mode <span style="color:#2aa198">100644</span> test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>// 切换会master分支并做修改提交
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>xy@TB14G2:subtest$ git checkout master 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>Switched to branch <span style="color:#2aa198">&#39;master&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>Your branch is up to date with <span style="color:#2aa198">&#39;origin/master&#39;</span>.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;mmmmm&#34;</span> &gt; test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>xy@TB14G2:subtest$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>xy@TB14G2:subtest$ git commit -m <span style="color:#2aa198">&#34;add test.html&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span><span style="color:#719e07">[</span>master 8e118a5<span style="color:#719e07">]</span> add test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span> create mode <span style="color:#2aa198">100644</span> test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>xy@TB14G2:subtest$ 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>xy@TB14G2:subtest$ git log --oneline --decorate --graph --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>* 8e118a5 <span style="color:#719e07">(</span>HEAD -&gt; master<span style="color:#719e07">)</span> add test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>| * f410fd9 <span style="color:#719e07">(</span><span style="color:#b58900">test</span><span style="color:#719e07">)</span> branch testing
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>|/  
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>* 6fd8734 <span style="color:#719e07">(</span>origin/master, origin/HEAD<span style="color:#719e07">)</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>* c52cf19 modify hhh.html
+</span></span></code></pre></div><p>能够看到, test分支已经向前一步指向新的提交对象(f410fd9), 而master分支也指向了一个新的提交对象(8e118a5), <strong>两个分支分叉了</strong>.</p>
+<h2 id="合并分支">合并分支</h2>
+<p>现在假设master分支是你正经开发的东西, test分支是一个突发奇想, 实现之后发现确实很妙, 准备把它整到master主分支中来, 这可以使用Git的分支合并功能来实现.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>xy@TB14G2:subtest$ git merge <span style="color:#b58900">test</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>Merge made by the <span style="color:#2aa198">&#39;ort&#39;</span> strategy.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span> test.md | <span style="color:#2aa198">1</span> +
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span> create mode <span style="color:#2aa198">100644</span> test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>xy@TB14G2:subtest$ 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>xy@TB14G2:subtest$ git log --oneline --decorate --graph --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>*   4df411c <span style="color:#719e07">(</span>HEAD -&gt; master<span style="color:#719e07">)</span> Merge branch <span style="color:#2aa198">&#39;test&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>|<span style="color:#cb4b16">\ </span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>| * f410fd9 <span style="color:#719e07">(</span><span style="color:#b58900">test</span><span style="color:#719e07">)</span> branch testing
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>* | 8e118a5 add test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>|/  
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>* 6fd8734 <span style="color:#719e07">(</span>origin/master, origin/HEAD<span style="color:#719e07">)</span> save the blog article tmp
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>* c52cf19 modify hhh.html
+</span></span></code></pre></div><p>可以看到, master分支从原来的8e118a5变成了4df411c, 而且这个新提交记录是由f410fd9(test)跟8e118a5(就master)合并而来. 这是因为原本master和test就分叉了, 所以Git在合并的时候基于他们的共同历史提交记录, 进行了一次三方整合, 然后自动生成一个新的提交记录.</p>
+<p>相应的, 也有一个更简单的合并模式, 就是master和test处在同一条提交记录线上, 只是master比test的记录老, 那在合并的时候, 就只会把master的指针移动到test所指的记录上, 而不会生成新的提交记录.</p>
+<h3 id="冲突合并">冲突合并</h3>
+<p>另外值得注意的是, 由于是分叉的两个分支进行合并, 那么就有可能某些文件在两个分支进行了不同的修改, 在这种情况下, Git会中止合并, 然后将有冲突的文件都列出来, 等待我们手动去除冲突, 并使用<code>git add</code>命令将冲突文件重新加入暂存区后, 此次合并才算完成.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 在master分支编辑并提交test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;master branch mmmmm&#34;</span> &gt;&gt; test.md 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>xy@TB14G2:subtest$ git commit -am <span style="color:#2aa198">&#34;master changes&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>master 8e14975<span style="color:#719e07">]</span> master changes
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>// 退回4df411c位置新建分支ttest并切换过去, 然后编辑并提交test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>xy@TB14G2:subtest$ git checkout -b ttest 4df411c
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>Switched to a new branch <span style="color:#2aa198">&#39;ttest&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;ttest branch bbbbb&#34;</span> &gt;&gt; test.md 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>xy@TB14G2:subtest$ git commit -am <span style="color:#2aa198">&#34;ttest change&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#719e07">[</span>ttest ee77788<span style="color:#719e07">]</span> ttest change
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>xy@TB14G2:subtest$ git log --oneline --graph --decorate --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>* ee77788 <span style="color:#719e07">(</span>HEAD -&gt; ttest<span style="color:#719e07">)</span> ttest change
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>| * 8e14975 <span style="color:#719e07">(</span>master<span style="color:#719e07">)</span> master changes
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>|/  
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>*   4df411c Merge branch <span style="color:#2aa198">&#39;test&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>|<span style="color:#cb4b16">\ </span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>| * f410fd9 branch testing
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>* | 8e118a5 add test.html
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>|/  
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>* 6fd8734
+</span></span></code></pre></div><p>可以看到, master分支与ttest分支也分叉了, 接下来我们再次尝试merge合并分支.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>xy@TB14G2:subtest$ git checkout master 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>Switched to branch <span style="color:#2aa198">&#39;master&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>Your branch is ahead of <span style="color:#2aa198">&#39;origin/master&#39;</span> by <span style="color:#2aa198">4</span> commits.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git push&#34;</span> to publish your <span style="color:#b58900">local</span> commits<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>xy@TB14G2:subtest$ git merge ttest 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>Auto-merging test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>CONFLICT <span style="color:#719e07">(</span>content<span style="color:#719e07">)</span>: Merge conflict in test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>Automatic merge failed; fix conflicts and <span style="color:#719e07">then</span> commit the result.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>xy@TB14G2:subtest$ git status 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>On branch master
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>Your branch is ahead of <span style="color:#2aa198">&#39;origin/master&#39;</span> by <span style="color:#2aa198">4</span> commits.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git push&#34;</span> to publish your <span style="color:#b58900">local</span> commits<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>You have unmerged paths.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>  <span style="color:#719e07">(</span>fix conflicts and run <span style="color:#2aa198">&#34;git commit&#34;</span><span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git merge --abort&#34;</span> to abort the merge<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>Unmerged paths:
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add &lt;file&gt;...&#34;</span> to mark resolution<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>	both modified:   test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>no changes added to commit <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add&#34;</span> and/or <span style="color:#2aa198">&#34;git commit -a&#34;</span><span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>xy@TB14G2:subtest$ vi test.md
+</span></span></code></pre></div><p>合并结果的最后一行提示: 自动合并失败, 修复冲突然后提交结果. 然后运行git status也有类似提示, 并说明冲突文件是test.md. 如果此时我们再运行<code>git log --oneline --graph --decorate --all</code>命令, 也可以看到提交历史还没有发生变化.</p>
+<p>接下来我们打开test.md文件进行修复, 内容如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>ttttt
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#719e07">&lt;&lt;&lt;&lt;&lt;&lt;</span>&lt; HEAD
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>master branch <span style="color:#268bd2">mmmmm</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span><span style="color:#719e07">=======</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>ttest branch bbbbb
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>&gt;&gt;&gt;&gt;&gt;&gt;&gt; ttest
+</span></span></code></pre></div><p>Git使用了<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>等来标记冲突内容, 其中<code>=======</code>上面的部分是HEAD也就是master分支的内容, 而下面的部分是test分支的内容.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>xy@TB14G2:subtest$ cat test.md 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>ttttt
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>master branch mmmmm
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>ttest branch bbbbb
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>xy@TB14G2:subtest$ git commit -am <span style="color:#2aa198">&#34;fix conflicts&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#719e07">[</span>master b11a866<span style="color:#719e07">]</span> fix conflicts
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>xy@TB14G2:subtest$ 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>xy@TB14G2:subtest$ git log --oneline --graph --decorate --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>*   b11a866 <span style="color:#719e07">(</span>HEAD -&gt; master<span style="color:#719e07">)</span> fix conflicts
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>|<span style="color:#cb4b16">\ </span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>| * ee77788 <span style="color:#719e07">(</span>ttest<span style="color:#719e07">)</span> ttest change
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>* | 8e14975 master changes
+</span></span></code></pre></div><p>我们根据实际需求进行修改, 修改完成后将这些特殊标记符都去掉, 然后重新提交, 可以看到新的提交记录是由ee77788和8e14975合并而来.</p>
+<h2 id="变基">变基</h2>
+<p>通过上述分支合并测试操作练习, 随着项目的发展, 分叉状态的分支合并操作会越来越多, 到后面有可能出现一个类似网状的历史提交记录, 到那个时候, 对着一张乱七八糟的历史提交记录, 免不了会头痛眼晕. 所以Git提供了另一种操作方式&ndash;变基</p>
+<p><strong>变基的效果是: 基于最近的共同提交对象, 将需要合并的分支上的修改内容提取出来,  然后在目标分支上重新来一遍, 使得分叉的分支合并变成线性推进.</strong></p>
+<p>更多关于变基的操作, 变基的风险, 以及变基与合并的差异, 请参考<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">官方文档-变基</a>, 此处仅演示其中一个例子.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>xy@TB14G2:subtest$ git checkout -b rb
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>Switched to a new branch <span style="color:#2aa198">&#39;rb&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>xy@TB14G2:subtest$ la
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>.git  post  README.en.md  README.md  test.html  test.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;git rebase test&#34;</span> &gt; rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>xy@TB14G2:subtest$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>xy@TB14G2:subtest$ git commit -m <span style="color:#2aa198">&#34;rb test&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#719e07">[</span>rb af4ec31<span style="color:#719e07">]</span> rb <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span> create mode <span style="color:#2aa198">100644</span> rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span> xy@TB14G2:subtest$ git checkout master
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span> Switched to branch <span style="color:#2aa198">&#39;master&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>xy@TB14G2:subtest$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;rebase test&#34;</span> &gt; rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>xy@TB14G2:subtest$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>xy@TB14G2:subtest$ git commit -m <span style="color:#2aa198">&#34;rebase test&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span><span style="color:#719e07">[</span>master dbd91b5<span style="color:#719e07">]</span> rebase <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span> create mode <span style="color:#2aa198">100644</span> rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>xy@TB14G2:subtest$ git log --oneline --decorate --graph --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>* af4ec31 <span style="color:#719e07">(</span>rb<span style="color:#719e07">)</span> rb <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>| * dbd91b5 <span style="color:#719e07">(</span>HEAD -&gt; master<span style="color:#719e07">)</span> rebase <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>|/  
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>*   b11a866 fix conflicts
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>...
+</span></span></code></pre></div><p>经过上述过程, 分别在master分支和rb分支编辑了文件<code>rebase.md</code>, 两个分支再次分叉, 现在使用<code>git rebase</code>命令开始变基操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git rebase master rb 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Auto-merging rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>CONFLICT <span style="color:#719e07">(</span>add/add<span style="color:#719e07">)</span>: Merge conflict in rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>error: could not apply af4ec31... rb <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>hint: Resolve all conflicts manually, mark them as resolved with
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>hint: <span style="color:#2aa198">&#34;git add/rm &lt;conflicted_files&gt;&#34;</span>, <span style="color:#719e07">then</span> run <span style="color:#2aa198">&#34;git rebase --continue&#34;</span>.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>hint: You can instead skip this commit: run <span style="color:#2aa198">&#34;git rebase --skip&#34;</span>.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span><span>hint: To abort and get back to the state before <span style="color:#2aa198">&#34;git rebase&#34;</span>, run <span style="color:#2aa198">&#34;git rebase --abort&#34;</span>.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span><span>Could not apply af4ec31... rb <span style="color:#b58900">test</span>
+</span></span></code></pre></div><p>由于两个分支变基的都是rebase.md文件,所以出错,需要手动修复.此处可以运行git status查看提示信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>xy@TB14G2:subtest$ git status 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>interactive rebase in progress; onto dbd91b5
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>Last <span style="color:#b58900">command</span> <span style="color:#719e07">done</span> <span style="color:#719e07">(</span><span style="color:#2aa198">1</span> <span style="color:#b58900">command</span> <span style="color:#719e07">done</span><span style="color:#719e07">)</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>   pick af4ec31 rb <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>No commands remaining.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>You are currently rebasing branch <span style="color:#2aa198">&#39;rb&#39;</span> on <span style="color:#2aa198">&#39;dbd91b5&#39;</span>.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>  <span style="color:#719e07">(</span>fix conflicts and <span style="color:#719e07">then</span> run <span style="color:#2aa198">&#34;git rebase --continue&#34;</span><span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git rebase --skip&#34;</span> to skip this patch<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git rebase --abort&#34;</span> to check out the original branch<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>Unmerged paths:
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add &lt;file&gt;...&#34;</span> to mark resolution<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>	both added:      rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>no changes added to commit <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add&#34;</span> and/or <span style="color:#2aa198">&#34;git commit -a&#34;</span><span style="color:#719e07">)</span>
+</span></span></code></pre></div><p>接下来我们手动修复<code>rebase.md</code>, 然后重新提交.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ vi rebase.md
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>xy@TB14G2:subtest$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>xy@TB14G2:subtest$ git commit -m <span style="color:#2aa198">&#34;fix rebase&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span><span style="color:#719e07">[</span>detached HEAD 9350efc<span style="color:#719e07">]</span> fix rebase
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>, <span style="color:#2aa198">1</span> deletion<span style="color:#719e07">(</span>-<span style="color:#719e07">)</span>
+</span></span></code></pre></div><p>最后根据之前的提示运行命令<code>git rebase --continue</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:subtest$ git rebase --continue 
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Successfully rebased and updated refs/heads/rb.
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>xy@TB14G2:subtest$ git log --oneline --decorate --graph --all
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>* 9350efc <span style="color:#719e07">(</span>HEAD -&gt; rb<span style="color:#719e07">)</span> fix rebase
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>* dbd91b5 <span style="color:#719e07">(</span>master<span style="color:#719e07">)</span> rebase <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>*   b11a866 fix conflicts
+</span></span></code></pre></div><p>对比变基之前的提交历史,  本来rb分支跟master分支是分叉的, 但是现在分叉消失了, 而且rb分支从原来的af4ec31变成了现在的9350efc.</p>
+<h2 id="删除分支">删除分支</h2>
+<p>上述测试中, test分支, 以及ttest分支的内容都合并到master主分支中了, 已经不需要这两个分支了, 那么我们就可以删除掉这两个分支.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>git branch -d ttest
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>git branch -D ttest
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>git branch --merged
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>git branch --no-merged
+</span></span></code></pre></div><p>如果要删除的分支包含未被合并的内容, 需要使用<code>-D</code>选项, 删除之后, 未被合并的内容也会一并被删除.  可以使用<code>--merged</code> 或者<code>--nomerged</code>来查看分支(相对于当前活动分支)合并情况.</p>
+<h2 id="远程分支">远程分支</h2>
+<p>如果要将本地的(master主分支以外)某个分支比如test分支, 也推送到远程仓库, 可以使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>git push origin <span style="color:#b58900">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>git push origin test:otherbranch
+</span></span></code></pre></div><p>第一条命令是将本地test分支推送到origin远程仓库的test分支,  第二条命令是将本地test分支推送到origin远程仓库的otherbranch分支.</p>
+<p>如果要获取远程仓库默认分支以外的其他分支的内容, 先使用<code>git fetch origin</code>将origin远程仓库信息同步到最新状态, 然后使用如下命令, 意思是本地新建test分支, 用于检出origin远程仓库的test分支的数据.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>git checkout -b <span style="color:#b58900">test</span> origin/test
+</span></span></code></pre></div><p>如果要为当前分支设置跟踪远程仓库的某个分支, 可以使用如下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>git branch -u origin/test
+</span></span></code></pre></div><p>要查看远程分支的相关信息, 可以使用<code>git remote show &lt;remote&gt;</code>, 或者<code>git branch -vv</code>命令</p>
+<h2 id="相关命令汇总">相关命令汇总</h2>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git branch</code></td>
+<td>查看分支列表</td>
+</tr>
+<tr>
+<td><code>git branch test</code></td>
+<td>新建分支并命名为test</td>
+</tr>
+<tr>
+<td><code>git branch -v</code></td>
+<td>查看各分支最后一次提交, 各分支与远程分支的同步差异</td>
+</tr>
+<tr>
+<td><code>git branch -vv</code></td>
+<td>查看各分支最后一次提交, 各分支与远程分支的同步差异, 以及远程分支名称</td>
+</tr>
+<tr>
+<td><code>git checkout test</code></td>
+<td>将当前活动分支切换为test分支</td>
+</tr>
+<tr>
+<td><code>git checkout -b test</code></td>
+<td>新建test分支, 并切换过去</td>
+</tr>
+<tr>
+<td><code>git merge test</code></td>
+<td>将当前活动分支与test合并分支</td>
+</tr>
+<tr>
+<td><code>git rebase master test</code></td>
+<td>将test分支的内容提取出来基于master分支重做</td>
+</tr>
+<tr>
+<td><code>git rebase --onto master server client</code></td>
+<td>将client分支的内容基于server分支提取出来, 然后应用到master分支上</td>
+</tr>
+<tr>
+<td><code>git branch -u origin/test</code></td>
+<td>设置本地当前分支关联origin远程仓库的test分支</td>
+</tr>
+</tbody>
+</table>
+<p>​</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/git_branch/">https://xy-ylr.github.io/it/git_branch/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/git_basic_use/">Git基础配置及使用</a></li>
+        
+        <li><a href="/it/github_and_hugo/">使用Github pages和hugo搭建个人静态博客系统</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/git'>git</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_basic_use/" title="Git基础配置及使用">Git基础配置及使用</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/github_and_hugo/" title="使用Github pages和hugo搭建个人静态博客系统">使用Github pages和hugo搭建个人静态博客系统</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

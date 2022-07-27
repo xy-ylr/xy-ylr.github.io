@@ -80,106 +80,7 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    <style type="text/css">
-    .post-toc {
-        position: fixed;
-        width: 200px;
-        margin-left: -210px;
-        padding: 5px 10px;
-        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
-        font-size: 12px;
-        border: 1px solid rgba(0, 0, 0, .07);
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.98);
-        background-clip: padding-box;
-        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
-        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
-        word-wrap: break-word;
-         
-         
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        z-index: 999;
-        cursor: pointer;
-        max-height: 70%;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .post-toc .post-toc-title {
-        width: 100%;
-        margin: 0 auto;
-        font-size: 20px;
-        font-weight: 400;
-        text-transform: uppercase;
-        text-align: center;
-    }
-
-    .post-toc .post-toc-content {
-        font-size: 15px;
-    }
-
-    .post-toc .post-toc-content>nav>ul {
-        margin: 10px 0;
-    }
-
-    .post-toc .post-toc-content ul {
-        padding-left: 20px;
-        list-style: square;
-        margin: 0.5em;
-        line-height: 1.8em;
-    }
-
-    .post-toc .post-toc-content ul ul {
-        padding-left: 15px;
-         
-         
-    }
-
-    @media print,
-    screen and (max-width:1057px) {
-        .post-toc {
-            display: none;
-        }
-    }
-</style>
-<div class="post-toc" style="position: absolute; top: 188px;">
-    <h2 class="post-toc-title">文章目录</h2>
-    <div class="post-toc-content">
-        <nav id="TableOfContents"></nav>
-    </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var postToc = $(".post-toc");
-        if (postToc.length) {
-            var leftPos = $("#main").offset().left;
-            if (leftPos < 220) {
-                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
-            }
-
-            var t = postToc.offset().top - 20,
-                a = {
-                    start: {
-                        position: "absolute",
-                        top: t
-                    },
-                    process: {
-                        position: "fixed",
-                        top: 20
-                    },
-                };
-            $(window).scroll(function () {
-                var e = $(window).scrollTop();
-                e < t ? postToc.css(a.start) : postToc.css(a.process)
-            })
-        }
-
-        if ($("#TableOfContents").children().length < 1) {
-            $(".post-toc").remove();
-        }
-    })
-</script>
+    
     <article class="post">
         <header>
             <h1 class="post-title">Finance</h1>
@@ -191,7 +92,7 @@
         <div class="post-meta">
             <span>|</span>
             
-            <span class="meta-category"><a href='/categories/finance'>finance</a></span>
+            <span class="meta-category"><a href='/categories/%E8%B4%A2%E7%BB%8F'>财经</a></span>
             
         </div>
         
@@ -202,12 +103,26 @@
         </div>
         
         
-        <div class="clear" style="display: none">
-            <div class="toc-article">
-                <div class="toc-title">文章目录</div>
-            </div>
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约13字 </span>
+            <span> 预计阅读时间1分钟</span>
         </div>
         
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+
+
         <div class="post-content">
             <p>正在加工中&hellip;</p>
         </div>
@@ -221,9 +136,9 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/fitness/">Finance</a></li>
-        
         <li><a href="/agriculture/">Finance</a></li>
+        
+        <li><a href="/fitness/">Finance</a></li>
         
         <li><a href="/about/">关于我</a></li>
         
@@ -320,6 +235,22 @@
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
     
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_basic_use/" title="Git基础配置及使用">Git基础配置及使用</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/github_and_hugo/" title="使用Github pages和hugo搭建个人静态博客系统">使用Github pages和hugo搭建个人静态博客系统</a>
+    </li>
+    
 </ul>
     </section>
 
@@ -329,15 +260,17 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
-    <li><a href="https://xy-ylr.github.io/categories/agriculture/">agriculture (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/finance/">finance (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/fitness/">fitness (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
     
 </ul>
     </section>
@@ -345,6 +278,8 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     

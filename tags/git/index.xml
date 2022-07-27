@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/git/</link>
+    <description>Recent content in git on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 21 Jul 2022 00:37:52 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git子模块</title>
+      <link>https://xy-ylr.github.io/it/git_submodule/</link>
+      <pubDate>Thu, 21 Jul 2022 00:37:52 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/git_submodule/</guid>
+      <description>&lt;p&gt;程序界有一句话叫做&amp;quot;不要重复造轮子&amp;quot;, 当你开发一个项目实现某些功能, 或者你的项目中想要新增某些小功能的时候, 可能网上早就有人实现并分享到github上了. 当你想要在你的主项目中添加别人的轮子实现某些功能的时候, Git的子模块功能可以很好的帮助你完成代码版本管理.&lt;br&gt;
+&lt;em&gt;而对于一个&amp;rsquo;不求上进&amp;rsquo;的初级程序员, 学会如何在万千轮子中找到适合自己的, 做一个优秀的&amp;rsquo;调库侠&amp;rsquo;, 甚至都能获得一份不错的工作(狗头)&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git分支</title>
+      <link>https://xy-ylr.github.io/it/git_branch/</link>
+      <pubDate>Thu, 21 Jul 2022 00:37:34 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/git_branch/</guid>
+      <description>&lt;p&gt;在实际项目开发中, 可能会存在稳定版, 先行版, 内部开发版等, 又或者正在开发新版功能的时候, 老版本爆出致命漏洞需要修复, 又或者开发功能1的时候, 出现了新需求需要满足(功能2), 诸如此类, Git的分支功能可以很好的解决上述问题&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Git基础配置及使用</title>
+      <link>https://xy-ylr.github.io/it/git_basic_use/</link>
+      <pubDate>Fri, 15 Jul 2022 15:36:37 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/git_basic_use/</guid>
+      <description>&lt;p&gt;Git是一种分布式版本管理系统, 不同于SVN为代表的集中式版本控制系统, Git在本地就具有项目的完整历史, 单机离线状态即可以完成版本控制的修改、提交、分支、回退等操作.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Github pages和hugo搭建个人静态博客系统</title>
+      <link>https://xy-ylr.github.io/it/github_and_hugo/</link>
+      <pubDate>Mon, 11 Jul 2022 09:41:41 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/github_and_hugo/</guid>
+      <description>&lt;p&gt;正经人谁写日记, 咱发博客(狗头). 说干就干, 利用hugo和github pages给自己搭建一个博客系统.&lt;/p&gt;
+&lt;p&gt;本文主要记录个人的搭建过程, 内容包括&lt;strong&gt;hugo博客本地化部署&lt;/strong&gt;, &lt;strong&gt;发布到github实现互联网访问&lt;/strong&gt;, &lt;strong&gt;接入第三方评论系统&lt;/strong&gt;, &lt;strong&gt;使用图床存储博客图片&lt;/strong&gt;等&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

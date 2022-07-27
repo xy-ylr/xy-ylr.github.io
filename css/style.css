@@ -296,6 +296,24 @@ textarea {
     text-align:left;
     display: inline-block;
 }
+.post .post-outdated .hint {
+    position:relative;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding:5px 10px;
+    border-left:4px solid #42acf3;
+    background-color:#eff5ff;
+    border-color:#42acf3
+}
+.post .post-outdated .warn {
+    position:relative;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding:5px 10px;
+    border-left:4px solid #f9cf63;
+    background-color:#ffffc0;
+    border-color:#f9cf63
+}
 .meta-category a {
     position: relative;
 }
