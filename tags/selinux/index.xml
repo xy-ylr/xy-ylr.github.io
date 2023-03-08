@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>selinux on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/selinux/</link>
+    <description>Recent content in selinux on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 05 Aug 2022 09:26:46 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/selinux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux禁用root远程登录</title>
+      <link>https://xy-ylr.github.io/it/linux_ssh/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_ssh/</guid>
+      <description>&lt;p&gt;linux系统root账户为超级账户, 权限非常高, 出于安全考虑, 我们应该禁止root用户远程登录, 日常操作使用普通账户, 在需要的时候再提权. 并且修改ssh默认端口号, 配置防火墙甚至SELinux.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

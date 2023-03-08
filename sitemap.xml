@@ -3,25 +3,64 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://xy-ylr.github.io/categories/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/post/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/it/h3c_irf_conf/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/irf/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/post/%E6%88%91%E4%B8%8E%E5%8D%9A%E5%AE%A2%E4%BA%8C%E4%B8%89%E4%BA%8B/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/tags/%E9%97%B2%E8%AF%9D/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/categories/%E9%97%B2%E8%AF%9D/</loc>
-    <lastmod>2022-07-27T15:26:31+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</loc>
+    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/rime/</loc>
+    <lastmod>2022-11-23T09:42:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/rime/</loc>
+    <lastmod>2022-11-23T09:42:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/rime_configuration/</loc>
+    <lastmod>2022-11-23T09:42:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/firewalld/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/linux/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/linux/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/linux_ssh/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/selinux/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/ssh/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/sudo/</loc>
+    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/linux_commands/</loc>
+    <lastmod>2022-07-24T00:46:35+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/git/</loc>
     <lastmod>2022-07-21T00:37:52+08:00</lastmod>
@@ -30,9 +69,6 @@
     <lastmod>2022-07-21T00:37:52+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/it/git_submodule/</loc>
-    <lastmod>2022-07-21T00:37:52+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/it/</loc>
     <lastmod>2022-07-21T00:37:52+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/it/git_branch/</loc>
@@ -56,13 +92,13 @@
     <loc>https://xy-ylr.github.io/it/github_and_hugo/</loc>
     <lastmod>2022-07-11T09:41:41+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/agriculture/</loc>
+    <loc>https://xy-ylr.github.io/licai/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/finance/</loc>
+    <loc>https://xy-ylr.github.io/nongye/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/fitness/</loc>
+    <loc>https://xy-ylr.github.io/yundong/</loc>
     <lastmod>2022-07-11T00:47:16+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/</loc>

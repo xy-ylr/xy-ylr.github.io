@@ -6,13 +6,85 @@
     <description>Recent content in Tags on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 27 Jul 2022 15:26:31 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 06 Feb 2023 09:17:53 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>闲话</title>
-      <link>https://xy-ylr.github.io/tags/%E9%97%B2%E8%AF%9D/</link>
-      <pubDate>Wed, 27 Jul 2022 15:26:31 +0800</pubDate>
+      <title>irf</title>
+      <link>https://xy-ylr.github.io/tags/irf/</link>
+      <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
       
-      <guid>https://xy-ylr.github.io/tags/%E9%97%B2%E8%AF%9D/</guid>
+      <guid>https://xy-ylr.github.io/tags/irf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络工程师</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
+      <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rime</title>
+      <link>https://xy-ylr.github.io/tags/rime/</link>
+      <pubDate>Wed, 23 Nov 2022 09:42:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/rime/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>firewalld</title>
+      <link>https://xy-ylr.github.io/tags/firewalld/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/firewalld/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://xy-ylr.github.io/tags/linux/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>selinux</title>
+      <link>https://xy-ylr.github.io/tags/selinux/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/selinux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
+      <link>https://xy-ylr.github.io/tags/ssh/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sudo</title>
+      <link>https://xy-ylr.github.io/tags/sudo/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/sudo/</guid>
       <description></description>
     </item>
     

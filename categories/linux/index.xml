@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/categories/linux/</link>
+    <description>Recent content in linux on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 05 Aug 2022 09:26:46 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux禁用root远程登录</title>
+      <link>https://xy-ylr.github.io/it/linux_ssh/</link>
+      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_ssh/</guid>
+      <description>&lt;p&gt;linux系统root账户为超级账户, 权限非常高, 出于安全考虑, 我们应该禁止root用户远程登录, 日常操作使用普通账户, 在需要的时候再提权. 并且修改ssh默认端口号, 配置防火墙甚至SELinux.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux常用命令笔记</title>
+      <link>https://xy-ylr.github.io/it/linux_commands/</link>
+      <pubDate>Sun, 24 Jul 2022 00:46:35 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_commands/</guid>
+      <description>&lt;p&gt;记录一些linux系统常用的, 又没那么常用的容易忘记的命令, 以及一些组合命令&lt;/p&gt;
+&lt;p&gt;初版, 未经整理, 先做一个大概的记录, 方便自己翻看.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

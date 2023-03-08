@@ -63,6 +63,8 @@
                     
                     <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
                     
+                    <a  href="https://xy-ylr.github.io/others/" title="碎碎念">碎碎念</a>
+                    
                     <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
                     
                     <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
@@ -84,7 +86,7 @@
     .post-toc {
         position: fixed;
         width: 200px;
-        margin-left: -210px;
+        margin-left: -230px;
         padding: 5px 10px;
         font-family: Athelas, STHeiti, Microsoft Yahei, serif;
         font-size: 12px;
@@ -171,6 +173,7 @@
         <li><a href="#主题自定义菜单纳入文章归档">主题自定义菜单纳入文章归档</a></li>
         <li><a href="#主题文章目录长度溢出自动换行">主题文章目录长度溢出自动换行</a></li>
         <li><a href="#代码块无法对齐">代码块无法对齐</a></li>
+        <li><a href="#其他样式微调">其他样式微调</a></li>
         <li><a href="#添加文章预计阅读时间">添加文章预计阅读时间</a></li>
         <li><a href="#文章可能过时提示">文章可能过时提示</a></li>
         <li><a href="#目录自动展开折叠待实现">目录自动展开折叠(待实现)</a></li>
@@ -240,7 +243,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约7555字 </span>
+            <span> 共约7699字 </span>
             <span> 预计阅读时间16分钟</span>
         </div>
         
@@ -262,6 +265,18 @@
     
 
 
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2022-07-11T09:41:41" title="2022-07-11">
+            2022-07-11
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
 
 
         <div class="post-content">
@@ -273,8 +288,8 @@
 <p>其他类似的还有<strong>Jekyll</strong>和<strong>Hexo</strong>等, 不过貌似还是<strong>Hugo</strong>最快.</p>
 <h3 id="hugo下载安装">Hugo下载安装</h3>
 <p>本人操作系统ubuntu22.04,   采用snap安装:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ snap install hugo --channel<span style="color:#719e07">=</span>extended
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>xy@TB14G2:~$ hugo version
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ snap install hugo --channel<span style="color:#719e07">=</span>extended
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>xy@TB14G2:~$ hugo version
 </span></span></code></pre></div><p>基础安装不需要添加参数, 直接运行<code>snap install hugo</code>即可.</p>
 <p>添加参数<code>--channel=extended</code>可以获取<strong>Sass/SCSS</strong>支持, 有些高大上的主题会需要这玩意.</p>
 <p>两种版本可以通过<code>snap refresh hugo --channel=extended</code> 或者<code>snap refresh hugo --channel=stable</code>来转换.</p>
@@ -282,9 +297,9 @@
 <p>其他操作系统及安装方式参考<a href="https://gohugo.io/getting-started/installing/">官方文档hugo install</a></p>
 <h3 id="本地生成一个博客站点">本地生成一个博客站点</h3>
 <p>本地生成一个博客站点也只需要一条命令即可:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ hugo new site blog
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Congratulations! Your new Hugo site is created in /home/xy/blog.
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>...
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ hugo new site blog
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Congratulations! Your new Hugo site is created in /home/xy/blog.
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>...
 </span></span></code></pre></div><p>这样就表示创建成功了, 博客站点名称为<strong>blog</strong>, 里面就是该站点相关的各种文件</p>
 <h4 id="hugo博客目录结构">Hugo博客目录结构</h4>
 <p>新生成的博客站点目录结构如下</p>
@@ -316,26 +331,26 @@
 <p>经过上述步骤就算完成博客主题的添加了, 其中第4步可以等后面根据自身需求慢慢调整.</p>
 <h3 id="尝试写一篇博客并预览效果">尝试写一篇博客并预览效果</h3>
 <p>写博客可以直接在站点根目录<code>/content/posts</code>目录中新建<code>.md</code>文件, 但是推荐使用hugo命令来新建:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ hugo new posts/first_blog.md
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Content <span style="color:#2aa198">&#34;/home/xy/Documents/blog/content/posts/first_blog.md&#34;</span> created
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>xy@TB14G2:~$ hugo server -D
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:~$ hugo new posts/first_blog.md
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Content <span style="color:#2aa198">&#34;/home/xy/Documents/blog/content/posts/first_blog.md&#34;</span> created
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>xy@TB14G2:~$ hugo server -D
 </span></span></code></pre></div><p>上述命令的意思是: 在<code>站点根目录blog</code>下<code>/content/posts</code>目录下新建文章<code>first_blog.md</code>, 使用该命令新建的文件会包含一些基本信息, 这些基本信息来自<code>archetypes/default.md</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>+++
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>title=<span style="color:#2aa198">&#39;{{ replace .Name &#34;-&#34; &#34; &#34; | title }}&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>tags=[]
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>categories=[]
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>keywords=<span style="color:#2aa198">&#34;&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>description=<span style="color:#2aa198">&#34;&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>date=<span style="color:#2aa198">&#34;{{ .Date }}&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>toc=<span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>draft=<span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>hiddenFromHomePage= <span style="color:#cb4b16">false</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>+++
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>&lt;!--more--&gt;
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>+++
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>title=<span style="color:#2aa198">&#39;{{ replace .Name &#34;-&#34; &#34; &#34; | title }}&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>tags=[]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>categories=[]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>keywords=<span style="color:#2aa198">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>description=<span style="color:#2aa198">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>date=<span style="color:#2aa198">&#34;{{ .Date }}&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>toc=<span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>draft=<span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>hiddenFromHomePage= <span style="color:#cb4b16">false</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>+++
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>&lt;!--more--&gt;
 </span></span></code></pre></div><p>视你的<code>default.md</code>文件而定, 可能跟我的内容不尽相同. 其中<code>draft=true</code>表示该篇文章目前是草稿, 等到正式发布的时候, 需要修改为<code>draft=false</code>; <code>toc</code>选项是单独控制文章是否启用目录导航; <code>hiddenFromHomePage</code>选项用于控制是否在站点首页文章列表显示该篇文章.</p>
 <p>创建文章后随便写点东西, 然后运行的<code>hugo server -D</code>作用是预览博客站点, 其中的参数<code>-D</code>的意思是预览草稿.</p>
-<p>然后根据提示, 在浏览器中输入<code>http://localhost:1313/ </code>就能看到网站的效果了, 可以使用组合按键<!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted -->+<!-- raw HTML omitted -->C<!-- raw HTML omitted -->来结束预览.</p>
+<p>然后根据提示, 在浏览器中输入<code>http://localhost:1313/ </code>就能看到网站的效果了, 可以使用组合按键<kbd>Ctrl</kbd>+<kbd>C</kbd>来结束预览.</p>
 <h2 id="发布博客到github">发布博客到Github</h2>
 <p>经过以上操作, 你已经成功的在本地搭建起了一个hugo博客系统, 并可以愉快的开始写博客了.  但是<strong>富贵不还乡, 犹如锦衣夜行</strong>, 既然写了博客, 自然<strong>好文共赏析</strong>, 要发出去让让广大网友点评一二^_^</p>
 <p>正好, <a href="https://docs.github.com/cn/pages" title="点击了解更多github pages相关知识">Github pages</a>支持发布静态站点, 而且Github可以免费注册使用, 所以, 赶紧白嫖吧~~. 国内的gitee也可以, 而且速度更快, 只是github面向全球, 显得更主流一些(github偶尔可能国内会无法访问,或者访问很慢). 另外就是gitee前阵子刚进行了一些调整, 经过简单尝试后发现目前大概有以下几个小问题(描述不一定准确, 影响也不算大, 看个人取舍吧):</p>
@@ -351,18 +366,18 @@
 <p>仓库创建完成后, 点击页面上的<code>Settings</code>, 然后选择侧边栏的<code>Code and automation</code> -&gt; <code>pages</code>, 开通github pages功能.</p>
 <h3 id="精简发布模式">精简发布模式</h3>
 <p>在博客根目录下运行<code>hugo</code>命令, 会在<code>/public/</code>目录下生成一系列的文件, 包含了一个静态站点所需的所有内容, 所以只需要把<code>/public</code>目录下的内容上传到github就可以了. <strong>首先命令行进入<code>public</code>目录</strong>, 然后使用以下命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 初始化本地仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>$ git init
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>// 添加远程仓库, 推荐使用ssh模式,下面的owner替换成你自己的实际仓库名, 也可以使用https模式
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>$ git remote add git@github.com:owner/owner.github.io.git
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>// 暂存本地仓库文件
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>$ git add .
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>// 提交更改到本地仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>$ git commit -m <span style="color:#2aa198">&#34;第一次发布博客测试&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>// 将本地仓库内容基于远程仓库进行重做
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>$ git rebase origin/master
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>// 推送本地仓库内容到远程仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>$ git push origin
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 初始化本地仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>$ git init
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>// 添加远程仓库, 推荐使用ssh模式,下面的owner替换成你自己的实际仓库名, 也可以使用https模式
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>$ git remote add git@github.com:owner/owner.github.io.git
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>// 暂存本地仓库文件
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>// 提交更改到本地仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>$ git commit -m <span style="color:#2aa198">&#34;第一次发布博客测试&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>// 将本地仓库内容基于远程仓库进行重做
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>$ git rebase origin/master
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>// 推送本地仓库内容到远程仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>$ git push origin
 </span></span></code></pre></div><p>远程仓库可能存在本地仓库没有的readme.md等初始化文件, 使用<code>git rebase</code>进行重做而不是<code>git merge</code>合并, 是rebase更加线性. 更多关于两条命令的区别<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">参考官网</a></p>
 <p>当然, 也可以在rebase之后先检查一下public目录, 如果有多出来的无用文件, 可以使用<code>git rm </code>先删除, 然后重新<code>git commit</code>, 最后再push到远程仓库.</p>
 <p>到这个时候, 第一篇博客就已经成功发布出去了, 过一会儿, 就可以通过<code>owner.github.io</code>查看结果了.</p>
@@ -390,7 +405,7 @@
 <td>主题子模块</td>
 <td>themes博客使用的主题</td>
 <td>[some-theme]</td>
-<td>public, 从你喜欢的主题仓库那fork, 保持同名即可, <!-- raw HTML omitted -->如果有做了一些有趣的修改, 也可供其他人下载使用.</td>
+<td>public, 从你喜欢的主题仓库那fork, 保持同名即可, <br />如果有做了一些有趣的修改, 也可供其他人下载使用.</td>
 </tr>
 <tr>
 <td>笔记子模块</td>
@@ -407,43 +422,43 @@
 </tbody>
 </table>
 <p>以下是大概过程(可能有部分错漏, 欢迎评论区指正) 注意$提示符前面的目录变化, 注意<code>[]</code>部分的内容替换成你自己的:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 新建博客站点
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>~$ hugo new site blog
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>// 初始化为git仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>~$ <span style="color:#b58900">cd</span> blog/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>blog$ git init
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>// 添加远程仓库主框架
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>blog$ git remote add main <span style="color:#719e07">[</span>blog-main-repo<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>// 添加子模块仓库, 其中/content和/public目录已经初始化到主仓库中, 需要先删除
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>blog$ rm -r content/ public/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>blog$ git submodule add <span style="color:#719e07">[</span>theme-repo<span style="color:#719e07">]</span> themes/<span style="color:#719e07">[</span>maupassant<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>blog$ git submodule add <span style="color:#719e07">[</span>blog-md-repo<span style="color:#719e07">]</span> content/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>blog$ git submodule add <span style="color:#719e07">[</span>owner.github.io<span style="color:#719e07">]</span> public/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>// 修改主题仓库部分配置, 用于适配本地博客系统, 然后将更改后的主题重新推送回远程仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>blog$ <span style="color:#b58900">cd</span> themes/maupassant
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>maupassant$ git add .
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>maupassant$ git commit -m <span style="color:#2aa198">&#34;备注本次提交内容概要&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>maupassant$ git push origin
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>// 写博客, 预览效果, 确认完成后推送笔记到远程笔记仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>maupassant$ <span style="color:#b58900">cd</span> ../../
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>blog$ hugo new posts/my_first_blog.md
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>blog$ hugo server -D
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>blog$ <span style="color:#b58900">cd</span> content/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>content$ git add .
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>content$ git commit -m <span style="color:#2aa198">&#34;我的第一篇博客&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span><span>content$ git push origin
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span><span>// 生成静态资源, 然后推送到远程仓库
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span><span>content$ <span style="color:#b58900">cd</span> ../
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span><span>blog$ hugo
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">29</span><span>blog$ <span style="color:#b58900">cd</span> pubic/
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">30</span><span>public$ git add .
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">31</span><span>public$ git commit -m <span style="color:#2aa198">&#34;我的第一篇博客&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">32</span><span>public$ git push origin
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">33</span><span>// 推送博客主框架到远程仓库, 
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">34</span><span>public$ <span style="color:#b58900">cd</span> ../
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">35</span><span>blog$ git add .
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">36</span><span>blog$ git commit -m <span style="color:#2aa198">&#34;博客主框架已初步构建完成&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">37</span><span>blog$ git push main
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>// 新建博客站点
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>~$ hugo new site blog
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>// 初始化为git仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>~$ <span style="color:#b58900">cd</span> blog/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>blog$ git init
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>// 添加远程仓库主框架
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>blog$ git remote add main <span style="color:#719e07">[</span>blog-main-repo<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>// 添加子模块仓库, 其中/content和/public目录已经初始化到主仓库中, 需要先删除
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>blog$ rm -r content/ public/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>blog$ git submodule add <span style="color:#719e07">[</span>theme-repo<span style="color:#719e07">]</span> themes/<span style="color:#719e07">[</span>maupassant<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>blog$ git submodule add <span style="color:#719e07">[</span>blog-md-repo<span style="color:#719e07">]</span> content/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>blog$ git submodule add <span style="color:#719e07">[</span>owner.github.io<span style="color:#719e07">]</span> public/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>// 修改主题仓库部分配置, 用于适配本地博客系统, 然后将更改后的主题重新推送回远程仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>blog$ <span style="color:#b58900">cd</span> themes/maupassant
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>maupassant$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>maupassant$ git commit -m <span style="color:#2aa198">&#34;备注本次提交内容概要&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>maupassant$ git push origin
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>// 写博客, 预览效果, 确认完成后推送笔记到远程笔记仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>maupassant$ <span style="color:#b58900">cd</span> ../../
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>blog$ hugo new posts/my_first_blog.md
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>blog$ hugo server -D
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>blog$ <span style="color:#b58900">cd</span> content/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>content$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>content$ git commit -m <span style="color:#2aa198">&#34;我的第一篇博客&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span><span>content$ git push origin
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span><span>// 生成静态资源, 然后推送到远程仓库
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span><span>content$ <span style="color:#b58900">cd</span> ../
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span><span>blog$ hugo
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">29</span><span>blog$ <span style="color:#b58900">cd</span> pubic/
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">30</span><span>public$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">31</span><span>public$ git commit -m <span style="color:#2aa198">&#34;我的第一篇博客&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">32</span><span>public$ git push origin
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">33</span><span>// 推送博客主框架到远程仓库, 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">34</span><span>public$ <span style="color:#b58900">cd</span> ../
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">35</span><span>blog$ git add .
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">36</span><span>blog$ git commit -m <span style="color:#2aa198">&#34;博客主框架已初步构建完成&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">37</span><span>blog$ git push main
 </span></span></code></pre></div><p>后续主题部分可能就不再有变化了, 那就不用再推送. 而content笔记部分和public静态资源部分, 会随着我们不停的写博客而变化.</p>
 <p>主框架也会随着content和public两个子模块的变化而变化, 不过这个可以忽略不管, 毕竟主框架就真的只是一个框架, 东西都在其他几个子模块上.</p>
 <h2 id="其他配置或改动">其他配置或改动</h2>
@@ -451,53 +466,68 @@
 <p><a href="https://utteranc.es/">utteranc评论系统</a>需要登录github才能评论, 而github偶尔可能会无法访问, 或者访问很慢, 会影响体验. 本来想改用<a href="https://waline.js.org/">waline评论系统</a>, 不需要登录, 只要设置昵称/邮箱就可以评论. 但是waline又需要注册LeanCloud数据库(国内版需要绑定已备案域名, 国际版同样存在速度慢), 再使用<a href="https://vercel.com/">Vercel</a> 或者阿里云函数计算等部署 (服务端)也是很麻烦. 所以暂时还是使用utteranc, 以后看情况再更改评论系统.</p>
 <p>接入utteranc评论系统很简单, <a href="https://utteranc.es/">参考官方说明文档</a>, 其实只需要创建一个github公共仓库, 访问<a href="https://github.com/apps/utterances">utterances app</a>将应用接入该公共仓库就已经完成了.  然后将该仓库对应的<code>owner/repo</code>复制粘贴到<code>config.toml</code>配置文件相应位置就算接入成功了.</p>
 <p>如果你选择的主题不支持接入该评论系统(使用别的如valine, waline等评论系统), 而你又想用utteranc, 那会稍微麻烦一点点, 大概在主题目录的<code>layouts/partials</code>目录下应该有一个模板文件<code>comments.html</code>, 将utterances的脚本代码复制进去参考着其他评论系统稍作修改也就可以了.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">&lt;</span>script src<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;https://utteranc.es/client.js&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        repo<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;[ENTER REPO HERE]&#34;</span>  <span style="color:#586e75">/* 你的owner/repo */</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>        issue<span style="color:#719e07">-</span>term<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;pathname&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>        theme<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;github-light&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>        crossorigin<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;anonymous&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        <span style="color:#268bd2">async</span><span style="color:#719e07">&gt;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span><span style="color:#719e07">&lt;</span>/script&gt;
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">&lt;</span>script src<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;https://utteranc.es/client.js&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        repo<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;[ENTER REPO HERE]&#34;</span>  <span style="color:#586e75">/* 你的owner/repo */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>        issue<span style="color:#719e07">-</span>term<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;pathname&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>        theme<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;github-light&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>        crossorigin<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;anonymous&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        <span style="color:#268bd2">async</span><span style="color:#719e07">&gt;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span><span style="color:#719e07">&lt;</span>/script&gt;
 </span></span></code></pre></div><h3 id="使用图床存储图片">使用图床存储图片</h3>
 <p>使用github pages来托管博客, 由于国内访问github速度比较慢. 而图片,特别是高清图片一般都比较大, 妥妥的吃流量大户, 会更进一步拖慢博客页面打开速度, 所以将博客中用到的图片存储在图床上, 再通过外链来引用.</p>
-<p>国内的免费图床有很多, 比如<a href="https://www.qiniu.com/">七牛云</a>, 开通七牛云<strong>对象存储服务</strong>的<strong>实名认证用户</strong>, 拥有10GB的免费存储空间, 10GB/月的免费CDN回源流量等, 正好拿来做图床用, 只要不超标, 那就是免费的, 更多<a href="https://www.qiniu.com/prices/kodo?source=kodo">七牛云对象存储计费方式</a>, 不过用七牛云图床需要一个已备案的域名, 这个上要钱的.</p>
+<p>国内的免费图床有很多, 比如<a href="https://www.qiniu.com/">七牛云</a>, 开通七牛云<strong>对象存储服务</strong>的<strong>实名认证用户</strong>, 拥有10GB的免费存储空间, 10GB/月的免费CDN回源流量等, 正好拿来做图床用, 只要不超标, 那就是免费的, 更多<a href="https://www.qiniu.com/prices/kodo?source=kodo">七牛云对象存储计费方式</a>, 不过用七牛云图床需要一个已备案的域名, 这个是要钱的.</p>
 <p>又比如<a href="https://www.superbed.cn/">聚合图床</a>, 免费注册, 免费版有1万张图片可以放, 如果就只是放博客图片的话, 那也能写好多好多年博客了, 哈哈哈.</p>
 <h3 id="主题自定义菜单纳入文章归档">主题自定义菜单纳入文章归档</h3>
 <p>原主题只归档content目录下post, posts目录的文章, 但是我将博客文章分了&rsquo;计算机&rsquo;, &lsquo;健身&rsquo;等几个大分类, 并分别创建独立目录(未将所有文章都放在posts目录下), 结果我新建的几大分类的文章在博客首页/归档页都不会出现, 以及右侧边栏的&rsquo;最近文章&rsquo;也不会出现, 所以对部分模板页面做了一些微调.</p>
 <p>修改的位置是主题目录下的<code>layouts/archives/single.html</code>, <code>layouts/partials/recent_post.html</code>和<code>layouts/index.html</code>, 将<code>it</code>, <code>fitness</code>等分类目录名加入数组:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>    {{ range (where (where .Site.Pages &#34;Type&#34; &#34;in&#34; (slice &#34;post&#34; &#34;posts&#34; &#34;it&#34; &#34;fitness&#34;)) &#34;Kind&#34; &#34;page&#34;).GroupByDate &#34;2006&#34; }}
-</span></span></code></pre></div><p>还有一个版权申明模板页面<code>layouts/partials/recent_post.html</code>, 默认也是只有post或者posts目录下的文章会有版权申明, 也需要修改.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>    {{ range (where (where .Site.Pages &#34;Type&#34; &#34;in&#34; (slice &#34;post&#34; &#34;posts&#34; &#34;it&#34; &#34;fitness&#34;)) &#34;Kind&#34; &#34;page&#34;).GroupByDate &#34;2006&#34; }}
+</span></span></code></pre></div><p>还有一个版权申明模板页面<code>layouts/partials/copyright.html</code>, 默认也是只有post或者posts目录下的文章会有版权申明, 也需要修改.</p>
 <p><strong>说明</strong>: 其实这个改动没有太大必要, 本身主题就是支持分类的, 只要给文章设定好分类, 相应的文章就自动实现聚合浏览了. 为只是为了将几个大类分开, 并在自定义菜单上显示出来能更醒目一点. 也许这样子用上一段时间后, 又要把这个改动调整回去了&hellip;</p>
 <h3 id="主题文章目录长度溢出自动换行">主题文章目录长度溢出自动换行</h3>
 <p>原主题文章只显示一级目录, 二级目录被隐藏了, 而且目录文字过长不会自动换行, 修改相应的css</p>
 <p>修改位置: <code>layouts/partials/toc.html</code>, 注释了2行css, 其他未改动.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#719e07">&lt;</span><span style="color:#268bd2">style</span> <span style="color:#268bd2">type</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;text/css&#34;</span><span style="color:#719e07">&gt;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    .<span style="color:#268bd2">post-toc</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>        <span style="color:#586e75">/* nowrap文字溢出不会换行, 注释掉, 或者改成normal */</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>        <span style="color:#586e75">/* white-space: nowrap; */</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>        ...
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    .<span style="color:#268bd2">post-toc</span> .<span style="color:#268bd2">post-toc-content</span> <span style="color:#268bd2">ul</span> <span style="color:#268bd2">ul</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>        <span style="color:#586e75">/* 显示二级目录 */</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>        <span style="color:#586e75">/* display: none; */</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>        ...
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span><span style="color:#719e07">&lt;/</span><span style="color:#268bd2">style</span><span style="color:#719e07">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#719e07">&lt;</span><span style="color:#268bd2">style</span> <span style="color:#268bd2">type</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;text/css&#34;</span><span style="color:#719e07">&gt;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    .<span style="color:#268bd2">post-toc</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>        <span style="color:#586e75">/* nowrap文字溢出不会换行, 注释掉, 或者改成normal */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>        <span style="color:#586e75">/* white-space: nowrap; */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>        ...
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    .<span style="color:#268bd2">post-toc</span> .<span style="color:#268bd2">post-toc-content</span> <span style="color:#268bd2">ul</span> <span style="color:#268bd2">ul</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>        <span style="color:#586e75">/* 显示二级目录 */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>        <span style="color:#586e75">/* display: none; */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>        ...
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span><span style="color:#719e07">&lt;/</span><span style="color:#268bd2">style</span><span style="color:#719e07">&gt;</span>
 </span></span></code></pre></div><h3 id="代码块无法对齐">代码块无法对齐</h3>
 <p>代码块部分的渲染效果, 原主题左边的行号和右边的代码无法对齐. 该主题使用的是hugo原生的代码高亮方式, 阅读<a href="https://gohugo.io/getting-started/configuration-markup#highlight">官方文档 - 代码高亮配置</a>, 经过调试发现, 只要调整<code>lineNumbersInTable</code>参数即可, 修改后<code>config.toml</code>相关配置:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#586e75">## 配置代码高亮</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>[markup]
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  [markup.highlight]
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    lineNos = <span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>    lineNumbersInTable = <span style="color:#cb4b16">false</span>      <span style="color:#586e75">## 默认为true,行号与代码块相互独立, 导致行号与代码块无法对齐</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>    style = <span style="color:#2aa198">&#39;solarized-dark&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>    tabWidth = <span style="color:#2aa198">4</span>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#586e75">## 配置代码高亮</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>[markup]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  [markup.highlight]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    lineNos = <span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>    lineNumbersInTable = <span style="color:#cb4b16">false</span>      <span style="color:#586e75">## 默认为true,行号与代码块相互独立, 导致行号与代码块无法对齐</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>    style = <span style="color:#2aa198">&#39;solarized-dark&#39;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>    tabWidth = <span style="color:#2aa198">4</span>
+</span></span></code></pre></div><h3 id="其他样式微调">其他样式微调</h3>
+<p>1, 在主题样式表<code>static/css/sytle.css</code>中, 对于列表的控制是</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>.<span style="color:#268bd2">post-content</span> <span style="color:#268bd2">ul</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>    <span style="color:#719e07">overflow</span>: <span style="color:#cb4b16">auto</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>    <span style="color:#719e07">padding</span>: <span style="color:#2aa198">.5</span><span style="color:#dc322f">em</span> <span style="color:#2aa198">2.4</span><span style="color:#dc322f">em</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    <span style="color:#719e07">border-radius</span>: <span style="color:#2aa198">3</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>    <span style="color:#719e07">margin</span>:<span style="color:#2aa198">1.8</span><span style="color:#dc322f">em</span> <span style="color:#2aa198">0</span>; <span style="color:#586e75">/* 会影响嵌套列表 */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>.<span style="color:#268bd2">post-content</span> <span style="color:#268bd2">ul</span> <span style="color:#268bd2">li</span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span><span>    <span style="color:#719e07">text-indent</span>: <span style="color:#2aa198">.5</span><span style="color:#dc322f">em</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span><span>}	
+</span></span></code></pre></div><p>当文章中有嵌套列表的时候, 会导致中间有很大的空白, 额外新增嵌套列表样式, 去掉多余的外边框</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>.<span style="color:#268bd2">post-content</span> <span style="color:#268bd2">ul</span> <span style="color:#268bd2">ul</span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>    <span style="color:#719e07">margin</span>: <span style="color:#2aa198">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>}
 </span></span></code></pre></div><h3 id="添加文章预计阅读时间">添加文章预计阅读时间</h3>
 <p>参考<a href="https://github.com/olOwOlo/hugo-theme-even">even主题</a>, <code>config.toml</code>配置文件<code>[params]</code>选项下添加参数<code>moreMeta = true</code>, 相关页面(single.html)添加如下代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{- if .Site.Params.moreMeta }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>          &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;more-meta&#34;</span>&gt; {{ T &#34;wordCount&#34; .WordCount }} &lt;/<span style="color:#268bd2">span</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>          &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;more-meta&#34;</span>&gt; {{ T &#34;readingTime&#34; .ReadingTime }} &lt;/<span style="color:#268bd2">span</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>        {{- end }}
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{- if .Site.Params.moreMeta }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>          &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;more-meta&#34;</span>&gt; {{ T &#34;wordCount&#34; .WordCount }} &lt;/<span style="color:#268bd2">span</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>          &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;more-meta&#34;</span>&gt; {{ T &#34;readingTime&#34; .ReadingTime }} &lt;/<span style="color:#268bd2">span</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>        {{- end }}
 </span></span></code></pre></div><p>直接照搬上述代码无法生效, 这是由于两个主题的模板解析语法略有差异, even主题是<code>{{- if xxx }}xxx{{- end }}</code>构造, 而maupassant主题是<code>{{ if xxx }}xxx{{ end }}</code>构造.</p>
 <p>查阅hugo官方文档后, 确认<code>WordCount</code>, <code>ReadingTime</code>两个变量是hugo原生支持, <a href="https://gohugo.io/variables/page/#page-variables">点击查看相关介绍</a>. 而<code>moreMeta</code>是配置文件中自定义的一个参数, 用于控制<code>WordCount</code>和<code>ReadingTime</code>两个变量. 而<code>{{ T &quot;wordCount&quot; .WordCount }}</code>是因为even主题包含多语言功能, 为了实现相关内容的自动翻译, 将文本内容都放在来多语言模板里, 比如简体中文语言模板<code>/i18n/zh-CN.yaml</code>中的部分内容:</p>
 <pre tabindex="0"><code>wordCount:
@@ -508,87 +538,87 @@ readingTime:
   one: &#34;预计阅读 {{ .Count }} 分钟&#34;
   other: &#34;预计阅读 {{ .Count }} 分钟&#34;
 </code></pre><p>我们不需要多语言支持, 直接写成下面这样就可以了, 不过统计的字数可能不准, 譬如本文, Typora编辑器帮我统计的字数是5300出头, 而hugo为我统计的字数已经远超7000了(捂脸)</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{if .Site.Params.moreMeta }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;post-meta&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>            &lt;<span style="color:#268bd2">span</span>&gt;|&lt;/<span style="color:#268bd2">span</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>            &lt;<span style="color:#268bd2">span</span>&gt; 共约{{ .WordCount }}字 &lt;/<span style="color:#268bd2">span</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>            &lt;<span style="color:#268bd2">span</span>&gt; 预计阅读时间{{ .ReadingTime }}分钟&lt;/<span style="color:#268bd2">span</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        &lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>        {{ end }}
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{if .Site.Params.moreMeta }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;post-meta&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>            &lt;<span style="color:#268bd2">span</span>&gt;|&lt;/<span style="color:#268bd2">span</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>            &lt;<span style="color:#268bd2">span</span>&gt; 共约{{ .WordCount }}字 &lt;/<span style="color:#268bd2">span</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>            &lt;<span style="color:#268bd2">span</span>&gt; 预计阅读时间{{ .ReadingTime }}分钟&lt;/<span style="color:#268bd2">span</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        &lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>        {{ end }}
 </span></span></code></pre></div><p>修改位置: <code>layouts/_default/section.html</code>, 分类列表页模板; <code>/layouts/_default/single.html</code>, 文章详情页模板; <code>/layouts/index.html</code>, 博客站点首页模板</p>
 <h3 id="文章可能过时提示">文章可能过时提示</h3>
 <p>参考even主题, 在<code>config.toml</code>配置文件添加如下配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>  enableGitInfo = <span style="color:#cb4b16">true</span>   <span style="color:#586e75"># 可根据 Git 中的提交生成最近更新记录。</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  [params.outdatedInfoWarning]
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    enable = <span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>    hint = <span style="color:#2aa198">30</span>               <span style="color:#586e75"># 如果文章最后更新于这天数之前，显示提醒</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>    warn = <span style="color:#2aa198">180</span>              <span style="color:#586e75"># 如果文章最后更新于这天数之前，显示警告</span>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>  enableGitInfo = <span style="color:#cb4b16">true</span>   <span style="color:#586e75"># 可根据 Git 中的提交生成最近更新记录。</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  [params.outdatedInfoWarning]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    enable = <span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>    hint = <span style="color:#2aa198">30</span>               <span style="color:#586e75"># 如果文章最后更新于这天数之前，显示提醒</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>    warn = <span style="color:#2aa198">180</span>              <span style="color:#586e75"># 如果文章最后更新于这天数之前，显示警告</span>
 </span></span></code></pre></div><p>博客系统主目录下的MD文章生成模板<code>archetypes/default.md</code>的Front Matter部分添加<code>lastmod=&quot;{{ .Date }}&quot;</code>.</p>
 <p>文章详情页<code>/layouts/_default/single.html</code>相关位置添加最后两行代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{ if .Params.toc }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;clear&#34;</span> style<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;display: none&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>            &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;toc-article&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>                &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;toc-title&#34;</span>&gt;文章目录&lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>            &lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        &lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>        {{ end }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span><span>        <span style="color:#586e75">&lt;!-- Outdated Info Warning 提示文章内容可能过时--&gt;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span><span>        {{ partial &#34;outdated_info_warning&#34; .}}
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>        {{ if .Params.toc }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>        &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;clear&#34;</span> style<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;display: none&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>            &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;toc-article&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>                &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;toc-title&#34;</span>&gt;文章目录&lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>            &lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>        &lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>        {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span><span>        <span style="color:#586e75">&lt;!-- Outdated Info Warning 提示文章内容可能过时--&gt;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span><span>        {{ partial &#34;outdated_info_warning&#34; .}}
 </span></span></code></pre></div><p>新建<code>/layouts/partials/outdated_info_warning.html</code>模板页面, 具体内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>{{ if or .Params.enableOutdatedInfoWarning (and .Site.Params.outdatedInfoWarning.enable (ne .Params.enableOutdatedInfoWarning false)) }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    {{ $daysAgo := div (sub now.Unix .Lastmod.Unix) 86400 }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>    {{ $hintThreshold := .Site.Params.outdatedInfoWarning.hint | default 30 }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>    {{ $warnThreshold := .Site.Params.outdatedInfoWarning.warn | default 180 }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    {{ $updateTime := .Lastmod }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    {{ if .GitInfo }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>        {{ if lt .GitInfo.AuthorDate.Unix .Lastmod.Unix }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>            {{ $updateTime := .GitInfo.AuthorDate }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>        {{ end }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    {{ end }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>{{ if gt $daysAgo $hintThreshold }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>&lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;post-outdated&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>    {{ if gt $daysAgo $warnThreshold }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>    &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;warn&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>    {{ else }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>    &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;hint&#34;</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>    {{ end }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>        &lt;<span style="color:#268bd2">p</span>&gt;【注意】本文最后更新于 
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>            &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;timeago&#34;</span> datetime<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;{{ dateFormat &#34;</span>2006-01-02T15:04:05&#34; $updateTime }}&#34; title<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;{{ dateFormat &#34;</span>2006-01-02&#34; $updateTime }}&#34;&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>            {{ dateFormat &#34;2006-01-02&#34; $updateTime }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>            &lt;/<span style="color:#268bd2">span</span>&gt;，文中内容可能已过时，请谨慎使用。
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>        &lt;/<span style="color:#268bd2">p</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span><span>    &lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span><span>&lt;/<span style="color:#268bd2">div</span>&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span><span>{{ end }}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span><span>{{ end }}
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>{{ if or .Params.enableOutdatedInfoWarning (and .Site.Params.outdatedInfoWarning.enable (ne .Params.enableOutdatedInfoWarning false)) }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    {{ $daysAgo := div (sub now.Unix .Lastmod.Unix) 86400 }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>    {{ $hintThreshold := .Site.Params.outdatedInfoWarning.hint | default 30 }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>    {{ $warnThreshold := .Site.Params.outdatedInfoWarning.warn | default 180 }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    {{ $updateTime := .Lastmod }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    {{ if .GitInfo }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>        {{ if lt .GitInfo.AuthorDate.Unix .Lastmod.Unix }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>            {{ $updateTime := .GitInfo.AuthorDate }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>        {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>{{ if gt $daysAgo $hintThreshold }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>&lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;post-outdated&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>    {{ if gt $daysAgo $warnThreshold }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>    &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;warn&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>    {{ else }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>    &lt;<span style="color:#268bd2">div</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;hint&#34;</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span>    {{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>        &lt;<span style="color:#268bd2">p</span>&gt;【注意】本文最后更新于 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>            &lt;<span style="color:#268bd2">span</span> class<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;timeago&#34;</span> datetime<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;{{ dateFormat &#34;</span>2006-01-02T15:04:05&#34; $updateTime }}&#34; title<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;{{ dateFormat &#34;</span>2006-01-02&#34; $updateTime }}&#34;&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>            {{ dateFormat &#34;2006-01-02&#34; $updateTime }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>            &lt;/<span style="color:#268bd2">span</span>&gt;，文中内容可能已过时，请谨慎使用。
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>        &lt;/<span style="color:#268bd2">p</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span><span>    &lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span><span>&lt;/<span style="color:#268bd2">div</span>&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span><span>{{ end }}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span><span>{{ end }}
 </span></span></code></pre></div><p>hugo博客根目录下添加自定义css文件<code>outdated_info_warning.css</code>, 或者直接加到maupassant主题的<code>/static/css</code>目录的<code>normalize.css</code>或者<code>sytle.css</code>中也可以.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>.<span style="color:#268bd2">post</span> .<span style="color:#268bd2">post-outdated</span> .<span style="color:#268bd2">hint</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    <span style="color:#719e07">position</span>:<span style="color:#cb4b16">relative</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>    <span style="color:#719e07">margin-top</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>    <span style="color:#719e07">margin-bottom</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>    <span style="color:#719e07">padding</span>:<span style="color:#2aa198">5</span><span style="color:#dc322f">px</span> <span style="color:#2aa198">10</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    <span style="color:#719e07">border-left</span>:<span style="color:#2aa198">4</span><span style="color:#dc322f">px</span> <span style="color:#cb4b16">solid</span> <span style="color:#2aa198">#42acf3</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    <span style="color:#719e07">background-color</span>:<span style="color:#2aa198">#eff5ff</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>    <span style="color:#719e07">border-color</span>:<span style="color:#2aa198">#42acf3</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>   }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>.<span style="color:#268bd2">post</span> .<span style="color:#268bd2">post-outdated</span> .<span style="color:#268bd2">warn</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    <span style="color:#719e07">position</span>:<span style="color:#cb4b16">relative</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>    <span style="color:#719e07">margin-top</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>    <span style="color:#719e07">margin-bottom</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>    <span style="color:#719e07">padding</span>:<span style="color:#2aa198">5</span><span style="color:#dc322f">px</span> <span style="color:#2aa198">10</span><span style="color:#dc322f">px</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>    <span style="color:#719e07">border-left</span>:<span style="color:#2aa198">4</span><span style="color:#dc322f">px</span> <span style="color:#cb4b16">solid</span> <span style="color:#2aa198">#f9cf63</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>    <span style="color:#719e07">background-color</span>:<span style="color:#2aa198">#ffffc0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>    <span style="color:#719e07">border-color</span>:<span style="color:#2aa198">#f9cf63</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>   }
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span>.<span style="color:#268bd2">post</span> .<span style="color:#268bd2">post-outdated</span> .<span style="color:#268bd2">hint</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    <span style="color:#719e07">position</span>:<span style="color:#cb4b16">relative</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>    <span style="color:#719e07">margin-top</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>    <span style="color:#719e07">margin-bottom</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>    <span style="color:#719e07">padding</span>:<span style="color:#2aa198">5</span><span style="color:#dc322f">px</span> <span style="color:#2aa198">10</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    <span style="color:#719e07">border-left</span>:<span style="color:#2aa198">4</span><span style="color:#dc322f">px</span> <span style="color:#cb4b16">solid</span> <span style="color:#2aa198">#42acf3</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    <span style="color:#719e07">background-color</span>:<span style="color:#2aa198">#eff5ff</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>    <span style="color:#719e07">border-color</span>:<span style="color:#2aa198">#42acf3</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>   }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>.<span style="color:#268bd2">post</span> .<span style="color:#268bd2">post-outdated</span> .<span style="color:#268bd2">warn</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>    <span style="color:#719e07">position</span>:<span style="color:#cb4b16">relative</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>    <span style="color:#719e07">margin-top</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>    <span style="color:#719e07">margin-bottom</span>:<span style="color:#2aa198">20</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>    <span style="color:#719e07">padding</span>:<span style="color:#2aa198">5</span><span style="color:#dc322f">px</span> <span style="color:#2aa198">10</span><span style="color:#dc322f">px</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>    <span style="color:#719e07">border-left</span>:<span style="color:#2aa198">4</span><span style="color:#dc322f">px</span> <span style="color:#cb4b16">solid</span> <span style="color:#2aa198">#f9cf63</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>    <span style="color:#719e07">background-color</span>:<span style="color:#2aa198">#ffffc0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>    <span style="color:#719e07">border-color</span>:<span style="color:#2aa198">#f9cf63</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>   }
 </span></span></code></pre></div><h3 id="目录自动展开折叠待实现">目录自动展开折叠(待实现)</h3>
 <p>当文章内容比较长, 目录比较多的时候, 一个屏幕可能放不下, 所以想要改成默认只展示一级目录, 后面随着浏览位置自动展开二级目录.</p>
 <p>参考even主题, 这个应该是需要js支持, 如果整合比较麻烦, 那就不折腾了, 有空再测试吧</p>
 <p><strong>最后, 参考了不少even主题的设置, 为什么不直接用even主题呢? 因为它没有搜索功能, 而别的更酷炫的支持搜索, 也支持文章可能过时提示等功能的主题, 大多带多语言支持, 以及其他我用不到的乱七八糟的功能, pass&hellip;</strong></p>
 <h2 id="参考资源">参考资源</h2>
-<p><a href="https://gohugo.io/documentation/">Hugo官方文档</a>, <a href="https://git-scm.com/book/zh/v2/">Git官方中文文档</a>, <a href="https://github.com/flysnow-org/maupassant-hugo">飞雪无情-maupassant主题</a>, <a href="https://github.com/olOwOlo/hugo-theme-even">olOwOlo-even主题</a></p>
+<p><a href="https://gohugo.io/documentation/">Hugo官方文档</a>, <a href="https://git-scm.com/book/zh/v2/">Git官方中文文档</a>, <a href="https://github.com/flysnow-org/maupassant-hugo">飞雪无情-maupassant主题</a>, <a href="https://github.com/olOwOlo/hugo-theme-even">olOwOlo-even主题</a>, <a href="https://hugo.aiaide.com/">Suroppo-hugo中文帮助文档</a></p>
         </div>
 
         
@@ -642,7 +672,7 @@ readingTime:
 
                     <footer id="footer">
     <div>
-        &copy; 2022 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
         
     </div>
     <br />
@@ -696,7 +726,19 @@ readingTime:
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/post/%E6%88%91%E4%B8%8E%E5%8D%9A%E5%AE%A2%E4%BA%8C%E4%B8%89%E4%BA%8B/" title="我与博客二三事">我与博客二三事</a>
+        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
     </li>
     
     <li>
@@ -730,13 +772,17 @@ readingTime:
     
     <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
     
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E9%97%B2%E8%AF%9D/">闲话 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
     
 </ul>
     </section>
@@ -745,19 +791,35 @@ readingTime:
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
     
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
     <a href="https://xy-ylr.github.io/tags/git/">git</a>
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E9%97%B2%E8%AF%9D/">闲话</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
     
 </div>
     </section>

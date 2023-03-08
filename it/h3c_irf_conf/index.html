@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>H3C交换机irf配置 | 四十荀的博客</title>
+    <meta property="og:title" content="H3C交换机irf配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-02-06T09:17:53&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-02-06T09:17:53&#43;08:00'>
+        
+    <meta name="Keywords" content="四十荀,xy-ylr,python,linux,未来新农人,偶尔骑行或健身^_^">
+    <meta name="description" content="H3C交换机irf配置">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/h3c_irf_conf/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/others/" title="碎碎念">碎碎念</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#工作原理">工作原理</a></li>
+    <li><a href="#官方文档">官方文档</a></li>
+    <li><a href="#相关名词解释">相关名词解释</a>
+      <ul>
+        <li><a href="#irf域">IRF域</a></li>
+        <li><a href="#成员设备角色">成员设备/角色</a></li>
+        <li><a href="#成员编号">成员编号</a></li>
+        <li><a href="#irf端口物理端口">IRF端口/物理端口</a></li>
+        <li><a href="#irf合并分裂">IRF合并/分裂</a></li>
+        <li><a href="#连接拓扑">连接拓扑</a></li>
+        <li><a href="#角色选举">角色选举</a></li>
+        <li><a href="#mad检测">MAD检测</a></li>
+        <li><a href="#中间设备">中间设备</a></li>
+        <li><a href="#桥mac地址">桥MAC地址</a></li>
+        <li><a href="#irf链路down延迟上报功能">IRF链路down延迟上报功能</a></li>
+        <li><a href="#文件自动加载功能">文件自动加载功能</a></li>
+        <li><a href="#保留接口">保留接口</a></li>
+        <li><a href="#mad故障恢复">MAD故障恢复</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置前提">配置前提</a></li>
+    <li><a href="#irf基础配置步骤">IRF基础配置步骤</a></li>
+    <li><a href="#mad检测配置步骤">MAD检测配置步骤</a>
+      <ul>
+        <li><a href="#lacp-mad检测">LACP MAD检测</a></li>
+        <li><a href="#bfd-mad检测">BFD MAD检测</a></li>
+        <li><a href="#arp-mad检测">ARP MAD检测</a></li>
+        <li><a href="#nd-mad检测">ND MAD检测</a></li>
+      </ul>
+    </li>
+    <li><a href="#部分显示和维护命令">部分显示和维护命令</a></li>
+    <li><a href="#irf配置案例">IRF配置案例</a>
+      <ul>
+        <li><a href="#irf配置">IRF配置</a></li>
+        <li><a href="#lacp-mad检测-1">LACP MAD检测</a></li>
+        <li><a href="#bfd-mad检测-1">BFD MAD检测</a></li>
+        <li><a href="#arp-mad检测-1">ARP MAD检测</a></li>
+        <li><a href="#nd-mad检测-1">ND MAD检测</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">H3C交换机irf配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年2月6日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约9099字 </span>
+            <span> 预计阅读时间19分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+
+
+        <div class="post-content">
+            <p>IRF（Intelligent Resilient Framework，智能弹性架构）是H3C自主研发的软件虚拟化技术。目的是将多台设备链接在一起，经过相关配置后，虚拟成一台性能更好的设备。通过IRF技术，可以更方便的扩展网络、管理设备等。</p>
+<h2 id="工作原理">工作原理</h2>
+<p>IRF系统将经历<code>物理连接</code>、<code>拓扑收集</code>、<code>角色选举</code>、<code>IRF的管理与维护</code>四个阶段。成员设备之间需要先建立IRF物理连接，然后会自动进行拓扑收集和角色选举，完成IRF的建立，此后进入IRF管理和维护阶段。</p>
+<h2 id="官方文档">官方文档</h2>
+<p>H3C S5560X-EI系列以太网交换机IRF<a href="https://www.h3c.com/cn/d_201711/1046621_30005_0.htm#_Toc499550057">配置指导</a> 。</p>
+<p>H3C S10500系列交换机IRF<a href="https://www.h3c.com/cn/d_201305/785664_30005_0.htm#">配置指导</a>。</p>
+<p>各版本交换机配置细节略有差别，本文参考的官方S5560系列文档，在HCL模拟器上测试，实际配置请根据交换机具体型号参考具体版本的文档。</p>
+<h2 id="相关名词解释">相关名词解释</h2>
+<p>可以直接从基础配置步骤，或者配置案例开始看，有不明白的再返回来看这部分名词解释。</p>
+<h3 id="irf域">IRF域</h3>
+<p>通过IRF技术将多台设备虚拟成一台设备，简单理解，这么一台虚拟设备就等于一个IRF域，如果网络中存在多个IRF，需要给每个IRF分配不通的域ID（domain id）  。</p>
+<h3 id="成员设备角色">成员设备/角色</h3>
+<p>IRF域中的实际物理设备，分为<code>主设备</code>和<code>从设备</code>，每个IRF中<code>主设备</code>只有一台，负责管理和控制整个IRF，其他的都是<code>从设备</code>。当<code>主设备</code>故障时，在<code>从设备</code>中自动选举出一个主设备。</p>
+<p>主设备通过<code>成员优先级</code>等属性选举产生，成员优先级优先级越高的越容易选举成为主设备。</p>
+<h3 id="成员编号">成员编号</h3>
+<p>用于标识并管理各成员设备，一个IRF中，各成员编号要具备唯一性，新加入的设备也要保证不与已有的冲突，否则无法成功加入。比如设备接口，当各设备独立运行时，1号接口可能都是<code>G1/0/1</code>，但是当各成员设备相互连接组成一个IRF后，1号接口就会根据成员编号变成了<code>G1/0/1</code>、<code>G2/0/1</code>等。</p>
+<p><strong>如果设备曾经加入过IRF，则在退出IRF后，仍然会使用在IRF中时的成员编号作为自身的设备编号。</strong></p>
+<h3 id="irf端口物理端口">IRF端口/物理端口</h3>
+<p><code>IRF端口</code>是专用于成员设备之间互连的逻辑接口，需要与物理端口绑定后才生效。每个成员设备可以配置两个<code>IRF端口</code>， 分别是IRF-Port1和IRF-Port2。</p>
+<p><code>IRF物理端口</code>是指用于成员设备之间互连的实际物理端口，需要10GBase-T以太网端口、SFP+口、QSFP+口等才能用于IRF物理端口，具体哪些口可用请根据设备型号阅读说明书。</p>
+<p>由于IRF物理端口上不能开启STP或其它环路控制协议，IRF成员设备需要根据接收和发送报文的端口以及IRF的当前拓扑，来判断报文在发送后是否会产生环路。如果判断结果为会产生环路，设备将在位于环路路径上的发送端口处将报文丢弃。该方式会造成大量广播报文在IRF物理端口上被丢弃，此为正常现象。在使用SNMP工具监测设备端口的收发报文记录时，取消对IRF物理端口的监测，可以避免收到大量丢弃报文的告警信息。</p>
+<p>本设备上与IRF-Port1口绑定的IRF物理端口只能和邻居成员设备IRF-Port2口上绑定的IRF物理端口相连，本设备上与IRF-Port2口绑定的IRF物理端口只能和邻居成员设备IRF-Port1口上绑定的IRF物理端口相连，否则不能形成IRF。</p>
+<p>一个IRF端口可以与一个或多个IRF物理端口绑定，以提高IRF链路的带宽以及可靠性。当绑定的所有IRF物理端口都down后，IRF端口变为down。不通型号设备一个IRF端口可绑定的最多物理端口数量可能不一样。</p>
+<h3 id="irf合并分裂">IRF合并/分裂</h3>
+<p>网络中多个正常运行的IRF，通过一些必要的物理连接及配置修改，可以合并成一个IRF。同时一个IRF由于链路故障等，也可能会分裂成两个IRF（一各继续工作，另一个转为Recovery状态）。</p>
+<h3 id="连接拓扑">连接拓扑</h3>
+<p>两台以上设备组建IRF的时候，有<strong>链形连接</strong>和<strong>环形连接</strong>两种拓扑结构，将链形连接两边的两台成员设备也互连，就能形成一个环形连接结构。环形比链形更可靠，当某一条链路故障的时候，会转变为链形结构，IRF还能正常工作，业务不受影响。而链形结构有一条IRF链路故障就会导致IRF分裂。</p>
+<h3 id="角色选举">角色选举</h3>
+<p>确定成员设备角色为主设备或从设备的过程称为角色选举。角色选举会在以下情况下进行：IRF建立、主设备离开或者故障、两个IRF合并等。其中，IRF合并包括合并前独立运行的两个（或多个）IRF合并为一个IRF、IRF分裂后重新合并两种情况。</p>
+<p>IRF建立、主设备离开或者故障、独立运行的两个（或多个）IRF合并为一个IRF时，角色选举规则如下：</p>
+<p>(1)   当前主设备优先。在IRF已经形成后，不会因为有新的成员设备加入而重新选举主设备。在IRF形成时，因为没有主设备，所有加入的设备都认为自己是主设备，则继续下一条规则的比较。</p>
+<p>(2)   成员优先级大的优先。如果优先级相同，则继续下一条规则的比较。</p>
+<p>(3)   系统运行时间长的优先。在IRF中，成员设备启动时间间隔精度为10分钟，即10分钟之内启动的设备，则认为它们是同时启动的，则继续下一条规则的比较。</p>
+<p>(4)   CPU MAC小的优先。</p>
+<p>通过以上规则选出的最优成员设备即为主设备，其它成员设备则均为从设备。</p>
+<p>IRF分裂后重新合并时，原Recovery状态IRF中所有成员设备自动重启以从设备身份加入原正常工作状态的IRF，原正常工作状态的IRF的主设备作为合并后IRF的主设备。</p>
+<p>不管设备与其它设备一起形成IRF，还是加入已有IRF，如果该设备被选为从设备，则该设备会使用主设备的配置重新启动，以保证和主设备上的配置一致，本设备上的配置文件还在，但不再生效。</p>
+<p>IRF合并的情况下（分裂后重新合并的情况除外），每个IRF的主设备间会进行竞选，竞选仍然遵循角色选举的规则，竞选失败方的所有成员设备自动重启后均以从设备的角色加入获胜方，最终合并为一个IRF。</p>
+<p>在角色选举完成后，IRF形成，进入IRF管理与维护阶段。</p>
+<h3 id="mad检测">MAD检测</h3>
+<p>IRF链路故障的时候会导致一个IRF变成多个新的IRF，这些IRF拥有相同的IP地址等三层配置，会引起地址冲突，导致故障在网络中扩大。为了提高系统的可用性，当IRF分裂时我们就需要一种机制，能够检测出网络中同时存在多个IRF，并进行相应的处理，尽量降低IRF分裂对业务的影响。MAD（Multi-Active Detection，多Active检测）就是这样一种检测和处理机制。</p>
+<p>检测机制根据所使用的技术，有LACP（Link Aggregation Control Protocol，链路聚合控制协议）、BFD（Bidirectional  Forwarding Detection，双向转发检测）、ARP（Address Resolution  Protocol，地址解析协议）或者ND（Neighbor Discovery，邻居发现）。</p>
+<p>当检测到IRF分裂成多个的时候，MAD会保留一部分设备继续工作，另一部分设备禁用掉（变为Recovery状态），以避免IP地址冲突等。处理原则是LACP MAD 、BFD MAD会保留成员设备多的IRF，禁用成员设备少的IRF；而ARP MAD、ND MAD是保留主设备成员编号小的IRF，其他的禁用。</p>
+<p>当IRF故障成功修复，MAD故障也会解除。</p>
+<h3 id="中间设备">中间设备</h3>
+<p>在配置MAD的时候，根据配置需求，用于辅助成员设备互连检测的设备。其中LACP MAD检测组网中必须使用H3C设备作为中间设备，每个成员设备都需要连接到中间设备；其他的可用可不用。</p>
+<h3 id="桥mac地址">桥MAC地址</h3>
+<p>桥MAC是设备作为网桥与外界通信时使用的MAC地址。如果网络中存在桥MAC相同的设备，则会引起桥MAC冲突，从而导致通信故障。配置IRF时，如果有成员设备的桥MAC相同，则无法合并到一个IRF中。</p>
+<p>IRF作为一台虚拟设备，默认主设备的桥MAC就是IRF桥MAC。但是当发生链路故障，IRF分裂的时候，桥MAC可能会发生改变。需要根据实际网络需求配置桥MAC保留时间，默认IRF桥MAC保留6分钟。</p>
+<p>当使用ARP MAD和MSTP或ND MAD和MSTP组网时，需要将IRF配置为桥MAC地址立即改变，即配置<code>undo irf mac-address persistent</code>命令。</p>
+<p>当IRF设备上存在跨成员设备的聚合链路时，请不要使用<code>undo irf mac-address persistent</code>命令配置IRF的桥MAC立即变化，否则可能会导致流量中断。</p>
+<h3 id="irf链路down延迟上报功能">IRF链路down延迟上报功能</h3>
+<p>该功能用于避免因端口链路层状态在短时间内频繁改变，导致IRF分裂/合并的频繁发生，默认延迟上报时间为4秒。具体时间配置视网络实际情况及其他部分协议的超时时间配置而定。</p>
+<h3 id="文件自动加载功能">文件自动加载功能</h3>
+<p>如果新设备加入IRF，并且新设备的软件版本和主设备的软件版本不一致，则新加入的设备不能正常启动。</p>
+<p>如果没有开启启动文件的自动加载功能，则需要用户手工升级新设备后，再将新设备加入IRF。或者在主设备上开启启动文件的自动加载功能，重启新设备，让新设备重新加入IRF。</p>
+<p>如果已经开启了启动文件的自动加载功能，则新设备加入IRF时，会与主设备的软件版本号进行比较，如果不一致，则自动从主设备下载启动文件，然后使用新的系统启动文件重启，重新加入IRF。如果新下载的启动文件的文件名与设备上原有启动文件文件名重名，则原有启动文件会被覆盖。</p>
+<p>为了能够自动加载成功，请确保从设备存储介质上有足够的空闲空间用于存放新的启动文件。如果从设备存储介质上空闲空间不足，系统会自动删除从设备的当前启动文件来完成加载。如果删除从设备的当前启动文件后空间仍然不足，从设备将无法进行自动加载。此时，需要管理员重启从设备并进入从设备的Boot ROM菜单，删除一些不重要的文件后，再让从设备重新加入IRF。</p>
+<h3 id="保留接口">保留接口</h3>
+<p>IRF出现故障导致分裂的时候，会关闭Recovery状态设备上的所有业务接口。如果设备上有特殊用途接口需要保留up状态，可以使用<code>mad exclude interface [number]</code>来配置保留端口。</p>
+<p>同时，IRF物理端口、BFD MAD检测接口以及用户配置的保留聚合接口的成员接口自动作为系统保留接口，不需要配置。</p>
+<h3 id="mad故障恢复">MAD故障恢复</h3>
+<p>正常情况下，当IRF链路故障消除了，MAD故障也能自动恢复。</p>
+<p>但是极端情况下，IRF链路故障导致分裂后(IRF1正常，IRF2 Recovery)，我们还在修复链路的时候，IRF1再次发生故障，甚至导致整个网络不通。此时我们可以在IRF2上使用<code>mad restore</code>命令，先让IRF2恢复正常，然后再继续修复IRF1和故障链路等。</p>
+<h2 id="配置前提">配置前提</h2>
+<p>要组成IRF的交换机型号要相同，软件系统版本要相同，最大等价路由条数相同， IPv4等价路由增强模式相同。</p>
+<h2 id="irf基础配置步骤">IRF基础配置步骤</h2>
+<p>以下是大概配置步骤，以及部分命令，细节请看配置案例：</p>
+<ol>
+<li>前期网络规划，确认哪台设备作为主设备、成员设备间的物理连接及物理端口。</li>
+<li>各设备连接线路，确保物理端口连通。</li>
+<li>修改各<strong>从设备成员编号</strong>，完成后重启设备。<code>irf member [member-id] renumber [new-member-id]</code></li>
+<li>修改设备成员优先级，将希望作为主设备的设备成员优先级设置一个较大值。<code>irf member [member-id] priority [priority]</code></li>
+<li>配置IRF端口，将物理端口与IRF端口绑定 。<code>irf-port [member-id/irf-port-number]</code>，<code>port group interface  [interface]</code></li>
+<li>保存配置。</li>
+<li>激活IRF端口配置，形成IRF。<code>irf-port-configuration active</code></li>
+<li>访问IRF，配置MAD。</li>
+<li>其他可选配置：成员设备描述信息、桥MAC保留时间、IRF链路down延迟上报时间等。</li>
+</ol>
+<h2 id="mad检测配置步骤">MAD检测配置步骤</h2>
+<h3 id="lacp-mad检测">LACP MAD检测</h3>
+<p>LACP MAD检测是通过扩展LACP协议报文内容实现的，即在LACP协议报文的扩展字段内定义一个新的TLV（Type/Length/Value，类型/长度/值）数据域——用于交互IRF的DomainID（域编号）和ActiveID（等于主设备的成员编号）。</p>
+<p>成员设备收到LACP报文后，先比较DomainID，如果DomainID不同，则来自不同的IRF，不再进行MAD处理。如果DomainID相同，再比较ActiveID，如果ActiveID也相同，说明IRF正常；如果不同，说明存在故障，IRF分裂。</p>
+<p>LACP MAD检测组网必须使用H3C设备或者其他IRF作为中间设备，各成员设备都接到中间设备，通过中间设备交互LACP扩展报文。</p>
+<p>配置步骤：</p>
+<ol>
+<li>配置IRF域编号。</li>
+<li>创建聚合接口（IRF和中间设备都需要）。</li>
+<li>聚合接口工作模式为动态聚合模式（IRF、中间设备）。</li>
+<li>在动态聚合接口下开启LACP MAD检测功能。</li>
+<li>给聚合组添加端口（IRF、中间设备）。</li>
+</ol>
+<h3 id="bfd-mad检测">BFD MAD检测</h3>
+<p>BFD MAD检测是通过BFD协议来实现的。要使BFD MAD检测功能正常运行，除在三层接口下开启BFD  MAD检测功能外，还需要在该接口上配置MAD IP地址。MAD IP地址与普通IP地址不同的地方在于：MAD  IP地址与成员设备是绑定的，IRF中的每个成员设备上都需要配置，且所有成员设备的MAD IP必须属于同一网段。</p>
+<ul>
+<li>当IRF正常运行时，只有主设备上配置的MAD IP地址生效，从设备上配置的MAD IP地址不生效，BFD会话处于down状态；（使用<code>display bfd session</code>命令查看BFD会话的状态。）</li>
+<li>当IRF分裂形成多个IRF时，不同IRF中主设备上配置的MAD IP地址均会生效，BFD会话被激活，此时会检测到多Active冲突。</li>
+</ul>
+<p>BFD MAD检测组网可用可不用中间设备。</p>
+<p>使用中间设备的时候既可以使用普通网口来配置，也可以使用管理网口来配置。使用普通网口时，用于BFD MAD检测的以太网端口需要属于同一VLAN，在该VLAN接口视图下为不同成员设备配置同一网段内的不同MAD IP地址；<em>使用管理网口时，只需要在中间设备上创建专属VLAN，所有与管理网口互连的端口都加入专属VLAN，然后给每个管理网口配置同网段的不同MAD IP即可</em>。</p>
+<p>不使用中间设备时，只能使用普通网口来配置，每个成员设备与其他成员设备互连建立BFD MAD检测链路，且这些接口需要位于同一VLAN下，分配不同的IP地址。</p>
+<p><em><em>由于不使用中间设备的时候，每个成员设备都需要与其他成员设备互连，会占用n</em>(n-1)个端口，如果成员设备比较多的话，就不合适了。</em>*</p>
+<p><strong>专属vlan只可用于bfd mad检测端口，其他业务端口不可添加到vlan中。如果网络中存在多个使用bfd mad检测的irf，每个irf的专属vlan也要不同。</strong></p>
+<p><strong>配置mad ip地址使用专门的命令：<code>mad ip address</code></strong></p>
+<p>使用VLAN配置步骤：</p>
+<ol>
+<li>配置IRF域编号。</li>
+<li>创建专属VLAN（如有，包括中间设备）。</li>
+<li>将用于BFD MAD检测的物理端口加入VLAN（如有，包括中间设备）。</li>
+<li>配置VLAN接口，开启BFD MAD检测功能，并为成员设备配置MAD IP地址。</li>
+</ol>
+<p>使用管理网口配置步骤：</p>
+<ol>
+<li>将各管理网口与中间设备互连。</li>
+<li>将中间设备上与管理网口互连的口子，加到一个专属VLAN中。</li>
+<li>各管理网口开启BFD MAD检测功能，并配置IP地址。</li>
+</ol>
+<h3 id="arp-mad检测">ARP MAD检测</h3>
+<p>ARP MAD检测是通过扩展ARP协议报文内容实现的，即使用ARP协议报文中未使用的字段来交互IRF的DomainID和ActiveID。开启ARP MAD检测后，成员设备可以通过ARP协议报文和其它成员设备交互DomainID和ActiveID信息。</p>
+<p>成员设备收到ARP报文后，先比较DomainID，如果DomainID不同，则来自不同的IRF，不再进行MAD处理。如果DomainID相同，再比较ActiveID，如果ActiveID也相同，说明IRF正常；如果不同，说明存在故障，IRF分裂。</p>
+<p>ARP MAD检测组网可用可不用中间设备。使用中间设备时，可用使用普通网口或者管理网口来配置，不使用中间设备时，只能用普通网口，两两互连各成员设备。</p>
+<p>使用普通网口和中间设备时，各成员设备和中间设备都需要配置生成树，以防止环路。并确保配置生成树功能后，只有一条ARP MAD检测链路处于转发状态，能够转发ARP MAD检测报文。</p>
+<p>使用普通网口配置步骤：</p>
+<ol>
+<li>配置IRF域编号，配置IRF桥MAC地址立即改变。</li>
+<li>创建专属VLAN（如有，包括中间设备）。</li>
+<li>将用于ARP MAD检测的物理端口加入VLAN（如有，包括中间设备）。</li>
+<li>配置VLAN接口，开启ARP MAD检测功能，并为成员设备配置MAD IP地址。</li>
+</ol>
+<p>使用管理网口配置步骤：</p>
+<ol>
+<li>配置IRF域编号，配置IRF桥MAC地址立即改变。</li>
+<li>将各管理网口与中间设备互连。</li>
+<li>将中间设备上与管理网口互连的口子，加到一个专属VLAN中。</li>
+<li>各管理网口开启ARP MAD检测功能，并配置IP地址。</li>
+</ol>
+<h3 id="nd-mad检测">ND MAD检测</h3>
+<p>ND MAD检测是通过扩展ND协议报文内容实现的，即使用ND的NS协议报文携带扩展选项数据来交互IRF的DomainID和ActiveID。开启ND MAD检测后，成员设备可以通过ND协议报文和其它成员设备交互DomainID和ActiveID信息。</p>
+<p>成员设备收到ND报文后，先比较DomainID，如果DomainID不同，则来自不同的IRF，不再进行MAD处理。如果DomainID相同，再比较ActiveID，如果ActiveID也相同，说明IRF正常；如果不同，说明存在故障，IRF分裂。</p>
+<p>ND MAD检测组网可用可不用中间设备。使用中间设备时，可用使用普通网口或者管理网口来配置，不使用中间设备时，只能用普通网口，两两互连各成员设备。</p>
+<p>使用中间设备时，可以用普通数据链路作为ND MAD检测链路；不使用中间设备时，需要各成员设备两两互连建立专用检测链路。</p>
+<p>使用中间设备时，各成员设备和中间设备都需要配置生成树，并确保配置生成树功能后，只有一条ND MAD检测链路处于转发状态，能够转发ND MAD检测报文。</p>
+<p>配置步骤：</p>
+<ol>
+<li>配置IRF域编号，配置IRF桥MAC地址立即改变。</li>
+<li>创建专属VLAN（如有，包括中间设备）。</li>
+<li>将用于ND MAD检测的物理端口加入VLAN（如有，包括中间设备）。</li>
+<li>配置VLAN接口，开启ND MAD检测功能，并为成员设备配置IP地址。</li>
+</ol>
+<h2 id="部分显示和维护命令">部分显示和维护命令</h2>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dis irf</code></td>
+<td>显示irf中成员设备相关信息</td>
+</tr>
+<tr>
+<td><code>dis irf top</code></td>
+<td>查看irf拓扑信息</td>
+</tr>
+<tr>
+<td><code>dis irf link</code></td>
+<td>查看irf链路信息</td>
+</tr>
+<tr>
+<td><code>dis irf conf</code></td>
+<td>查看irf配置信息</td>
+</tr>
+<tr>
+<td><code>dis mad [verbose]</code></td>
+<td>查看mad配置信息</td>
+</tr>
+<tr>
+<td><code>mad restore</code></td>
+<td>mad故障恢复</td>
+</tr>
+<tr>
+<td><code>mad exclude interface [number]</code></td>
+<td>配置保留接口</td>
+</tr>
+</tbody>
+</table>
+<h2 id="irf配置案例">IRF配置案例</h2>
+<h3 id="irf配置">IRF配置</h3>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/202302092024150.png">
+            <img class="mx-auto" alt="四成员irf配置图 带中间设备" src="http://img.xy-ylr.cn/202302092024150.png" />
+        </a>
+    </p>
+<p>如上图所示要求配置irf组网。</p>
+<p>1，<strong>首先更改一下设备名称</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>&lt;H3C&gt;sys
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>System View: <span style="color:#719e07">return</span> to User View with Ctrl+Z.
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#586e75"># 修改dev1设备名称，其他4台类似，请结合实际情况修改，以便于记忆理解。</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span><span style="color:#719e07">[</span>H3C<span style="color:#719e07">]</span>sysname dev1
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>
+</span></span></code></pre></div><p>2，<strong>修改设备成员编号</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># 修改dev2的成员编号，其他的dev3、dev4类似</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>irf member <span style="color:#2aa198">1</span> renumber <span style="color:#2aa198">2</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>Renumbering the member ID may result in configuration change or loss. Continue?<span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75"># 修改完成后重启设备</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>&lt;dev2&gt;reboot
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>Start to check configuration with next startup configuration file, please wait.........DONE!
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>Current configuration may be lost after the reboot, save current configuration? <span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>Please input the file name<span style="color:#719e07">(</span>*.cfg<span style="color:#719e07">)[</span>flash:/startup.cfg<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#719e07">(</span>To leave the existing filename unchanged, press the enter key<span style="color:#719e07">)</span>:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>Validating file. Please wait...
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>Saved the current configuration to mainboard device successfully.
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>This <span style="color:#b58900">command</span> will reboot the device. Continue? <span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>Now rebooting, please wait...
+</span></span></code></pre></div><p>重启完成之后运行<code>dis cu</code>或者<code>dis int brief</code>之类的命令，可以看到<code>dev2</code>的端口从<code>GE1/0/1</code>变成了<code>GE2/0/1</code> ，其他设备也类似。</p>
+<p>3，<strong>修改主设备成员优先级</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf member <span style="color:#2aa198">1</span> priority <span style="color:#2aa198">9</span>
+</span></span></code></pre></div><p>这是可选操作。默认优先级是1，修改主设备的成员优先级是为了让后续irf组网的时候，按照我希望的产生主设备，并且后续如果有新的成员加入irf的时候，不会产生主设备切换。</p>
+<p>4，<strong>将各设备的物理端口与irf端口绑定</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># 要将物理端口与irf端口绑定，需要先将物理端口shutdown</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 te
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 Ten-GigabitEthernet 1/0/50
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>shutdown
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#586e75"># 配置irf port 1/1 与49、50端口绑定</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span><span style="color:#586e75"># 此处的1/1表示：irf成员编号1的irf port 1口</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port 1/1
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/49
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/50
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span><span style="color:#586e75"># 将51、52端口shutdown，其实4个口子可以一起shutdown</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>interface range Ten-GigabitEthernet 1/0/51 to Ten-GigabitEthernet 1/0/52
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>shutdown
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span><span style="color:#586e75"># 配置irf port 1/2 与51、52端口绑定</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span><span style="color:#586e75"># 此处的1/2表示：irf成员编号1的irf port 2口</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port 1/2
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/51
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/52
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span><span style="color:#586e75"># 物理端口绑定完成后，重新up</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 to Ten-GigabitEthernet 1/0/52
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>un sh
+</span></span></code></pre></div><p>其他从设备的配置类似，参考此处即可。</p>
+<p>5，<strong>保存配置并激活irf配置</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#586e75"># 注意要先保存再激活，线路已连通，会自动重启，不保存配置可能会丢失</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port-configuration active
+</span></span></code></pre></div><p>一定注意要先保存配置然后再去激活，由于各成员设备线路已经连通，激活irf配置后，会自动开始选举主设备什么的，完了之后从设备会自动重启。</p>
+<p>等到重启完成之后，就会发现dev2等从设备的终端开头的提示符也变成了dev1。此时也可以使用上一小节<a href="#%E9%83%A8%E5%88%86%E6%98%BE%E7%A4%BA%E5%92%8C%E7%BB%B4%E6%8A%A4%E5%91%BD%E4%BB%A4">部分显示和维护命令</a>中提到的<code>dis irf</code>等命令查看链路信息、拓扑信息等的变化。</p>
+<h3 id="lacp-mad检测-1">LACP MAD检测</h3>
+<p>irf配置完成后，开始配置mad检测。此处使用lacp mad配置</p>
+<p>1，<strong>配置IRF域编号</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#586e75"># 配置域编号，如果网络中还存在别的irf，注意域编号不要重复了。</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf domain <span style="color:#2aa198">11</span>
+</span></span></code></pre></div><p>此时四台设备已组合为一个irf，不管从哪台设备登录，显示的都是<strong>dev1</strong>.</p>
+<p>2，<strong>创建聚合接口，设置聚合模式，开启mad等</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># 创建聚合链路11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int Bridge-Aggregation <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#586e75"># 设置链路聚合模式为dynamic</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>link-aggregation mode dynamic
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75"># 开启mad检测</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>mad <span style="color:#b58900">enable</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>You need to assign a domain ID <span style="color:#719e07">(</span>range: 0-4294967295<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#586e75"># 确认域编号</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#719e07">[</span>Current domain is: 11<span style="color:#719e07">]</span>: <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>The assigned domain ID is: <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>MAD LACP only <span style="color:#b58900">enable</span> on dynamic aggregation interface.
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span><span style="color:#586e75"># 将irf上4个用于lacp mad检测的端口加入链路聚合</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>port link-aggregation group <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span><span style="color:#586e75"># 退出并保存配置</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
+</span></span></code></pre></div><p>3，<strong>配置中间设备</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># 创建聚合链路</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>int Bridge-Aggregation <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#586e75"># 设置为dynamic模式</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>mad_c-Bridge-Aggregation11<span style="color:#719e07">]</span>link-aggregation mode dynamic
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#719e07">[</span>mad_c-Bridge-Aggregation11<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#586e75"># 将端口加入聚合链路</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>int ra g1/0/45 to g1/0/48
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#719e07">[</span>mad_c-if-range<span style="color:#719e07">]</span>port link-aggregation group <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#586e75"># 退出并保存配置</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#719e07">[</span>mad_c-if-range<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>save
+</span></span></code></pre></div><h3 id="bfd-mad检测-1">BFD MAD检测</h3>
+<p>irf配置部分不变，配置bfd mad检测。</p>
+<p>1，<strong>配置irf域编号，创建专属vlan等</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># 配置irf域编号</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf domain <span style="color:#2aa198">2</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#586e75"># 创建专属vlan</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>vlan <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75"># 专属vlan添加备注信息</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>description bfd_mad
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span><span style="color:#586e75"># 将相应端口加入vlan</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>port g1/0/48 g2/0/48 g3/0/48 g4/0/48
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#586e75"># 开启bfd，并配置mad ip地址</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int Vlan-interface <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad bfd <span style="color:#b58900">enable</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.1 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.2 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">2</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.3 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">3</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.4 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">4</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span><span style="color:#586e75"># bfd mad与stp生成树互斥，关闭生成树功能</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>undo stp <span style="color:#b58900">enable</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
+</span></span></code></pre></div><p>2, <strong>配置中间设备</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>&lt;mad_c&gt;sys
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#586e75"># 创建专属vlan</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>vlan <span style="color:#2aa198">11</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span><span style="color:#586e75"># 将相应端口加入vlan</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span><span style="color:#719e07">[</span>mad_c-vlan11<span style="color:#719e07">]</span>port g1/0/45 to g1/0/48
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span><span style="color:#719e07">[</span>mad_c-vlan11<span style="color:#719e07">]</span>qu
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>save
+</span></span></code></pre></div><p>3，<strong>不用中间设备</strong></p>
+<p>因为bfd mad检测要求所有成员设备都需要两两互连。在这个irf模拟组网中，每个成员设备需要消耗3个端口与其他三个成员设备互连，端口开销实在不小。推荐在只有两台设备进行irf组网的时候直接互连，不使用中间设备。</p>
+<h3 id="arp-mad检测-1">ARP MAD检测</h3>
+<p>。。。</p>
+<h3 id="nd-mad检测-1">ND MAD检测</h3>
+<p>。。。</p>
+<p>一开始也就看着模拟器上的交换机版本才是个5820，然后机房又有很多5560交换机，才挑的低版本的来参考，但是模拟的时候，总好像跟实际有点出入…</p>
+<p>官方说明arp和nd两种模式的检测速度慢于前两种，且到了10500系列交换机，这两个连配置案例都没有了Orz</p>
+<p>一般情况下，也就是2台设备组成一个irf，无脑上bfd检测模式好了，中间设备都不用。</p>
+<p>所以不想抄了……</p>
+<h2 id="总结">总结</h2>
+<p>在模拟器上做过几次链路故障、成员设备关机等模拟，有的时候mad状态里会直接提示faulty；有时候mad也随着irf缩减了，显示的都是正常的；有时候模拟器直接报错“内存不能为read”什么的。暂时还没搞明白怎么一眼确认irf是否存在异常。</p>
+<p>以及，实际环境中，选用不同mad检测模式，或者结合其他配置比如ospf等，<a href="#%E6%A1%A5MAC%E5%9C%B0%E5%9D%80">桥MAC地址</a>、<a href="IRF%E9%93%BE%E8%B7%AFdown%E5%BB%B6%E8%BF%9F%E4%B8%8A%E6%8A%A5%E5%8A%9F%E8%83%BD">IRF链路down延迟上报</a>之类的可选配置，可能很重要，能降低irf分裂/合并时候对网络的冲击。</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/h3c_irf_conf/">https://xy-ylr.github.io/it/h3c_irf_conf/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88'>网络工程师</a></li>
+                
+                <li><a href='/tags/irf'>irf</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_basic_use/" title="Git基础配置及使用">Git基础配置及使用</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/github_and_hugo/" title="使用Github pages和hugo搭建个人静态博客系统">使用Github pages和hugo搭建个人静态博客系统</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
