@@ -6,7 +6,16 @@
     <description>Recent content in 网络 on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 06 Feb 2023 09:17:53 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>华三华为网络基础配置命令</title>
+      <link>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</link>
+      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</guid>
+      <description>&lt;p&gt;记录一下华三、华为网络设备常用基础配置命令，思科、锐捷网络设备常用基础命令，光交设备常用命令。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>H3C交换机irf配置</title>
       <link>https://xy-ylr.github.io/it/h3c_irf_conf/</link>

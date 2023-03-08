@@ -6,7 +6,16 @@
     <description>Recent content in linux on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 05 Aug 2022 09:26:46 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Dec 2022 09:32:08 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux系统磁盘的分区 格式化与挂载</title>
+      <link>https://xy-ylr.github.io/it/linux_fdisk/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_fdisk/</guid>
+      <description>&lt;p&gt;随着操作系统的长时间运行, 或者服务器新增业务的时候, 可能会出现原有磁盘空间不足, 需要添加硬盘的情况. 想要给系统磁盘空间扩容, 一般是先给新增的硬盘分区, 再对分区进行格式化, 然后挂载到相应的目录上.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Linux禁用root远程登录</title>
       <link>https://xy-ylr.github.io/it/linux_ssh/</link>

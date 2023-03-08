@@ -3,7 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://xy-ylr.github.io/categories/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</loc>
+    <lastmod>2023-02-28T19:42:51+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/tags/excel/</loc>
+    <lastmod>2023-02-08T01:46:02+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/it/excel_use/</loc>
+    <lastmod>2023-02-08T01:46:02+08:00</lastmod>
+  </url><url>
+    <loc>https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/</loc>
+    <lastmod>2023-02-08T01:46:02+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/it/h3c_irf_conf/</loc>
     <lastmod>2023-02-06T09:17:53+08:00</lastmod>
@@ -11,23 +41,23 @@
     <loc>https://xy-ylr.github.io/tags/irf/</loc>
     <lastmod>2023-02-06T09:17:53+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/it/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/linux/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/tags/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/categories/linux/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/it/linux_fdisk/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
-    <loc>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</loc>
-    <lastmod>2023-02-06T09:17:53+08:00</lastmod>
+    <loc>https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/</loc>
+    <lastmod>2022-12-02T09:32:08+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/tags/rime/</loc>
     <lastmod>2022-11-23T09:42:46+08:00</lastmod>
@@ -38,13 +68,10 @@
     <loc>https://xy-ylr.github.io/it/rime_configuration/</loc>
     <lastmod>2022-11-23T09:42:46+08:00</lastmod>
   </url><url>
+    <loc>https://xy-ylr.github.io/it/linux_install_zabbix/</loc>
+    <lastmod>2022-08-10T15:49:35+08:00</lastmod>
+  </url><url>
     <loc>https://xy-ylr.github.io/tags/firewalld/</loc>
-    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/tags/linux/</loc>
-    <lastmod>2022-08-05T09:26:46+08:00</lastmod>
-  </url><url>
-    <loc>https://xy-ylr.github.io/categories/linux/</loc>
     <lastmod>2022-08-05T09:26:46+08:00</lastmod>
   </url><url>
     <loc>https://xy-ylr.github.io/it/linux_ssh/</loc>

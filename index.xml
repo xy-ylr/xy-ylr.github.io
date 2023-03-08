@@ -6,7 +6,26 @@
     <description>Recent content on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 06 Feb 2023 09:17:53 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>华三华为网络基础配置命令</title>
+      <link>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</link>
+      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</guid>
+      <description>&lt;p&gt;记录一下华三、华为网络设备常用基础配置命令，思科、锐捷网络设备常用基础命令，光交设备常用命令。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Excel使用小技巧</title>
+      <link>https://xy-ylr.github.io/it/excel_use/</link>
+      <pubDate>Wed, 08 Feb 2023 01:46:02 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/excel_use/</guid>
+      <description>&lt;p&gt;慢慢补充，永不过时~~&lt;/p&gt;
+&lt;p&gt;记录一些自己平时excel处理时用到的小技能，免得每次都去百度。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>H3C交换机irf配置</title>
       <link>https://xy-ylr.github.io/it/h3c_irf_conf/</link>
@@ -17,12 +36,30 @@
     </item>
     
     <item>
+      <title>Linux系统磁盘的分区 格式化与挂载</title>
+      <link>https://xy-ylr.github.io/it/linux_fdisk/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_fdisk/</guid>
+      <description>&lt;p&gt;随着操作系统的长时间运行, 或者服务器新增业务的时候, 可能会出现原有磁盘空间不足, 需要添加硬盘的情况. 想要给系统磁盘空间扩容, 一般是先给新增的硬盘分区, 再对分区进行格式化, 然后挂载到相应的目录上.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Rime安装与基本配置</title>
       <link>https://xy-ylr.github.io/it/rime_configuration/</link>
       <pubDate>Wed, 23 Nov 2022 09:42:46 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/it/rime_configuration/</guid>
       <description>&lt;p&gt;Rime输入法的安装与一些基本配置, 比如添加第三方词库, 快捷输入日期时间星期, 调整候选词为横排以及个数等. 本文主要针对Windows系统(小狼毫)和Ubuntu系统IBus框架(中州韵).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux操作系统上安装Zabbix运维工具</title>
+      <link>https://xy-ylr.github.io/it/linux_install_zabbix/</link>
+      <pubDate>Wed, 10 Aug 2022 15:49:35 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_install_zabbix/</guid>
+      <description>&lt;p&gt;当前本文主要是基于阿里云服务器安装zabbix5.4版本，以及后续本地虚拟机rocky9.1环境安装zabbix6.0版本的一些补充。&lt;/p&gt;</description>
     </item>
     
     <item>

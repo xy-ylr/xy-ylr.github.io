@@ -6,7 +6,34 @@
     <description>Recent content in Tags on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 06 Feb 2023 09:17:53 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网络</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络工程师</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
+      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>excel</title>
+      <link>https://xy-ylr.github.io/tags/excel/</link>
+      <pubDate>Wed, 08 Feb 2023 01:46:02 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/excel/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>irf</title>
       <link>https://xy-ylr.github.io/tags/irf/</link>
@@ -17,20 +44,38 @@
     </item>
     
     <item>
-      <title>网络</title>
-      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
-      <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
+      <title>linux</title>
+      <link>https://xy-ylr.github.io/tags/linux/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
       
-      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</guid>
+      <guid>https://xy-ylr.github.io/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>网络工程师</title>
-      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
-      <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
+      <title>分区</title>
+      <link>https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
       
-      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
+      <guid>https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>挂载</title>
+      <link>https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>格式化</title>
+      <link>https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/</guid>
       <description></description>
     </item>
     
@@ -49,15 +94,6 @@
       <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/firewalld/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://xy-ylr.github.io/tags/linux/</link>
-      <pubDate>Fri, 05 Aug 2022 09:26:46 +0800</pubDate>
-      
-      <guid>https://xy-ylr.github.io/tags/linux/</guid>
       <description></description>
     </item>
     
