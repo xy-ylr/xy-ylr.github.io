@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>挂载 on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/</link>
+    <description>Recent content in 挂载 on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Dec 2022 09:32:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux系统磁盘的分区 格式化与挂载</title>
+      <link>https://xy-ylr.github.io/it/linux_fdisk/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_fdisk/</guid>
+      <description>&lt;p&gt;随着操作系统的长时间运行, 或者服务器新增业务的时候, 可能会出现原有磁盘空间不足, 需要添加硬盘的情况. 想要给系统磁盘空间扩容, 一般是先给新增的硬盘分区, 再对分区进行格式化, 然后挂载到相应的目录上.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

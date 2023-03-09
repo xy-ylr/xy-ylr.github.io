@@ -6,7 +6,11 @@
     <description>Recent content on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate><atom:link href="https://xy-ylr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>华三华为网络基础配置命令</title>
       <link>https://xy-ylr.github.io/it/h3c_huawei_network_basic/</link>
@@ -87,7 +91,7 @@
       <pubDate>Thu, 21 Jul 2022 00:37:52 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/it/git_submodule/</guid>
-      <description>&lt;p&gt;程序界有一句话叫做&amp;quot;不要重复造轮子&amp;quot;, 当你开发一个项目实现某些功能, 或者你的项目中想要新增某些小功能的时候, 可能网上早就有人实现并分享到github上了. 当你想要在你的主项目中添加别人的轮子实现某些功能的时候, Git的子模块功能可以很好的帮助你完成代码版本管理.&lt;br&gt;
+      <description>&lt;p&gt;程序界有一句话叫做&amp;quot;不要重复造轮子&amp;rdquo;, 当你开发一个项目实现某些功能, 或者你的项目中想要新增某些小功能的时候, 可能网上早就有人实现并分享到github上了. 当你想要在你的主项目中添加别人的轮子实现某些功能的时候, Git的子模块功能可以很好的帮助你完成代码版本管理.&lt;br&gt;
 &lt;em&gt;而对于一个&amp;rsquo;不求上进&amp;rsquo;的初级程序员, 学会如何在万千轮子中找到适合自己的, 做一个优秀的&amp;rsquo;调库侠&amp;rsquo;, 甚至都能获得一份不错的工作(狗头)&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     

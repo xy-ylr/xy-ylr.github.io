@@ -57,13 +57,11 @@
                     
                     <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
                     
-                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
                     
-                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
                     
-                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
-                    
-                    <a  href="https://xy-ylr.github.io/others/" title="碎碎念">碎碎念</a>
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
                     
                     <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
                     
@@ -219,7 +217,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约1145字 </span>
+            <span> 共约1146字 </span>
             <span> 预计阅读时间3分钟</span>
         </div>
         
@@ -262,16 +260,16 @@
 <h3 id="命令行补全">命令行补全</h3>
 <p>有些linux发行版安装完成后, 在命令行输入部分命令再按<kbd>Tab</kbd>键无法实现命令自动补全, 这是由于缺少相应的扩展包, 使用以下命令安装, 然后重新打开命令行窗口就可以了.</p>
 <p>centos:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>yum install-y bash-completion
-</span></span></code></pre></div><p>ubuntu:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>apt-get install -y bash-completion
-</span></span></code></pre></div><h3 id="命令没有安装">命令没有安装</h3>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum install-y bash-completion
+</code></pre></div><p>ubuntu:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>apt-get install -y bash-completion
+</code></pre></div><h3 id="命令没有安装">命令没有安装</h3>
 <p>想要使用某个命令, 结果发现没有安装, 想要查询该命令来自哪个软件包.</p>
 <p>centos:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>yum whatproides <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
-</span></span></code></pre></div><p>ubuntu:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>apt-cache search <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
-</span></span></code></pre></div><h2 id="系统篇">系统篇</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum whatproides <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
+</code></pre></div><p>ubuntu:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>apt-cache search <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
+</code></pre></div><h2 id="系统篇">系统篇</h2>
 <ol>
 <li>
 <p><code>hostname</code>	查看主机名</p>
@@ -342,7 +340,7 @@
 <p><code>cat /dev/null &gt; test.txt</code> 清空文件内容, 或者新建空文件, <code>&gt;</code>表示将文件内容替换为指定内容.</p>
 </li>
 <li>
-<p><code>echo &quot;test&quot; &gt;&gt; test.txt</code> 向文件末尾追加内容&quot;test&quot;, <code>&gt;&gt;</code>表示追加内容.</p>
+<p><code>echo &quot;test&quot; &gt;&gt; test.txt</code> 向文件末尾追加内容&quot;test&rdquo;, <code>&gt;&gt;</code>表示追加内容.</p>
 </li>
 <li>
 <p><code>head -5 test.txt</code> 显示文件头部的前5行内容, 如果不加参数, 默认显示10行.</p>

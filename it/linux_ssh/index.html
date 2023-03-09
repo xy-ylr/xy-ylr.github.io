@@ -57,13 +57,11 @@
                     
                     <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
                     
-                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
                     
-                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
                     
-                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
-                    
-                    <a  href="https://xy-ylr.github.io/others/" title="碎碎念">碎碎念</a>
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
                     
                     <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
                     
@@ -156,7 +154,7 @@
     <li><a href="#修改ssh端口号">修改ssh端口号</a></li>
     <li><a href="#配置防火墙">配置防火墙</a></li>
     <li><a href="#配置selinux">配置SELinux</a></li>
-    <li><a href="#设置ssh密钥对登录">设置ssh密钥对登录</a></li>
+    <li><a href="#设置ssh密钥登录">设置ssh密钥登录</a></li>
   </ul>
 </nav>
     </div>
@@ -216,7 +214,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约2167字 </span>
+            <span> 共约2166字 </span>
             <span> 预计阅读时间5分钟</span>
         </div>
         
@@ -255,90 +253,91 @@
         <div class="post-content">
             <p>linux系统root账户为超级账户, 权限非常高, 出于安全考虑, 我们应该禁止root用户远程登录, 日常操作使用普通账户, 在需要的时候再提权. 并且修改ssh默认端口号, 配置防火墙甚至SELinux.</p>
 <h2 id="新建用户">新建用户</h2>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># useradd test</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># passwd test </span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>Changing password <span style="color:#719e07">for</span> user test.
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>New password: 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>Retype new password: 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>passwd: all authentication tokens updated successfully.
-</span></span></code></pre></div><p>使用<code>useradd</code>命令新建用户, 然后再使用<code>passwd</code>设置密码. <strong>设置成功后先测试一下使用该帐号远程登录服务器.</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># useradd test</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># passwd test</span> 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>Changing password <span style="color:#719e07">for</span> user test.
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>New password: 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>Retype new password: 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>passwd: all authentication tokens updated successfully.
+</code></pre></div><p>使用<code>useradd</code>命令新建用户, 然后再使用<code>passwd</code>设置密码. <strong>设置成功后先测试一下使用该帐号远程登录服务器.</strong></p>
 <h2 id="给新用户sudo权限">给新用户sudo权限</h2>
 <p><code>sudo</code>命令用户给普通用户临时赋予root权限, 配置文件是<code>/etc/sudoers</code>, 推荐使用<code>visudo</code>来修改配置, 因为该配置文件是有特定语法的, 而<code>visudo</code>就有相应的语法纠错功能. <code>/etc/sudoers</code>部分内容如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75">## Allow root to run any commands anywhere</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#586e75">## 允许以下用户执行所有命令</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>root    <span style="color:#268bd2">ALL</span><span style="color:#719e07">=(</span>ALL<span style="color:#719e07">)</span>       ALL
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75">## Allows members of the &#39;sys&#39; group to run networking, software,</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#586e75">## service management apps and more.</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span><span style="color:#586e75"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#586e75">## Allows people in group wheel to run all commands</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#586e75">## 允许以下用户组的用户执行所有命令</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>%wheel  <span style="color:#268bd2">ALL</span><span style="color:#719e07">=(</span>ALL<span style="color:#719e07">)</span>       ALL
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span><span style="color:#586e75">## Same thing without a password</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span><span style="color:#586e75">## 允许以下用户组的用户执行所有命令且不用密码验证</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span><span style="color:#586e75"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span>
-</span></span></code></pre></div><p>可以参考root那一行, 将新建的用户添加进来.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75">## Allow root to run any commands anywhere</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#586e75">## 允许以下用户执行所有命令</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>root    <span style="color:#268bd2">ALL</span><span style="color:#719e07">=(</span>ALL<span style="color:#719e07">)</span>       ALL
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75">## Allows members of the &#39;sys&#39; group to run networking, software,</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75">## service management apps and more.</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#586e75"># %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#586e75">## Allows people in group wheel to run all commands</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#586e75">## 允许以下用户组的用户执行所有命令</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>%wheel  <span style="color:#268bd2">ALL</span><span style="color:#719e07">=(</span>ALL<span style="color:#719e07">)</span>       ALL
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#586e75">## Same thing without a password</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span style="color:#586e75">## 允许以下用户组的用户执行所有命令且不用密码验证</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#586e75"># %wheel        ALL=(ALL)       NOPASSWD: ALL</span>
+</code></pre></div><p>可以参考root那一行, 将新建的用户添加进来.</p>
 <p>也可以不对此处配置做任何调整, 但是将新用户加入wheel用户组:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># usermod -G wheel test</span>
-</span></span></code></pre></div><p>更进一步, 可以将最后一行的注释去掉, 那样使用sudo提权的时候, 就不用再输入密码确认了.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># usermod -G wheel test</span>
+</code></pre></div><p>更进一步, 可以将最后一行的注释去掉, 那样使用sudo提权的时候, 就不用再输入密码确认了.</p>
 <h2 id="禁用root远程登录">禁用Root远程登录</h2>
 <p>sshd远程登录相关的配置文件是<code>/etc/ssh/sshd_config</code>, 使用<code>vi</code>命令打开配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># vi /etc/ssh/sshd_config</span>
-</span></span></code></pre></div><p>找到<code>PermitRootLogin yes</code>, 将yes改为no.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>PermitRootLogin no
-</span></span></code></pre></div><h2 id="修改ssh端口号">修改ssh端口号</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># vi /etc/ssh/sshd_config</span>
+</code></pre></div><p>找到<code>PermitRootLogin yes</code>, 将yes改为no.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>PermitRootLogin no
+</code></pre></div><h2 id="修改ssh端口号">修改ssh端口号</h2>
 <p>还是在<code>/etc/ssh/sshd_config</code>, 找到<code>#Port 22</code>位置, 去掉前面的注释符#, 然后再新增一个端口号:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>Port <span style="color:#2aa198">22</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Port <span style="color:#2aa198">2022</span>
-</span></span></code></pre></div><p><strong>默认的22端口暂时先保留, 等新端口号测试连接成功后再禁用, 防止配置不当导致无法登录服务器.</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>Port <span style="color:#2aa198">22</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Port <span style="color:#2aa198">2022</span>
+</code></pre></div><p><strong>默认的22端口暂时先保留, 等新端口号测试连接成功后再禁用, 防止配置不当导致无法登录服务器.</strong></p>
 <p>新增端口号的时候, 注意检查该端口号是否有程序已经在使用了, 可以使用<code>netstat</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo netstat -ntlp | grep <span style="color:#2aa198">22</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>tcp        <span style="color:#2aa198">0</span>      <span style="color:#2aa198">0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      2427/sshd
-</span></span></code></pre></div><h2 id="配置防火墙">配置防火墙</h2>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl status firewalld.service 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>● firewalld.service - firewalld - dynamic firewall daemon
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>   Loaded: loaded <span style="color:#719e07">(</span>/usr/lib/systemd/system/firewalld.service; enabled; vendor p&gt;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>   Active: active <span style="color:#719e07">(</span>running<span style="color:#719e07">)</span> since Sun 2022-12-11 23:49:33 CST; 27min ago
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>     Docs: man:firewalld<span style="color:#719e07">(</span>1<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span> Main PID: <span style="color:#2aa198">703</span> <span style="color:#719e07">(</span>firewalld<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>    Tasks: <span style="color:#2aa198">2</span> <span style="color:#719e07">(</span>limit: 47653<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>   Memory: 34.0M
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>   CGroup: /system.slice/firewalld.service
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>           └─703 /usr/libexec/platform-python -s /usr/sbin/firewalld --nofork -&gt;
-</span></span></code></pre></div><p>查看防火墙状态, 如果不是enabled, running, 先开启防火墙.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl start firewalld.service 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl <span style="color:#b58900">enable</span> firewalld.service 
-</span></span></code></pre></div><p>开启防火墙之后,配置放行自定义的ssh远程登录端口:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --zone<span style="color:#719e07">=</span>public --add-port<span style="color:#719e07">=</span>2022/tcp --permanent
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>success
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --reload 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>success
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --list-ports 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>2022/tcp
-</span></span></code></pre></div><h2 id="配置selinux">配置SELinux</h2>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo getenforce 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Disabled
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo setenforce <span style="color:#2aa198">1</span>
-</span></span></code></pre></div><p>使用<code>getenforce</code>查看SELinux状态. 如果输出结果为<code>disabled</code>, 表示未开启.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo netstat -ntlp | grep <span style="color:#2aa198">22</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>tcp        <span style="color:#2aa198">0</span>      <span style="color:#2aa198">0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      2427/sshd
+</code></pre></div><h2 id="配置防火墙">配置防火墙</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl status firewalld.service 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>● firewalld.service - firewalld - dynamic firewall daemon
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>   Loaded: loaded <span style="color:#719e07">(</span>/usr/lib/systemd/system/firewalld.service; enabled; vendor p&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>   Active: active <span style="color:#719e07">(</span>running<span style="color:#719e07">)</span> since Sun 2022-12-11 23:49:33 CST; 27min ago
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>     Docs: man:firewalld<span style="color:#719e07">(</span>1<span style="color:#719e07">)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span> Main PID: <span style="color:#2aa198">703</span> <span style="color:#719e07">(</span>firewalld<span style="color:#719e07">)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>    Tasks: <span style="color:#2aa198">2</span> <span style="color:#719e07">(</span>limit: 47653<span style="color:#719e07">)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>   Memory: 34.0M
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>   CGroup: /system.slice/firewalld.service
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>           └─703 /usr/libexec/platform-python -s /usr/sbin/firewalld --nofork -&gt;
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>
+</code></pre></div><p>查看防火墙状态, 如果不是enabled, running, 先开启防火墙.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl start firewalld.service 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo systemctl <span style="color:#b58900">enable</span> firewalld.service 
+</code></pre></div><p>开启防火墙之后,配置放行自定义的ssh远程登录端口:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --zone<span style="color:#719e07">=</span>public --add-port<span style="color:#719e07">=</span>2022/tcp --permanent
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>success
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --reload 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>success
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo firewall-cmd --list-ports 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>2022/tcp
+</code></pre></div><h2 id="配置selinux">配置SELinux</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo getenforce 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Disabled
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo setenforce <span style="color:#2aa198">1</span>
+</code></pre></div><p>使用<code>getenforce</code>查看SELinux状态. 如果输出结果为<code>disabled</code>, 表示未开启.</p>
 <p><code>sudo vi /etc/selinux/config</code>修改配置文件, 将<code>SELINUX=disabled</code>改为<code>SELINUX=permissive</code>, 这表示宽松模式, 只记录不阻断. 然后重启系统.</p>
 <p>重启完成后使用<code>setenforce 1</code>临时设置SELinux为强制模式, 用于测试SELinux相关配置.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo yum provides semanage
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo yum install -y semanage
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo semanage port -a -t ssh_port_t -p tcp <span style="color:#2aa198">2022</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo semanage port -l |grep ssh
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>ssh_port_t                     tcp      2022, <span style="color:#2aa198">22</span>
-</span></span></code></pre></div><p>使用<code>semanage</code>来配置SELinux放行的ssh端口号, 如果提示找不到该命令, 可以使用<code>yum provides semanage</code>来查找所需要安装的软件包, 安装好软件包后, 配置放行端口.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo yum provides semanage
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo yum install -y semanage
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo semanage port -a -t ssh_port_t -p tcp <span style="color:#2aa198">2022</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo semanage port -l |grep ssh
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>ssh_port_t                     tcp      2022, <span style="color:#2aa198">22</span>
+</code></pre></div><p>使用<code>semanage</code>来配置SELinux放行的ssh端口号, 如果提示找不到该命令, 可以使用<code>yum provides semanage</code>来查找所需要安装的软件包, 安装好软件包后, 配置放行端口.</p>
 <p><strong>最后使用新端口测试ssh连接, 测试成功后返回修改ssh配置文件, 禁用默认的22端口, 再次修改<code>/etc/selinux/config</code>配置文件,<code>SELINUX=enforcing</code>, 然后重启sshd</strong></p>
-<h2 id="设置ssh密钥对登录">设置ssh密钥对登录</h2>
-<p>想要使用ssh密钥对登录远程linux服务器, 如果本地也是linux系统, 直接使用<code>ssh_keygen</code>生成密钥对.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>xy@TB14G2:.~$ ssh-keygen -C <span style="color:#2aa198">&#34;Welcome xxx&#34;</span> -t rsa -f id_rsa_xxx
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>Generating public/private rsa key pair.
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>Enter passphrase <span style="color:#719e07">(</span>empty <span style="color:#719e07">for</span> no passphrase<span style="color:#719e07">)</span>: 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>Enter same passphrase again:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>...
-</span></span></code></pre></div><ol>
+<h2 id="设置ssh密钥登录">设置ssh密钥登录</h2>
+<p>想要使用ssh密钥登录远程linux服务器, 如果本地也是linux系统, 直接使用<code>ssh_keygen</code>生成密钥对.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:.~$ ssh-keygen -C <span style="color:#2aa198">&#34;Welcome xxx&#34;</span> -t rsa -f id_rsa_xxx
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Generating public/private rsa key pair.
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>Enter passphrase <span style="color:#719e07">(</span>empty <span style="color:#719e07">for</span> no passphrase<span style="color:#719e07">)</span>: 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>Enter same passphrase again:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>...
+</code></pre></div><ol>
 <li>-C: 添加备注信息, 如果有多个密钥对连接不同的服务器, 可以用这个来做区分.</li>
 <li>-t: 密钥类型, 默认就是rsa, 可忽略.</li>
 <li>-f: 当有多个密钥对的时候, 指定生成的密钥文件名, 防止覆盖原有的密钥文件. 默认情况下密钥文件为id_rsa, 公钥为id_rsa.pub. 存放在用户主目录<code>~/.ssh/</code>下面.</li>
@@ -346,17 +345,17 @@
 <p>命令运行后, 会要求输入密码, 用于对密钥进行加密, 当你发起连接的时候, 就会要求你输入密码. 可以直接回车, 设置空密码.</p>
 <p>之后就能在<code>~/.ssh/</code>目录下面看到多出来的<code>id_rsa_xxx</code>和<code>id_rsa_xxx.pub</code>两个文件.</p>
 <p>然后先用帐号密码的方式登录远程服务器, 将本地<code>id_rsa_xxx.pub</code>文件内容复制到远程服务器的<code>~/.ssh/authorized_keys</code>中, 再检查sshd_config配置文件, 确保如下配置, 如果不是, 修改好后重启sshd服务, 然后测试密钥连接.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo vi /etc/ssh/sshd_config
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>PubkeyAuthentication yes
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75"># The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#586e75"># but this is overridden so installations will only check .ssh/authorized_keys</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>AuthorizedKeysFile .ssh/authorized_keys
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#586e75"># 先测试密钥登录成功后, 再将下面设置改为no! 否则即无法密钥登录, 又无法帐号密码登录, 就连不上服务器了.</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>PasswordAuthentication no
-</span></span></code></pre></div><p><code>PubkeyAuthentication yes</code>表示启用密钥方式登录, <code>AuthorizedKeysFile .ssh/authorized_keys</code>这个是服务器上的公钥读取文件,保持默认就好.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>test@xy-ylr ~<span style="color:#719e07">]</span>$ sudo vi /etc/ssh/sshd_config
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>PubkeyAuthentication yes
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75"># but this is overridden so installations will only check .ssh/authorized_keys</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>AuthorizedKeysFile .ssh/authorized_keys
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#586e75"># 先测试密钥登录成功后, 再将下面设置改为no! 否则即无法密钥登录, 又无法帐号密码登录, 就连不上服务器了.</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>PasswordAuthentication no
+</code></pre></div><p><code>PubkeyAuthentication yes</code>表示启用密钥方式登录, <code>AuthorizedKeysFile .ssh/authorized_keys</code>这个是服务器上的公钥读取文件,保持默认就好.</p>
 <p><code>PasswordAuthentication no</code>表示禁用帐号密码登录, 这个配置不要直接修改, 等密钥登录测试成功之后再禁用, 要不然密钥无法登录, 帐号密码也无法登录, 就连不上服务器了.</p>
 <p>如果本地是Windows环境, 使用putty或者MobaXterm之类的终端工具, 可以在服务器上使用<code>ssh-keygen</code>生成密钥对, 然后将公钥导入到服务器的<code>~/.ssh/authorized_keys</code>文件中, 再将私钥下载到本地, 添加到相应的终端中去.</p>
         </div>

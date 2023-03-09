@@ -57,13 +57,11 @@
                     
                     <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
                     
-                    <a  href="https://xy-ylr.github.io/finance/" title="理财">理财</a>
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
                     
-                    <a  href="https://xy-ylr.github.io/agriculture/" title="农业">农业</a>
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
                     
-                    <a  href="https://xy-ylr.github.io/fitness/" title="健身">健身</a>
-                    
-                    <a  href="https://xy-ylr.github.io/others/" title="碎碎念">碎碎念</a>
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
                     
                     <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
                     
@@ -228,7 +226,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约3875字 </span>
+            <span> 共约3877字 </span>
             <span> 预计阅读时间8分钟</span>
         </div>
         
@@ -272,7 +270,7 @@
 <p>使用Fcitx输入法框架的linux发行版, 可以使用fcitx-rime, 该软件由Fcitx官方团队开发和维护. 参考文章 <a href="https://einverne.github.io/post/2019/08/linux-input-method-fcitx-ibus.html">Linux 下的输入法 fcitx vs ibus </a></p>
 <h3 id="选择输入法方案">选择输入法方案</h3>
 <p>安装完成之后就可以开始使用了, Rime自带&rsquo;明月拼音(繁体)&rsquo;, &lsquo;明月拼音简体&rsquo;, &lsquo;五笔&rsquo;等输入方案.</p>
-<p>我们可以通过快捷键<kbd>Ctrl</kbd>+<kbd>`</kbd>唤出方案选单, 选择<strong>朙月拼音-简化字</strong>输入方案, 这个类似于&quot;搜狗拼音输入法&quot;. 不过Rime本身自带词库比较小, 使用起来可能不如搜狗拼音输入法友好. 但好在它自定义功能很强大, 我们只需要再微调一下, 就会好很多.</p>
+<p>我们可以通过快捷键<kbd>Ctrl</kbd>+<kbd>`</kbd>唤出方案选单, 选择<strong>朙月拼音-简化字</strong>输入方案, 这个类似于&quot;搜狗拼音输入法&rdquo;. 不过Rime本身自带词库比较小, 使用起来可能不如搜狗拼音输入法友好. 但好在它自定义功能很强大, 我们只需要再微调一下, 就会好很多.</p>
 <h2 id="前置知识点">前置知识点</h2>
 <h3 id="必知必会">必知必会</h3>
 <p>此处简单介绍部分配置文件及所在位置, 更多内容请看<a href="https://github.com/rime/home/wiki/RimeWithSchemata#rime-%E4%B8%AD%E7%9A%84%E6%95%B8%E6%93%9A%E6%96%87%E4%BB%B6%E5%88%86%E4%BD%88%E5%8F%8A%E4%BD%9C%E7%94%A8">官方文档-必知必会-Rime中的数据文件分布及作用</a></p>
@@ -294,8 +292,8 @@
 <p>当我们通过配置文件修改配置后, 需要重新部署才能生效.</p>
 <p>小狼毫可以通过鼠标右键单击右下角输入法图标, 然后左键单击选择重新部署; 或者开始菜单-&gt;小狼毫输入法-&gt;重新部署.</p>
 <p>中州韵可以通过点击输入法状态栏上的部署按钮完成; 或者命令行方式触发:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span>touch ~/.config/ibus/rime/; ibus restart
-</span></span></code></pre></div><p>如果部署之后没有实现预想的效果, 可以查看日志是否有报错等信息. 参考<a href="https://github.com/rime/home/wiki/RimeWithSchemata#%E9%97%9C%E6%96%BC%E8%AA%BF%E8%A9%A6">官方文档-关于调试</a>:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>touch ~/.config/ibus/rime/; ibus restart
+</code></pre></div><p>如果部署之后没有实现预想的效果, 可以查看日志是否有报错等信息. 参考<a href="https://github.com/rime/home/wiki/RimeWithSchemata#%E9%97%9C%E6%96%BC%E8%AA%BF%E8%A9%A6">官方文档-关于调试</a>:</p>
 <p>不同操作系统的日志文件位置:</p>
 <p>【中州韵】/tmp/rime.ibus.*<br>
 【小狼毫】%TEMP%\rime.weasel.*<br>
@@ -306,112 +304,113 @@
 <h3 id="候选词个数和方向">候选词个数和方向</h3>
 <p>Rime默认给出的候选词是纵向排列5个, 习惯了横向排列, 且5个候选词太少.</p>
 <p>用户文件夹下新建<code>default.custom.yaml</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#268bd2">patch</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  <span style="color:#268bd2">&#34;schema_list/schema&#34;: </span>luna_pinyin_simp
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  <span style="color:#268bd2">&#34;menu/page_size&#34;: </span><span style="color:#2aa198">8</span>         <span style="color:#586e75"># 候选词个数</span>
-</span></span></code></pre></div><p>新建<code>rime.custom.yaml</code>(小狼毫是<code>weasel.custom.yaml</code>)</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#268bd2">patch</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  <span style="color:#268bd2">&#34;style/horizontal&#34;: </span><span style="color:#cb4b16">true</span>    <span style="color:#586e75"># 候选词横向</span>
-</span></span></code></pre></div><p><strong>注意这个patch, 也就是打补丁的意思, 前面不要有空格, 且每个文件中只需顶部出现一次就够了, 如果后面还有其他配置也是在相同的文件中设定, 无需重复输入patch.</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">patch</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>  <span style="color:#719e07">&#34;schema_list/schema&#34;: </span>luna_pinyin_simp
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>  <span style="color:#719e07">&#34;menu/page_size&#34;: </span><span style="color:#2aa198">8</span>         <span style="color:#586e75"># 候选词个数</span>
+</code></pre></div><p>新建<code>rime.custom.yaml</code>(小狼毫是<code>weasel.custom.yaml</code>)</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">patch</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>  <span style="color:#719e07">&#34;style/horizontal&#34;: </span><span style="color:#cb4b16">true</span>    <span style="color:#586e75"># 候选词横向</span>
+</code></pre></div><p><strong>注意这个patch, 也就是打补丁的意思, 前面不要有空格, 且每个文件中只需顶部出现一次就够了, 如果后面还有其他配置也是在相同的文件中设定, 无需重复输入patch.</strong></p>
 <h3 id="中英文切换快捷键">中英文切换快捷键</h3>
 <p>Rime默认设置的<kbd>shift</kbd>键切换中英文效果与常用的搜狗输入法效果不一样, 如果习惯了搜狗的切换方式, 可以对其进行修改, 以下是根据个人使用习惯做的调整:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#268bd2">patch</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  <span style="color:#586e75">## 中英文切换快捷键设置，默认设置见default.yaml</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  <span style="color:#586e75"># noop：屏蔽按键； inline_ascii：临时英文，按enter上屏后重新变回中文；</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>  <span style="color:#586e75"># commit_text：中文上屏，并切为英文； commit_code：英文字符上屏，并切为英文。</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span>  <span style="color:#268bd2">&#34;ascii_composer/switch_key/Shift_L&#34;: </span>inline_ascii
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span>  <span style="color:#268bd2">&#34;ascii_composer/switch_key/Shift_R&#34;: </span>commit_code
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span>  <span style="color:#268bd2">&#34;ascii_composer/switch_key/Control_L&#34;: </span>commit_text
-</span></span></code></pre></div><p>上述修改的配置文件是<code>luna_pinyin_simp.custom.yaml</code>, 针对的方案是<code>明月拼音简化字</code>, 如果你使用的是别的方案, 请尝试新建对应的<code>&lt;方案名&gt;.custom.yaml</code>文件.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">patch</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>  <span style="color:#586e75">## 中英文切换快捷键设置，默认设置见default.yaml</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>  <span style="color:#586e75"># noop：屏蔽按键； inline_ascii：临时英文，按enter上屏后重新变回中文；</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>  <span style="color:#586e75"># commit_text：中文上屏，并切为英文； commit_code：英文字符上屏，并切为英文。</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>  <span style="color:#719e07">&#34;ascii_composer/switch_key/Shift_L&#34;: </span>inline_ascii
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>  <span style="color:#719e07">&#34;ascii_composer/switch_key/Shift_R&#34;: </span>commit_code
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span>  <span style="color:#719e07">&#34;ascii_composer/switch_key/Control_L&#34;: </span>commit_text
+</code></pre></div><p>上述修改的配置文件是<code>luna_pinyin_simp.custom.yaml</code>, 针对的方案是<code>明月拼音简化字</code>, 如果你使用的是别的方案, 请尝试新建对应的<code>&lt;方案名&gt;.custom.yaml</code>文件.</p>
 <p>网上的教程都是说在<code>default.custom.yaml</code>中修改, 但是经本人测试, 无论是windows系统下的小狼毫, 还是ubuntu下的中州韵ibus-rime, 在<code>default.custom.yaml</code>中配置中英文切换的快捷键都无法生效. 甚至直接在<code>default.yaml</code>中修改也无法生效, 原因未知.</p>
 <h3 id="快捷输入当前日期时间">快捷输入当前日期时间</h3>
 <p>类似于搜狗输入法的输入<code>sj</code>或者<code>rq</code>等, 就能自动出来时间或者日期. 参考<a href="https://github.com/rime/weasel/issues/63#issuecomment-956053259">官方github的Issues&ndash;weasel支持快速插入当前时间，日期吗？</a></p>
 <p>用户文件夹下新建<code>rime.lua</code>(小狼毫,中州韵通用)</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#268bd2">function</span> <span style="color:#268bd2">date_translator</span>(input, seg)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span>    <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;dd&#34;</span>) <span style="color:#268bd2">then</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span>       <span style="color:#586e75">--- Candidate(type, start, end, text, comment)</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>       yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>       yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y年%m月%d日&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span>    <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>   <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;ww&#34;</span>) <span style="color:#268bd2">then</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span>      arr <span style="color:#719e07">=</span> {<span style="color:#2aa198">&#34;一&#34;</span>,<span style="color:#2aa198">&#34;二&#34;</span>,<span style="color:#2aa198">&#34;三&#34;</span>,<span style="color:#2aa198">&#34;四&#34;</span>,<span style="color:#2aa198">&#34;五&#34;</span>,<span style="color:#2aa198">&#34;六&#34;</span>}
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span>      arr[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;日&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d 星期&#34;</span><span style="color:#719e07">..</span>arr[tonumber(os.date(<span style="color:#2aa198">&#34;%w&#34;</span>))]), <span style="color:#2aa198">&#34;&#34;</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span>   <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>   <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;tt&#34;</span>) <span style="color:#268bd2">then</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d %H:%M:%S&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%H:%M:%S&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>   <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span><span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span> 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span><span style="color:#586e75">--- 过滤器：单字在先</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span><span style="color:#268bd2">function</span> <span style="color:#268bd2">single_char_first_filter</span>(input)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span>   <span style="color:#268bd2">local</span> l <span style="color:#719e07">=</span> {}
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>   <span style="color:#268bd2">for</span> cand <span style="color:#268bd2">in</span> input:iter() <span style="color:#268bd2">do</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>      <span style="color:#268bd2">if</span> (utf8.len(cand.text) <span style="color:#719e07">==</span> <span style="color:#2aa198">1</span>) <span style="color:#268bd2">then</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span>         yield(cand)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span>      <span style="color:#268bd2">else</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span><span>         table.insert(l, cand)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span><span>      <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span><span>   <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span><span>   <span style="color:#268bd2">for</span> i, cand <span style="color:#268bd2">in</span> ipairs(l) <span style="color:#268bd2">do</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">29</span><span>      yield(cand)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">30</span><span>   <span style="color:#268bd2">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">31</span><span><span style="color:#268bd2">end</span>
-</span></span></code></pre></div><p>然后<code>&lt;方案名&gt;.custom.yaml</code>中添加配置:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#268bd2">patch</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  <span style="color:#586e75"># 快捷输入当天日期时间等</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  <span style="color:#2aa198">&#34;engine/translators/+&#34;</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span>    - lua_translator@date_translator
-</span></span></code></pre></div><p>重新部署后, 在<code>&lt;方案名&gt;.schema.yaml</code>源文件中会多出来一行代码<code> - &quot;lua_translator@date_translator&quot;</code>, 那就是成功了, 可以使用<code>tt</code>, <code>dd</code>, <code>ww</code>进行测试以下.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lua" data-lang="lua"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#268bd2">function</span> <span style="color:#268bd2">date_translator</span>(input, seg)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>    <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;dd&#34;</span>) <span style="color:#268bd2">then</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>       <span style="color:#586e75">--- Candidate(type, start, end, text, comment)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>       yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>       yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y年%m月%d日&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>    <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>   <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;ww&#34;</span>) <span style="color:#268bd2">then</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>      arr <span style="color:#719e07">=</span> {<span style="color:#2aa198">&#34;一&#34;</span>,<span style="color:#2aa198">&#34;二&#34;</span>,<span style="color:#2aa198">&#34;三&#34;</span>,<span style="color:#2aa198">&#34;四&#34;</span>,<span style="color:#2aa198">&#34;五&#34;</span>,<span style="color:#2aa198">&#34;六&#34;</span>}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>      arr[<span style="color:#2aa198">0</span>] <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;日&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d 星期&#34;</span><span style="color:#719e07">..</span>arr[tonumber(os.date(<span style="color:#2aa198">&#34;%w&#34;</span>))]), <span style="color:#2aa198">&#34;&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>   <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>   <span style="color:#268bd2">if</span> (input <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;tt&#34;</span>) <span style="color:#268bd2">then</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%Y-%m-%d %H:%M:%S&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>      yield(Candidate(<span style="color:#2aa198">&#34;date&#34;</span>, seg.start, seg._end, os.date(<span style="color:#2aa198">&#34;%H:%M:%S&#34;</span>), <span style="color:#2aa198">&#34;&#34;</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>   <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span> 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span style="color:#586e75">--- 过滤器：单字在先</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span style="color:#268bd2">function</span> <span style="color:#268bd2">single_char_first_filter</span>(input)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span>   <span style="color:#268bd2">local</span> l <span style="color:#719e07">=</span> {}
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span>   <span style="color:#268bd2">for</span> cand <span style="color:#268bd2">in</span> input:iter() <span style="color:#268bd2">do</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span>      <span style="color:#268bd2">if</span> (utf8.len(cand.text) <span style="color:#719e07">==</span> <span style="color:#2aa198">1</span>) <span style="color:#268bd2">then</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span>         yield(cand)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span>      <span style="color:#268bd2">else</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span>         table.insert(l, cand)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span>      <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span>   <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span>   <span style="color:#268bd2">for</span> i, cand <span style="color:#268bd2">in</span> ipairs(l) <span style="color:#268bd2">do</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">29</span>      yield(cand)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">30</span>   <span style="color:#268bd2">end</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">31</span><span style="color:#268bd2">end</span>
+</code></pre></div><p>然后<code>&lt;方案名&gt;.custom.yaml</code>中添加配置:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">patch</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>  <span style="color:#586e75"># 快捷输入当天日期时间等</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>  <span style="color:#2aa198">&#34;engine/translators/+&#34;</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>    - lua_translator@date_translator
+</code></pre></div><p>重新部署后, 在<code>&lt;方案名&gt;.schema.yaml</code>源文件中会多出来一行代码<code> - &quot;lua_translator@date_translator&quot;</code>, 那就是成功了, 可以使用<code>tt</code>, <code>dd</code>, <code>ww</code>进行测试以下.</p>
 <h3 id="扩展外部词库">扩展外部词库</h3>
 <p>前面说过, Rime自带的词库规模比较小, 很多词组打不出来, 不停翻找候选词的话会非常影响输入效率. 为了提高打字体验, 我们需要引入一些外部词库, 比如搜狗标准细胞词库等.</p>
 <p>搜狗输入法有官方细胞词库, 也有根据用户输入习惯形成的用户词库. Rime也一样, 有固态词典和用户词典, 相关介绍参考<a href="https://tieba.baidu.com/p/2757690418">百度贴吧-rime吧:〔新手推荐敎程〕关于导入词库及「深蓝词库转换」的正确操作方法</a>前面十几楼大佬的科普.</p>
 <p>此处以<code>明月拼音简化字</code>输入方案添加<strong>搜狗标准词库</strong>为例.</p>
 <p><code>luna_pinyin_simp.custom.yaml</code>文件添加如下内容:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span><span style="color:#268bd2">patch</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span>  <span style="color:#586e75"># 新增外部词典</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span>  <span style="color:#268bd2">&#34;translator/dictionary&#34;: </span>luna_pinyin.extended
-</span></span></code></pre></div><p>用户文件夹下新建文件<code>luna_pinyin.extended.dict.yaml</code>, 该文件作为外部词典总控制文件, 参考内容如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># Rime dictionary</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#586e75"># encoding: utf-8</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#586e75"># 明月拼音扩展词典总控制文件，用于引入其他扩充词库, 自定义词汇等</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span>---
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#268bd2">name</span>: luna_pinyin.extended
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span><span style="color:#268bd2">version</span>: <span style="color:#2aa198">&#34;2022.11.16&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#268bd2">sort</span>: by_weight
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#268bd2">use_preset_vocabulary</span>: <span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#586e75"># 补充词库，不需要的直接注释即可。包括明月官方词库、搜狗标准词库、股票名词、快递/地址、中国旅游风景名胜、</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#268bd2">import_tables</span>:
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>  - luna_pinyin
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span>  - sogou.standard
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span>  <span style="color:#586e75"># - sogou.gupiao</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span>  <span style="color:#586e75"># - sogou.kuaidi</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span>  <span style="color:#586e75"># - sogou.lvyou</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span>...
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span><span style="color:#586e75">## 以下补充自定义词汇，</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span><span style="color:#586e75">## 词汇[Tab]拼音[Tab]词频</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span>特仑苏	te lun su	100
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span>苏轮特	su lun te	100
-</span></span></code></pre></div><p>注意<code>name</code>部分,以及该文件的文件名, 需要与<code>luna_pinyin_simp.custom.yaml</code>中<code>&quot;translator/dictionary&quot;: luna_pinyin.extended</code>定义的保持一致.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">patch</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>  <span style="color:#586e75"># 新增外部词典</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>  <span style="color:#719e07">&#34;translator/dictionary&#34;: </span>luna_pinyin.extended
+</code></pre></div><p>用户文件夹下新建文件<code>luna_pinyin.extended.dict.yaml</code>, 该文件作为外部词典总控制文件, 参考内容如下:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># Rime dictionary</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#586e75"># encoding: utf-8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#586e75"># 明月拼音扩展词典总控制文件，用于引入其他扩充词库, 自定义词汇等</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>---
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#719e07">name</span>: luna_pinyin.extended
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#719e07">version</span>: <span style="color:#2aa198">&#34;2022.11.16&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">sort</span>: by_weight
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#719e07">use_preset_vocabulary</span>: <span style="color:#cb4b16">true</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#586e75"># 补充词库，不需要的直接注释即可。包括明月官方词库、搜狗标准词库、股票名词、快递/地址、中国旅游风景名胜、</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">import_tables</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>  - luna_pinyin
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>  - sogou.standard
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>  <span style="color:#586e75"># - sogou.gupiao</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>  <span style="color:#586e75"># - sogou.kuaidi</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>  <span style="color:#586e75"># - sogou.lvyou</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span style="color:#586e75">## 以下补充自定义词汇，</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span style="color:#586e75">## 词汇[Tab]拼音[Tab]词频</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span>特仑苏	te lun su	<span style="color:#2aa198">100</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span>苏轮特	su lun te	<span style="color:#2aa198">100</span>
+</code></pre></div><p>注意<code>name</code>部分,以及该文件的文件名, 需要与<code>luna_pinyin_simp.custom.yaml</code>中<code>&quot;translator/dictionary&quot;: luna_pinyin.extended</code>定义的保持一致.</p>
 <p>注意<code>import_tables</code>部分, <code>luna_pinyin</code>为Rime输入法明月拼音官方词库, <code>sogou.standard</code>就是我们即将添加的搜狗标准词库.</p>
 <p>可以在底部添加一些偏门的自定义词汇, 重新部署后用于测试扩展词库是否添加成功. 自定义词汇分为三部分, 词汇, 拼音, 词频, 三者之间用<kbd>Tab</kbd>键隔开. 最主要的是词汇部分, 另外两个可以省略.</p>
 <p>官方下载<a href="https://pinyin.sogou.com/dict/detail/index/11640">搜狗标准词库</a>, <a href="https://github.com/studyzy/imewlconverter">官方下载深蓝词库转换工具</a>转换为rime拼音linux版, 重命名转换得到的Rime扩展词库文件为<code>sogou.standard.dicy.yaml</code>, 然后复制到用户文件夹下, 并在文件开头添加如下内容:</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span><span style="color:#586e75"># Rime dictionary</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span><span style="color:#586e75"># encoding: utf-8</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span><span style="color:#586e75"># 词库来自搜狗词库</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span><span style="color:#586e75"># 搜狗标准词库</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span><span style="color:#586e75"># https://pinyin.sogou.com/dict/detail/index/11640</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span><span style="color:#586e75"># 更   新：2013-03-26 17:15:51</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span>---
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span><span style="color:#268bd2">name</span>: sogou.standard
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span><span style="color:#268bd2">version</span>: <span style="color:#2aa198">&#34;2022.11.16&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span><span style="color:#268bd2">sort</span>: by_weight
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span><span style="color:#268bd2">use_preset_vocabulary</span>: <span style="color:#cb4b16">true</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span>...
-</span></span></code></pre></div><p>重新部署输入法之后, 添加搜狗标准词库应该就成功了, 同样的方法就可以添加其他需要的扩展词库. 词库文件可以去搜狗输入法等网站下载并转换获得, 或者直接使用其他大佬制作的现成的扩展词库, 比如<a href="https://github.com/xiaoTaoist/rime-dict">xiaoTaoist</a></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># Rime dictionary</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#586e75"># encoding: utf-8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#586e75"># 词库来自搜狗词库</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#586e75"># 搜狗标准词库</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># https://pinyin.sogou.com/dict/detail/index/11640</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75"># 更   新：2013-03-26 17:15:51</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>---
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">name</span>: sogou.standard
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#719e07">version</span>: <span style="color:#2aa198">&#34;2022.11.16&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">sort</span>: by_weight
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">use_preset_vocabulary</span>: <span style="color:#cb4b16">true</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>
+</code></pre></div><p>重新部署输入法之后, 添加搜狗标准词库应该就成功了, 同样的方法就可以添加其他需要的扩展词库. 词库文件可以去搜狗输入法等网站下载并转换获得, 或者直接使用其他大佬制作的现成的扩展词库, 比如<a href="https://github.com/xiaoTaoist/rime-dict">xiaoTaoist</a></p>
         </div>
 
         

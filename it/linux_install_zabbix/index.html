@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Linux操作系统上安装Zabbix运维工具 | 四十荀的博客</title>
+    <meta property="og:title" content="Linux操作系统上安装Zabbix运维工具 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-08-10T15:49:35&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-08-10T15:49:35&#43;08:00'>
+        
+    <meta name="Keywords" content="四十荀,xy-ylr,python,linux,未来新农人,偶尔骑行或健身^_^">
+    <meta name="description" content="Linux操作系统上安装Zabbix运维工具">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/linux_install_zabbix/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#系统环境">系统环境</a></li>
+    <li><a href="#安装zabbix库">安装zabbix库</a></li>
+    <li><a href="#安装zabbix">安装zabbix</a></li>
+    <li><a href="#安装mysql数据库">安装mysql数据库</a></li>
+    <li><a href="#初始化数据库">初始化数据库</a></li>
+    <li><a href="#创建zabbix数据库">创建zabbix数据库</a></li>
+    <li><a href="#启动zabbix">启动zabbix</a></li>
+    <li><a href="#初始化web端">初始化web端</a>
+      <ul>
+        <li><a href="#安装中文语言包">安装中文语言包</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Linux操作系统上安装Zabbix运维工具</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2022年8月10日
+        </date>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约1732字 </span>
+            <span> 预计阅读时间4分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2022-08-10T15:49:35" title="2022-08-10">
+            2022-08-10
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>当前本文主要是基于阿里云服务器安装zabbix5.4版本，以及后续本地虚拟机rocky9.1环境安装zabbix6.0版本的一些补充。</p>
+<h2 id="系统环境">系统环境</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>root@iZuf61w67sbi47k6nrw8jlZ ~<span style="color:#719e07">]</span><span style="color:#586e75"># lsb_release -a</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>LSB Version:	:core-4.1-amd64:core-4.1-noarch
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>Distributor ID:	AlibabaCloud
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>Description:	Alibaba Cloud Linux release <span style="color:#2aa198">3</span> <span style="color:#719e07">(</span>Soaring Falcon<span style="color:#719e07">)</span> 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>Release:	<span style="color:#2aa198">3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>Codename:	SoaringFalcon
+</code></pre></div><h2 id="安装zabbix库">安装zabbix库</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/zabbix-release-5.4-1.el8.noarch.rpm
+</code></pre></div><p><strong>注意</strong>： 可能阿里云系统做了一些优化，本地rocky linux 9.1环境，安装zabbix6.0（其他版本同）参考<a href="https://www.zabbix.com/cn/download?zabbix=6.0&amp;os_distribution=rocky_linux&amp;os_version=9&amp;components=server_frontend_agent&amp;db=mysql&amp;ws=nginx">官方教程</a>，如果有epel源，需要先禁用其中的zabbix软件包。</p>
+<p>编辑配置文件<code>/etc/yum.repos.d/epel.repo</code>并添加以下语句</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>epel<span style="color:#719e07">]</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>...
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#268bd2">excludepkgs</span><span style="color:#719e07">=</span>zabbix*
+</code></pre></div><h2 id="安装zabbix">安装zabbix</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum install zabbix-server-mysql zabbix-web-mysql zabbix-apache-conf zabbix-sql-scripts zabbix-agent -y 
+</code></pre></div><p>此命令会安装zabbix server服务端, web前端, zabbix agent客户端. 当看到<strong><code>Complete!</code></strong>的输出显示时, 说明全部安装成功了.</p>
+<h2 id="安装mysql数据库">安装mysql数据库</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum install -y mariadb-server 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>systemctl start mariadb 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>systemctl <span style="color:#b58900">enable</span> mariadb
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>systemctl status mariadb
+</code></pre></div><p>主要是第一条命令用于安装数据库, 后续是用于启动数据库的, 安装完成应该会自动启动, 最后一条用于查看数据库启动状态, 如果能看到<code>enabled</code>, <code>active (running)</code>等字样, 说明已经安装成功并且正常启动了. 也可以使用<code>ps -ef | grep mysql</code>来确认, 会有两行以上输出, 一行是该命令本身, 一行是数据库进程相关信息.</p>
+<p><strong>注意</strong>: 可以发现, 我们安装的是mariadb, 结果却是mysql, 简单理解, mariadb是mysql的一个分支, 完全兼容mysql数据库.</p>
+<h2 id="初始化数据库">初始化数据库</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>mysql_secure_installation
+</code></pre></div><p>过程中需要几步互动操作, 包括设置数据库root用户密码, 关闭root用户远程登录权限, 移除匿名用户, 移除test测试用户, 重新加载权限表以使配置立即生效.</p>
+<p>操作完成最后能看到提示<code>Thanks for using MariaDB!</code>, 表示数据库环境已经基本配置完成. 接下来可以正式为zabbix创建数据库了</p>
+<h2 id="创建zabbix数据库">创建zabbix数据库</h2>
+<p>先在命令行输入命令<code>mysql -uroot -p</code>, 然后输入root用户的密码, 登录数据库.</p>
+<p>然后在数据库中输入如下代码创建一个zabbix数据库, 以及一个zabbix数据库用户, 密码为password.</p>
+<p><strong>注意</strong>： 以下语句针对5.4版本，其他版本可能会有一些差别，详情见<a href="https://www.zabbix.com/download">官方教程</a>。</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">create</span> <span style="color:#719e07">database</span> zabbix <span style="color:#719e07">character</span> <span style="color:#dc322f">set</span> utf8 <span style="color:#719e07">collate</span> utf8_bin; 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">create</span> <span style="color:#719e07">user</span> zabbix<span style="color:#719e07">@</span>localhost <span style="color:#719e07">identified</span> <span style="color:#719e07">by</span> <span style="color:#2aa198">&#39;password&#39;</span>; 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">grant</span> <span style="color:#719e07">all</span> <span style="color:#719e07">privileges</span> <span style="color:#719e07">on</span> zabbix.<span style="color:#719e07">*</span> <span style="color:#719e07">to</span> zabbix<span style="color:#719e07">@</span>localhost; 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span>quit;
+</code></pre></div><p>到这一步还只是创建了一个空数据库, 接下来导入zabbix默认的表结构等数据以完成数据库创建.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -p zabbix
+</code></pre></div><h2 id="启动zabbix">启动zabbix</h2>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>systemctl restart zabbix-server zabbix-agent httpd php-fpm 
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>systemctl <span style="color:#b58900">enable</span> zabbix-server zabbix-agent httpd php-fpm
+</code></pre></div><p>以上两条命令用于启动并设置zabbix程序开机自启动. 还是一样, 可以通过<code>systemctl status</code>来查看相关程序是否已经正常启动.</p>
+<h2 id="初始化web端">初始化web端</h2>
+<p>通过浏览器访问<code>http://[服务器IP]/zabbix</code>, 如果前面配置都正常完成, 此时在浏览器上能看到zabbix欢迎页面, 提示我们继续进行安装配置. 默认登录zabbix的用户名是 <strong>Admin</strong>, 密码是 <strong>zabbix</strong></p>
+<p><strong>补充</strong>：本地rocky环境下用的nginx服务，初始化完成后要登录zabbix web控制台，访问的网址是<code>http://[服务器ip]:8080</code>，忘记之前在阿里云上测试，使用apache的时候，是不是要加8080端口了，这里先记录一下。</p>
+<h3 id="安装中文语言包">安装中文语言包</h3>
+<p><strong>以下操作系统环境为：本地虚拟机rocky9.1</strong></p>
+<p>默认安装情况下可选语言可能只有英文，其他比如中文等语言为灰色无法选择。</p>
+<p>这个跟操作系统本身的语言环境有关系，<a href="https://www.zabbix.com/documentation/6.0/zh/manual/appendix/install/locales">官方教程-其他前端语言</a>提到的<code>locale-gen</code>等，本地虚拟机环境没有相应命令，结合网上其他人关于zabbix安装中文语言包的教程。</p>
+<p>首先查看系统已安装语言环境：</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ locale -a
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>C
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>C.utf8
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>POSIX
+</code></pre></div><p>可以看到没有<code>zh_CN</code>相关的中文提示，搜索并安装相应语言包：</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ dnf search zh_CN
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Last metadata expiration check: 12:07:03 ago on Sat Jan <span style="color:#2aa198">28</span> 10:24:16 2023.
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">=====================================</span> Name Matched: <span style="color:#268bd2">zh_CN</span> <span style="color:#719e07">======================================</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>langpacks-core-font-zh_CN.noarch : Simplified Chinese core font meta-package
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>langpacks-core-zh_CN.noarch : Simplified Chinese langpacks core meta-package
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>langpacks-zh_CN.noarch : Simplified Chinese langpacks meta-package
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ sudo dnf install -y langpacks-zh_CN
+</code></pre></div><div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ sudo dnf install glibc-common
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>……
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ locale -a
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>C
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>C.utf8
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>POSIX
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>zh_CN
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>zh_CN.gb18030
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>zh_CN.gbk
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>zh_CN.utf8
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>……
+</code></pre></div><p>然后重新加载系统语言环境，即<code>glibc-common</code>软件包，系统上应该已经安装过了，可以先尝试使用<code>sudo dnf reinstall glibc-common</code>，如果不行，再用<code>install</code>。安装成功之后再次查看语言环境，可以发现已经有了中文。</p>
+<p>如果是刚开始初始化web前端，此时直接刷新页面应该就可以选择中文了，或者先重启以下zabbix（这一步应该可以省略）</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>xy@localhost ~<span style="color:#719e07">]</span>$ sudo systemctl restart zabbix-server.service 
+</code></pre></div><p>如果是在英文界面已经配置好了，那登录前端界面之后，可以在<code>Administration</code>-&gt;<code>General</code>-&gt;<code>GUI</code>处更改默认语言。</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/linux_install_zabbix/">https://xy-ylr.github.io/it/linux_install_zabbix/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            没有标签
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

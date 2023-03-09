@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>office办公 on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/</link>
+    <description>Recent content in office办公 on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 08 Feb 2023 01:46:02 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Excel使用小技巧</title>
+      <link>https://xy-ylr.github.io/it/excel_use/</link>
+      <pubDate>Wed, 08 Feb 2023 01:46:02 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/excel_use/</guid>
+      <description>&lt;p&gt;慢慢补充，永不过时~~&lt;/p&gt;
+&lt;p&gt;记录一些自己平时excel处理时用到的小技能，免得每次都去百度。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
