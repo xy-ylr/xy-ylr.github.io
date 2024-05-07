@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>磁盘管理 on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</link>
+    <description>Recent content in 磁盘管理 on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Dec 2022 09:32:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux系统磁盘的分区 格式化与挂载</title>
+      <link>https://xy-ylr.github.io/it/linux_fdisk/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_fdisk/</guid>
+      <description>&lt;p&gt;随着操作系统的长时间运行, 或者服务器新增业务的时候, 可能会出现原有磁盘空间不足, 需要添加硬盘的情况. 想要给系统磁盘空间扩容, 一般是先给新增的硬盘分区, 再对分区进行格式化, 然后挂载到相应的目录上.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Linux lvm磁盘管理</title>
+      <link>https://xy-ylr.github.io/it/linux_lvm/</link>
+      <pubDate>Fri, 02 Dec 2022 09:31:57 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_lvm/</guid>
+      <description>&lt;p&gt;逻辑卷管理Logical Volume Management（LVM）是一种被广泛使用的技术，它在物理磁盘和文件系统之间增加了一个额外的层，允许你创建一个逻辑卷而不是物理磁盘。对于磁盘管理来说，它是非常灵活的，在需要的时候可以轻松地调整、扩展和减少逻辑卷的大小。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

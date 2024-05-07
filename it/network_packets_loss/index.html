@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>记一次网络丢包故障排查 | 四十荀的博客</title>
+    <meta property="og:title" content="记一次网络丢包故障排查 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-05-30T19:00:12&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-05-30T19:00:12&#43;08:00'>
+        
+    <meta name="Keywords" content="[网络,网络丢包,网络故障排查]">
+    <meta name="description" content="记一次网络丢包故障排查">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/network_packets_loss/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前期">前期</a>
+      <ul>
+        <li><a href="#小进展">小进展</a></li>
+      </ul>
+    </li>
+    <li><a href="#中期">中期</a></li>
+    <li><a href="#后期">后期</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">记一次网络丢包故障排查</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年5月30日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约2398字 </span>
+            <span> 预计阅读时间5分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-05-30T19:00:12" title="2023-05-30">
+            2023-05-30
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>前阵子驻点维护的公安天网项目，查看前端相机视频的时候，丢包率比较高。后续的排查过程有点一言难尽，这里做个记录。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0604-111521-8af98766e498b63146d81595518642ce-f5b4b8.png">
+            <img class="mx-auto" alt="网络丢包故障简略拓扑图" src="http://img.xy-ylr.cn/picgo/it/2023-0604-111521-8af98766e498b63146d81595518642ce-f5b4b8.png" />
+        </a>
+    </p>
+<p>涉及到的网络拓扑大致如上图，本地核心和本地前端之间也有各楼层接入交换机。前端相机的视频会保存到存储中，可以通过流媒体服务器查看存储录像回放；也可以通过流媒体服务器直接查看前端相机的实时画面。本地终端通过软件查看前端视频的时候，是由流媒体服务器获取前端实时视频，再转发到本地终端。</p>
+<h2 id="前期">前期</h2>
+<p>一开始的时候是，视频监控应用提供商立元的工程师反应从邻县查看视频丢包严重；局内办公室查看也有类似情况，画面有卡顿现象，视频软件统计的丢包率过高，严重时能超过50%；局内部从其他接入交换机入网的终端看也一样丢包；项目公司有专线直连核心，查看视频也一样丢包。</p>
+<p>查看的终端网络位置不一，前端视频点位也是随机。当时第一反应就是，难道<strong>核心网络哪里出问题了</strong>？怎么哪哪看视频都丢包（此时故障还不分项目）。</p>
+<p>接着立元工程师那边又说<strong>从服务器上读取存储里的录像，看一路没事，看4路就会丢包</strong>（目前为止涉及网络范围最小的一个异常问题）。</p>
+<p>于是想着，那就从最小范围开始排查吧，根据服务器和存储的IP地址，确认<strong>网关在汇聚层</strong>，再根据arp表和mac表，确定了<em>服务器——服务器接入——汇聚——存储接入——存储</em>这一网络中各设备互连的端口，然后排查<strong>端口带宽使用率</strong>、<strong>端口错误包</strong>、<strong>光口光速率</strong>等，确认各项指标完全正常，交换机日志也没有相关端口UP/DOWN等异常记录。</p>
+<p>正疑惑难道问题出在服务器或者存储上？或者实际数据走向不是这样的？于是跟立元工程师再次展开沟通，结果他说他刚才远程到上级市局公安那边查看视频是完全正常的；而且服务器没有显卡，这里的丢包可能是由于解码速度跟不上导致的，并不是网络问题引起。</p>
+<p><em>哇</em>……</p>
+<p>上级单位是从本地核心连过去的，如果在上级单位查看是正常的，那就说明本地核心相关网络也都是正常的。本来内心深处就感觉应该不是网络问题，因为最近网络层并没有做过什么配置调整。而我刚才排查的问题可能跟网络根本就毫无关系，所以当时那个心情，真是有点不顺畅，白忙活了……</p>
+<h3 id="小进展">小进展</h3>
+<p>不过也因此确定，问题大概出在本地终端网络上。于是申请安装相关视频软件，以及帐号权限等，用于测试排查问题。</p>
+<p>有趣的来了，在我的笔记本上看视频非常顺畅，丢包率长时间保持在0，可是就在我旁边工位的海康工程师看视频就很卡。我们是从同一个接入交换机分出来的，而且交换机就在桌子底下。检查各自电脑，发现我的网络是千兆，他的是百兆。</p>
+<p>难道问题出在这上面？抱着笔记本跑去直连楼层接入交换机（顺便确认了之前局内另一办公室的电脑也是百兆网络），发现千兆网络确实一点问题都没有，但是手动限制成百兆网络，丢包率就一下子上去了。然后再确认了之前看视频有问题的另外几个终端的网络，也都是百兆。再进一步确认了局内办公室的视频网络只有百兆，是由于楼层接入交换机到办公室墙插的线路只支持百兆。</p>
+<p>于是将问题定位为，此次异常问题是由于终端网络带宽不够造成，愉快的下班。</p>
+<p>但是实际上一路视频的码流最高也不到5Mbps，就算是4路也不到20Mbps，正常来说百兆网络完全是够用的，这是一个奇怪的地方，不过暂时被搁置了。</p>
+<h2 id="中期">中期</h2>
+<p>第二天上班后，办公室再次反应，丢包率问题还在，而且主要是集中在某个新实施的项目上，看之前别的项目的都正常。</p>
+<p>于是又去直连楼层接入交换机，随机挑了一些点位进行观看，手动限速为百兆，发现看某项目的视频丢包，看别的项目的也会丢包；自动适配为千兆的时候就没事。于是做了简单汇报，然后去处理别的事情。下午又改为直连核心交换机进行测试，确实是某项目的视频容易丢包，于是再次怀疑自己新项目网络配置有问题。</p>
+<p>将项目相关的交换机又全部检查了一遍，包括路由、相关端口带宽使用率、端口错误包、cpu内存使用率等，根本看不出任何异常。</p>
+<p>呼叫公司同事过来支援，可能是对这边的网络不够熟悉，我介绍的也不够仔细，查了一上午，也是找不出来问题。</p>
+<h2 id="后期">后期</h2>
+<p>到这一步实在是没有了头绪，等到中午午休的时候，突然来了灵感。既然我终端百兆网络看新项目的视频会丢包，看别的却没事，而现在新项目前端接入到汇聚网络也重新排查确认多遍，都是没有发现异常，那问题会不会出在前端相机到接入交换机这一段？</p>
+<p>于是挑选了部分前端相机，排除掉新项目接入网络，直接将前端相机经过运营商线路给接到其他项目前端接入交换机上进行测试，发现丢包率问题依旧。</p>
+<p>由此再进一步缩小问题范围，总结如下：</p>
+<ol>
+<li>运营商线路问题，新项目移动线路，之前项目电信线路，交由运营商排查。可能性不大</li>
+<li>前端相机型号或者软件版本系统跟以前的不一样，由厂商确认。可能性不大</li>
+<li>每个点位都包含多个相机，是先由小交换机聚合到一起之后再经过运营商专线接进来的，该小交换机有问题，协助厂商排查确认。</li>
+</ol>
+<p>经过又一轮的排查测试，其中有一个点位，尝试更换点位小交换机后，不再丢包。</p>
+<p>之后厂家海康更进一步测试，表示他们前端点位小交换机端口支持千兆模式，前端相机自适应后以千兆速率发送数据，终端以百兆网络查看视频的时候，数据堆积来不及处理，有些可能就被丢弃了。</p>
+<h2 id="总结">总结</h2>
+<p>事后想想，还是网络基础理论知识不够扎实，对自己不够自信，前期问题定位不够迅速，而中期排查更是浪费时间。</p>
+<p>当初新项目网络设备上线的时候，其实也就是在现有网络中新增一些前端接入交换机，相关配置归纳一下大概就是：</p>
+<ul>
+<li>汇聚交换机上创建新项目业务vlan，并配置vlanif作为网关。</li>
+<li>接入交换机创建新业务vlan、管理vlan，并配置管理IP。</li>
+<li>接入交换机配置ssh登录、ntp校时等。</li>
+<li>接入、汇聚交换机创建聚合链路用于互连，并放行业务vlan、管理vlan。</li>
+<li>接入交换机配置静态路由。</li>
+</ul>
+<p>这些配置，如果网络能通那就能用，不至于出现千兆网络正常，百兆网络异常的问题。</p>
+<p>而且前期问题排查的时候，本地终端网络百兆千兆会表现出不同的现象，那另一头的终端网络也有可能存在差异，却忽略了那么久，一直在中心机房网络圈打转。实在不该……</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/network_packets_loss/">https://xy-ylr.github.io/it/network_packets_loss/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/dhcp_conf/">交换机DHCP 配置</a></li>
+        
+        <li><a href="/it/h3c_huawei_network_basic/">华三华为网络基础配置命令</a></li>
+        
+        <li><a href="/it/h3c_irf_conf/">H3C交换机irf配置</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85'>网络丢包</a></li>
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C'>网络排障</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

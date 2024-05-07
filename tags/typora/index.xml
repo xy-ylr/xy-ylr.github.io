@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>typora on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/typora/</link>
+    <description>Recent content in typora on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 01 Jun 2023 21:04:38 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/typora/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Typora常用快捷键</title>
+      <link>https://xy-ylr.github.io/it/typora_shortcut_keys/</link>
+      <pubDate>Thu, 01 Jun 2023 21:04:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/typora_shortcut_keys/</guid>
+      <description>&lt;p&gt;记录一下使用typora进行markdown博客创作的一些常用快捷键。&lt;/p&gt;
+&lt;p&gt;官方手册：&lt;a href=&#34;https://support.typoraio.cn/zh/Markdown-Reference/&#34;&gt;Typora 的 Markdown 语法&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>debian on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/debian/</link>
+    <description>Recent content in debian on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 28 Jun 2023 18:44:15 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/debian/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>安装Debian系统后的基础配置</title>
+      <link>https://xy-ylr.github.io/it/debian_install/</link>
+      <pubDate>Wed, 28 Jun 2023 18:44:15 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/debian_install/</guid>
+      <description>&lt;p&gt;debian系统安装完成后，总还是需要进行一些个性化配置，或者安装一些个人喜欢的常用软件之后，才能爽起来，本文记录一些相关操作，免得以后重装系统的时候重复找资料。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

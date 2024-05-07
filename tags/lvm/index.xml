@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lvm on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/lvm/</link>
+    <description>Recent content in lvm on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 02 Dec 2022 09:31:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/lvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux lvm磁盘管理</title>
+      <link>https://xy-ylr.github.io/it/linux_lvm/</link>
+      <pubDate>Fri, 02 Dec 2022 09:31:57 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_lvm/</guid>
+      <description>&lt;p&gt;逻辑卷管理Logical Volume Management（LVM）是一种被广泛使用的技术，它在物理磁盘和文件系统之间增加了一个额外的层，允许你创建一个逻辑卷而不是物理磁盘。对于磁盘管理来说，它是非常灵活的，在需要的时候可以轻松地调整、扩展和减少逻辑卷的大小。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

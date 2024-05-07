@@ -248,7 +248,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约9099字 </span>
+            <span> 共约9267字 </span>
             <span> 预计阅读时间19分钟</span>
         </div>
         
@@ -269,6 +269,18 @@
     
     
 
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-02-06T09:17:53" title="2023-02-06">
+            2023-02-06
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
 
 
 
@@ -470,139 +482,306 @@
     </p>
 <p>如上图所示要求配置irf组网。</p>
 <p>1，<strong>首先更改一下设备名称</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>&lt;H3C&gt;sys
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>System View: <span style="color:#719e07">return</span> to User View with Ctrl+Z.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#586e75"># 修改dev1设备名称，其他4台类似，请结合实际情况修改，以便于记忆理解。</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span style="color:#719e07">[</span>H3C<span style="color:#719e07">]</span>sysname dev1
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>
-</code></pre></div><p>2，<strong>修改设备成员编号</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># 修改dev2的成员编号，其他的dev3、dev4类似</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>irf member <span style="color:#2aa198">1</span> renumber <span style="color:#2aa198">2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>Renumbering the member ID may result in configuration change or loss. Continue?<span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># 修改完成后重启设备</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>&lt;dev2&gt;reboot
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>Start to check configuration with next startup configuration file, please wait.........DONE!
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>Current configuration may be lost after the reboot, save current configuration? <span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>Please input the file name<span style="color:#719e07">(</span>*.cfg<span style="color:#719e07">)[</span>flash:/startup.cfg<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">(</span>To leave the existing filename unchanged, press the enter key<span style="color:#719e07">)</span>:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>Validating file. Please wait...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>Saved the current configuration to mainboard device successfully.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>This <span style="color:#b58900">command</span> will reboot the device. Continue? <span style="color:#719e07">[</span>Y/N<span style="color:#719e07">]</span>:y
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>Now rebooting, please wait...
-</code></pre></div><p>重启完成之后运行<code>dis cu</code>或者<code>dis int brief</code>之类的命令，可以看到<code>dev2</code>的端口从<code>GE1/0/1</code>变成了<code>GE2/0/1</code> ，其他设备也类似。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;H3C&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#75715e"># 修改dev1设备名称，其他4台类似，请结合实际情况修改，以便于记忆理解。</span>
+<span style="color:#f92672">[</span>H3C<span style="color:#f92672">]</span>sysname dev1
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>2，<strong>修改设备成员编号</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 修改dev2的成员编号，其他的dev3、dev4类似</span>
+<span style="color:#f92672">[</span>dev2<span style="color:#f92672">]</span>irf member <span style="color:#ae81ff">1</span> renumber <span style="color:#ae81ff">2</span>
+Renumbering the member ID may result in configuration change or loss. Continue?<span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>:y
+<span style="color:#f92672">[</span>dev2<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 修改完成后重启设备</span>
+&lt;dev2&gt;reboot
+Start to check configuration with next startup configuration file, please wait.........DONE!
+Current configuration may be lost after the reboot, save current configuration? <span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>:y
+Please input the file name<span style="color:#f92672">(</span>*.cfg<span style="color:#f92672">)[</span>flash:/startup.cfg<span style="color:#f92672">]</span>
+<span style="color:#f92672">(</span>To leave the existing filename unchanged, press the enter key<span style="color:#f92672">)</span>:
+Validating file. Please wait...
+Saved the current configuration to mainboard device successfully.
+This <span style="color:#111">command</span> will reboot the device. Continue? <span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>:y
+Now rebooting, please wait...
+</code></pre></td></tr></table>
+</div>
+</div><p>重启完成之后运行<code>dis cu</code>或者<code>dis int brief</code>之类的命令，可以看到<code>dev2</code>的端口从<code>GE1/0/1</code>变成了<code>GE2/0/1</code> ，其他设备也类似。</p>
 <p>3，<strong>修改主设备成员优先级</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf member <span style="color:#2aa198">1</span> priority <span style="color:#2aa198">9</span>
-</code></pre></div><p>这是可选操作。默认优先级是1，修改主设备的成员优先级是为了让后续irf组网的时候，按照我希望的产生主设备，并且后续如果有新的成员加入irf的时候，不会产生主设备切换。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf member <span style="color:#ae81ff">1</span> priority <span style="color:#ae81ff">9</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这是可选操作。默认优先级是1，修改主设备的成员优先级是为了让后续irf组网的时候，按照我希望的产生主设备，并且后续如果有新的成员加入irf的时候，不会产生主设备切换。</p>
 <p>4，<strong>将各设备的物理端口与irf端口绑定</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># 要将物理端口与irf端口绑定，需要先将物理端口shutdown</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 te
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 Ten-GigabitEthernet 1/0/50
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>shutdown
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75"># 配置irf port 1/1 与49、50端口绑定</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#586e75"># 此处的1/1表示：irf成员编号1的irf port 1口</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port 1/1
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/49
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/50
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">[</span>dev1-irf-port1/1<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span style="color:#586e75"># 将51、52端口shutdown，其实4个口子可以一起shutdown</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>interface range Ten-GigabitEthernet 1/0/51 to Ten-GigabitEthernet 1/0/52
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>shutdown
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#586e75"># 配置irf port 1/2 与51、52端口绑定</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span style="color:#586e75"># 此处的1/2表示：irf成员编号1的irf port 2口</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port 1/2
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/51
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>port group interface Ten-GigabitEthernet 1/0/52
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span style="color:#719e07">[</span>dev1-irf-port1/2<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span><span style="color:#586e75"># 物理端口绑定完成后，重新up</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra Ten-GigabitEthernet 1/0/49 to Ten-GigabitEthernet 1/0/52
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>un sh
-</code></pre></div><p>其他从设备的配置类似，参考此处即可。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 要将物理端口与irf端口绑定，需要先将物理端口shutdown</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra Ten-GigabitEthernet 1/0/49 te
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra Ten-GigabitEthernet 1/0/49 Ten-GigabitEthernet 1/0/50
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>shutdown
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置irf port 1/1 与49、50端口绑定</span>
+<span style="color:#75715e"># 此处的1/1表示：irf成员编号1的irf port 1口</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf-port 1/1
+<span style="color:#f92672">[</span>dev1-irf-port1/1<span style="color:#f92672">]</span>port group interface Ten-GigabitEthernet 1/0/49
+<span style="color:#f92672">[</span>dev1-irf-port1/1<span style="color:#f92672">]</span>port group interface Ten-GigabitEthernet 1/0/50
+<span style="color:#f92672">[</span>dev1-irf-port1/1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 将51、52端口shutdown，其实4个口子可以一起shutdown</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>interface range Ten-GigabitEthernet 1/0/51 to Ten-GigabitEthernet 1/0/52
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>shutdown
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置irf port 1/2 与51、52端口绑定</span>
+<span style="color:#75715e"># 此处的1/2表示：irf成员编号1的irf port 2口</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf-port 1/2
+<span style="color:#f92672">[</span>dev1-irf-port1/2<span style="color:#f92672">]</span>port group interface Ten-GigabitEthernet 1/0/51
+<span style="color:#f92672">[</span>dev1-irf-port1/2<span style="color:#f92672">]</span>port group interface Ten-GigabitEthernet 1/0/52
+<span style="color:#f92672">[</span>dev1-irf-port1/2<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 物理端口绑定完成后，重新up</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra Ten-GigabitEthernet 1/0/49 to Ten-GigabitEthernet 1/0/52
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>un sh
+</code></pre></td></tr></table>
+</div>
+</div><p>其他从设备的配置类似，参考此处即可。</p>
 <p>5，<strong>保存配置并激活irf配置</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#586e75"># 注意要先保存再激活，线路已连通，会自动重启，不保存配置可能会丢失</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf-port-configuration active
-</code></pre></div><p>一定注意要先保存配置然后再去激活，由于各成员设备线路已经连通，激活irf配置后，会自动开始选举主设备什么的，完了之后从设备会自动重启。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>save
+<span style="color:#75715e"># 注意要先保存再激活，线路已连通，会自动重启，不保存配置可能会丢失</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf-port-configuration active
+</code></pre></td></tr></table>
+</div>
+</div><p>一定注意要先保存配置然后再去激活，由于各成员设备线路已经连通，激活irf配置后，会自动开始选举主设备什么的，完了之后从设备会自动重启。</p>
 <p>等到重启完成之后，就会发现dev2等从设备的终端开头的提示符也变成了dev1。此时也可以使用上一小节<a href="#%E9%83%A8%E5%88%86%E6%98%BE%E7%A4%BA%E5%92%8C%E7%BB%B4%E6%8A%A4%E5%91%BD%E4%BB%A4">部分显示和维护命令</a>中提到的<code>dis irf</code>等命令查看链路信息、拓扑信息等的变化。</p>
+<p><strong>IRF端口连接注意</strong>：设备1的irf port1端口要与设备2的irf port2端口互连，如果是1口与1口互连，无法成功组成irf。</p>
 <h3 id="lacp-mad检测-1">LACP MAD检测</h3>
 <p>irf配置完成后，开始配置mad检测。此处使用lacp mad配置</p>
 <p>1，<strong>配置IRF域编号</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#586e75"># 配置域编号，如果网络中还存在别的irf，注意域编号不要重复了。</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf domain <span style="color:#2aa198">11</span>
-</code></pre></div><p>此时四台设备已组合为一个irf，不管从哪台设备登录，显示的都是<strong>dev1</strong>.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置域编号，如果网络中还存在别的irf，注意域编号不要重复了。</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf domain <span style="color:#ae81ff">11</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>此时四台设备已组合为一个irf，不管从哪台设备登录，显示的都是<strong>dev1</strong>.</p>
 <p>2，<strong>创建聚合接口，设置聚合模式，开启mad等</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># 创建聚合链路11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int Bridge-Aggregation <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#586e75"># 设置链路聚合模式为dynamic</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>link-aggregation mode dynamic
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># 开启mad检测</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>mad <span style="color:#b58900">enable</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>You need to assign a domain ID <span style="color:#719e07">(</span>range: 0-4294967295<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#586e75"># 确认域编号</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#719e07">[</span>Current domain is: 11<span style="color:#719e07">]</span>: <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>The assigned domain ID is: <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>MAD LACP only <span style="color:#b58900">enable</span> on dynamic aggregation interface.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span style="color:#719e07">[</span>dev1-Bridge-Aggregation11<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#586e75"># 将irf上4个用于lacp mad检测的端口加入链路聚合</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>port link-aggregation group <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#586e75"># 退出并保存配置</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
-</code></pre></div><p>3，<strong>配置中间设备</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># 创建聚合链路</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>int Bridge-Aggregation <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#586e75"># 设置为dynamic模式</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>mad_c-Bridge-Aggregation11<span style="color:#719e07">]</span>link-aggregation mode dynamic
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#719e07">[</span>mad_c-Bridge-Aggregation11<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75"># 将端口加入聚合链路</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>int ra g1/0/45 to g1/0/48
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">[</span>mad_c-if-range<span style="color:#719e07">]</span>port link-aggregation group <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#586e75"># 退出并保存配置</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">[</span>mad_c-if-range<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>save
-</code></pre></div><h3 id="bfd-mad检测-1">BFD MAD检测</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建聚合链路11</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int Bridge-Aggregation <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 设置链路聚合模式为dynamic</span>
+<span style="color:#f92672">[</span>dev1-Bridge-Aggregation11<span style="color:#f92672">]</span>link-aggregation mode dynamic
+<span style="color:#75715e"># 开启mad检测</span>
+<span style="color:#f92672">[</span>dev1-Bridge-Aggregation11<span style="color:#f92672">]</span>mad <span style="color:#111">enable</span>
+You need to assign a domain ID <span style="color:#f92672">(</span>range: 0-4294967295<span style="color:#f92672">)</span>
+<span style="color:#75715e"># 确认域编号</span>
+<span style="color:#f92672">[</span>Current domain is: 11<span style="color:#f92672">]</span>: <span style="color:#ae81ff">11</span>
+The assigned domain ID is: <span style="color:#ae81ff">11</span>
+MAD LACP only <span style="color:#111">enable</span> on dynamic aggregation interface.
+<span style="color:#f92672">[</span>dev1-Bridge-Aggregation11<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 将irf上4个用于lacp mad检测的端口加入链路聚合</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>port link-aggregation group <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 退出并保存配置</span>
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>save
+</code></pre></td></tr></table>
+</div>
+</div><p>3，<strong>配置中间设备</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建聚合链路</span>
+<span style="color:#f92672">[</span>mad_c<span style="color:#f92672">]</span>int Bridge-Aggregation <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 设置为dynamic模式</span>
+<span style="color:#f92672">[</span>mad_c-Bridge-Aggregation11<span style="color:#f92672">]</span>link-aggregation mode dynamic
+<span style="color:#f92672">[</span>mad_c-Bridge-Aggregation11<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 将端口加入聚合链路</span>
+<span style="color:#f92672">[</span>mad_c<span style="color:#f92672">]</span>int ra g1/0/45 to g1/0/48
+<span style="color:#f92672">[</span>mad_c-if-range<span style="color:#f92672">]</span>port link-aggregation group <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 退出并保存配置</span>
+<span style="color:#f92672">[</span>mad_c-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>mad_c<span style="color:#f92672">]</span>save
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="bfd-mad检测-1">BFD MAD检测</h3>
 <p>irf配置部分不变，配置bfd mad检测。</p>
 <p>1，<strong>配置irf域编号，创建专属vlan等</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75"># 配置irf域编号</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>irf domain <span style="color:#2aa198">2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#586e75"># 创建专属vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>vlan <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># 专属vlan添加备注信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>description bfd_mad
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#586e75"># 将相应端口加入vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>port g1/0/48 g2/0/48 g3/0/48 g4/0/48
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#586e75"># 开启bfd，并配置mad ip地址</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int Vlan-interface <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad bfd <span style="color:#b58900">enable</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.1 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">1</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.2 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.3 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">3</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>mad ip address 10.10.10.4 <span style="color:#2aa198">24</span> member <span style="color:#2aa198">4</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#586e75"># bfd mad与stp生成树互斥，关闭生成树功能</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>undo stp <span style="color:#b58900">enable</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span><span style="color:#719e07">[</span>dev1-if-range<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>save
-</code></pre></div><p>2, <strong>配置中间设备</strong></p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>&lt;mad_c&gt;sys
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#586e75"># 创建专属vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>vlan <span style="color:#2aa198">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span style="color:#586e75"># 将相应端口加入vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">[</span>mad_c-vlan11<span style="color:#719e07">]</span>port g1/0/45 to g1/0/48
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span><span style="color:#719e07">[</span>mad_c-vlan11<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span style="color:#719e07">[</span>mad_c<span style="color:#719e07">]</span>save
-</code></pre></div><p>3，<strong>不用中间设备</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置irf域编号</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>irf domain <span style="color:#ae81ff">2</span>
+<span style="color:#75715e"># 创建专属vlan</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 专属vlan添加备注信息</span>
+<span style="color:#f92672">[</span>dev1-vlan11<span style="color:#f92672">]</span>description bfd_mad
+<span style="color:#75715e"># 将相应端口加入vlan</span>
+<span style="color:#f92672">[</span>dev1-vlan11<span style="color:#f92672">]</span>port g1/0/48 g2/0/48 g3/0/48 g4/0/48
+<span style="color:#75715e"># 开启bfd，并配置mad ip地址</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int Vlan-interface <span style="color:#ae81ff">11</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>mad bfd <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>mad ip address 10.10.10.1 <span style="color:#ae81ff">24</span> member <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>mad ip address 10.10.10.2 <span style="color:#ae81ff">24</span> member <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>mad ip address 10.10.10.3 <span style="color:#ae81ff">24</span> member <span style="color:#ae81ff">3</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>mad ip address 10.10.10.4 <span style="color:#ae81ff">24</span> member <span style="color:#ae81ff">4</span>
+<span style="color:#75715e"># bfd mad与stp生成树互斥，关闭生成树功能</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra g1/0/48 g2/0/48 g3/0/48 g4/0/48
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>undo stp <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>dev1-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>save
+</code></pre></td></tr></table>
+</div>
+</div><p>2, <strong>配置中间设备</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;mad_c&gt;sys
+<span style="color:#75715e"># 创建专属vlan</span>
+<span style="color:#f92672">[</span>mad_c<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># 将相应端口加入vlan</span>
+<span style="color:#f92672">[</span>mad_c-vlan11<span style="color:#f92672">]</span>port g1/0/45 to g1/0/48
+<span style="color:#f92672">[</span>mad_c-vlan11<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>mad_c<span style="color:#f92672">]</span>save
+</code></pre></td></tr></table>
+</div>
+</div><p>3，<strong>不用中间设备</strong></p>
 <p>因为bfd mad检测要求所有成员设备都需要两两互连。在这个irf模拟组网中，每个成员设备需要消耗3个端口与其他三个成员设备互连，端口开销实在不小。推荐在只有两台设备进行irf组网的时候直接互连，不使用中间设备。</p>
 <h3 id="arp-mad检测-1">ARP MAD检测</h3>
 <p>。。。</p>
 <h3 id="nd-mad检测-1">ND MAD检测</h3>
 <p>。。。</p>
 <p>一开始也就看着模拟器上的交换机版本才是个5820，然后机房又有很多5560交换机，才挑的低版本的来参考，但是模拟的时候，总好像跟实际有点出入…</p>
-<p>官方说明arp和nd两种模式的检测速度慢于前两种，且到了10500系列交换机，这两个连配置案例都没有了Orz</p>
+<p>官方说明arp和nd两种模式的检测速度慢于前两种，且到了10500系列交换机，这两个连配置案例都没有了…</p>
 <p>一般情况下，也就是2台设备组成一个irf，无脑上bfd检测模式好了，中间设备都不用。</p>
 <p>所以不想抄了……</p>
 <h2 id="总结">总结</h2>
@@ -661,7 +840,9 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -715,43 +896,43 @@
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -763,25 +944,33 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -789,6 +978,20 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -798,19 +1001,53 @@
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -818,15 +1055,33 @@
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

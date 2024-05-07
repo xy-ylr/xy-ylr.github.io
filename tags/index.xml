@@ -6,24 +6,321 @@
     <description>Recent content in Tags on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 26 Apr 2024 12:34:38 +0800</lastBuildDate>
     
 	<atom:link href="https://xy-ylr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>kali</title>
+      <link>https://xy-ylr.github.io/tags/kali/</link>
+      <pubDate>Fri, 26 Apr 2024 12:34:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/kali/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://xy-ylr.github.io/tags/linux/</link>
+      <pubDate>Fri, 26 Apr 2024 12:34:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>openvas(gvm)</title>
+      <link>https://xy-ylr.github.io/tags/openvasgvm/</link>
+      <pubDate>Fri, 26 Apr 2024 12:34:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/openvasgvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>漏扫</title>
+      <link>https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/</link>
+      <pubDate>Fri, 26 Apr 2024 12:34:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>apt</title>
+      <link>https://xy-ylr.github.io/tags/apt/</link>
+      <pubDate>Fri, 29 Mar 2024 12:06:26 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/apt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dnf</title>
+      <link>https://xy-ylr.github.io/tags/dnf/</link>
+      <pubDate>Fri, 29 Mar 2024 12:06:26 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/dnf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>yum</title>
+      <link>https://xy-ylr.github.io/tags/yum/</link>
+      <pubDate>Fri, 29 Mar 2024 12:06:26 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/yum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>patch update</title>
+      <link>https://xy-ylr.github.io/tags/patch-update/</link>
+      <pubDate>Mon, 11 Mar 2024 16:21:03 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/patch-update/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vmware</title>
+      <link>https://xy-ylr.github.io/tags/vmware/</link>
+      <pubDate>Mon, 11 Mar 2024 16:21:03 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/vmware/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>snmp trap</title>
+      <link>https://xy-ylr.github.io/tags/snmp-trap/</link>
+      <pubDate>Thu, 07 Mar 2024 10:06:19 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/snmp-trap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zabbix</title>
+      <link>https://xy-ylr.github.io/tags/zabbix/</link>
+      <pubDate>Thu, 07 Mar 2024 10:06:19 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/zabbix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>运维</title>
+      <link>https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Thu, 07 Mar 2024 10:06:19 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kms激活</title>
+      <link>https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/</link>
+      <pubDate>Tue, 06 Feb 2024 08:56:48 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>windows激活</title>
+      <link>https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/</link>
+      <pubDate>Tue, 06 Feb 2024 08:56:48 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://xy-ylr.github.io/tags/network/</link>
+      <pubDate>Fri, 19 Jan 2024 11:02:49 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>snmp</title>
+      <link>https://xy-ylr.github.io/tags/snmp/</link>
+      <pubDate>Fri, 19 Jan 2024 11:02:49 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/snmp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>css集群</title>
+      <link>https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Tue, 12 Dec 2023 10:40:50 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>华为</title>
+      <link>https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/</link>
+      <pubDate>Tue, 12 Dec 2023 10:40:50 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>网络</title>
       <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
-      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      <pubDate>Tue, 12 Dec 2023 10:40:50 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>h3c</title>
+      <link>https://xy-ylr.github.io/tags/h3c/</link>
+      <pubDate>Fri, 01 Dec 2023 15:26:05 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/h3c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nat</title>
+      <link>https://xy-ylr.github.io/tags/nat/</link>
+      <pubDate>Fri, 01 Dec 2023 15:26:05 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/nat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>h3c防火墙</title>
+      <link>https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/</link>
+      <pubDate>Sun, 19 Nov 2023 21:44:31 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nat配置</title>
+      <link>https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 19 Nov 2023 21:44:31 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>debian</title>
+      <link>https://xy-ylr.github.io/tags/debian/</link>
+      <pubDate>Wed, 28 Jun 2023 18:44:15 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>alias</title>
+      <link>https://xy-ylr.github.io/tags/alias/</link>
+      <pubDate>Wed, 28 Jun 2023 17:04:56 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/alias/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bash shell</title>
+      <link>https://xy-ylr.github.io/tags/bash-shell/</link>
+      <pubDate>Wed, 28 Jun 2023 17:04:56 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/bash-shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络, MSTP</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/</link>
+      <pubDate>Wed, 07 Jun 2023 09:36:44 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>typora</title>
+      <link>https://xy-ylr.github.io/tags/typora/</link>
+      <pubDate>Thu, 01 Jun 2023 21:04:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/typora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>炒股</title>
+      <link>https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/</link>
+      <pubDate>Thu, 01 Jun 2023 09:34:28 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>理财</title>
+      <link>https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/</link>
+      <pubDate>Thu, 01 Jun 2023 09:34:28 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络环路</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/</link>
+      <pubDate>Tue, 30 May 2023 19:02:20 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络丢包</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/</link>
+      <pubDate>Tue, 30 May 2023 19:00:12 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络排障</title>
+      <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/</link>
+      <pubDate>Tue, 30 May 2023 19:00:12 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DHCP</title>
+      <link>https://xy-ylr.github.io/tags/DHCP/</link>
+      <pubDate>Wed, 17 May 2023 15:08:41 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/DHCP/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>网络工程师</title>
       <link>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</link>
-      <pubDate>Tue, 28 Feb 2023 19:42:51 +0800</pubDate>
+      <pubDate>Wed, 17 May 2023 15:08:41 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/</guid>
       <description></description>
@@ -44,15 +341,6 @@
       <pubDate>Mon, 06 Feb 2023 09:17:53 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/irf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://xy-ylr.github.io/tags/linux/</link>
-      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
-      
-      <guid>https://xy-ylr.github.io/tags/linux/</guid>
       <description></description>
     </item>
     
@@ -80,6 +368,24 @@
       <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>磁盘管理</title>
+      <link>https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 02 Dec 2022 09:32:08 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lvm</title>
+      <link>https://xy-ylr.github.io/tags/lvm/</link>
+      <pubDate>Fri, 02 Dec 2022 09:31:57 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/tags/lvm/</guid>
       <description></description>
     </item>
     
@@ -170,15 +476,6 @@
       <pubDate>Mon, 11 Jul 2022 00:47:16 +0800</pubDate>
       
       <guid>https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>财经</title>
-      <link>https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/</link>
-      <pubDate>Mon, 11 Jul 2022 00:47:16 +0800</pubDate>
-      
-      <guid>https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/</guid>
       <description></description>
     </item>
     

@@ -74,8 +74,9 @@ body {
     font-family:"TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif;
     **/
     /* font-family: "Iowan Old Style", "Ovo", "Hoefler Text", Georgia, "Times New Roman", "TIBch", "Source Han Sans", "PingFangSC-Regular", "Hiragino Sans GB", "STHeiti", "Microsoft Yahei", "Droid Sans Fallback", "WenQuanYi Micro Hei", sans-serif; 原版部分英文渲染貌似有点非主流*/
-    font-family: Georgia, -apple-system, 'Nimbus Roman No9 L', 'PingFang SC', 'Hiragino Sans GB', 'Noto Serif SC', 'Microsoft Yahei', 'WenQuanYi Micro Hei', 'ST Heiti', sans-serif;
-    /**-webkit-font-smoothing: antialiased;**/
+    font-family: -apple-system, 'Nimbus Roman No9 L', 'PingFang SC', 'Hiragino Sans GB', 'Noto Serif SC', 'Microsoft Yahei', 'WenQuanYi Micro Hei', 'ST Heiti', sans-serif;
+    /* 都说Georgia字体很好看，但是实在受不了它对数字的处理方式，滚犊子吧你！ */
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 img{
@@ -406,7 +407,7 @@ textarea {
     border-radius: 3px;
 }
 .post-content p {
-    margin:0 0 1.1em;
+    margin:0.5em 0;
 }
 .post-content img {
     padding:1em 0;
@@ -414,10 +415,12 @@ textarea {
     display: block;
 }
 .post-content ul {
+    /* 感觉margin没必要，padding上下边距也没必要 */
     overflow: auto;
-    padding: .5em 2.4em;
+    /* padding: .5em 2.4em; */
+    padding: 0 2.4em;
     border-radius: 3px;
-    margin:1em 0;   /*感觉默认的1.8em太多了*/
+    /* margin:1em 0; */
 }
 .post-content ul li{
     text-indent: .5em;

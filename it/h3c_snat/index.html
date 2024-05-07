@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>H3c防火墙源地址转换配置 | 四十荀的博客</title>
+    <meta property="og:title" content="H3c防火墙源地址转换配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-11-24T11:24:37&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-11-24T11:24:37&#43;08:00'>
+        
+    <meta name="Keywords" content="[源nat, h3c静态转换, 一对一静态转换, snat, nat static outbound, nat outbound]">
+    <meta name="description" content="源nat, h3c静态转换, 一对一静态转换, 单一内网用户通过nat地址访问外网">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/h3c_snat/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#少量用户nat访问外网">少量用户nat访问外网</a>
+      <ul>
+        <li><a href="#添加acl限制">添加acl限制</a></li>
+      </ul>
+    </li>
+    <li><a href="#其他几种静态转换配置">其他几种静态转换配置</a>
+      <ul>
+        <li><a href="#入方向一对一">入方向一对一</a></li>
+        <li><a href="#出方向地址段">出方向地址段</a></li>
+      </ul>
+    </li>
+    <li><a href="#大量用户nat访问外网">大量用户nat访问外网</a>
+      <ul>
+        <li><a href="#基于acl策略">基于acl策略</a></li>
+        <li><a href="#基于ip地址对象组">基于IP地址对象组</a></li>
+        <li><a href="#限制端口范围nat444">限制端口范围(nat444)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">H3c防火墙源地址转换配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年11月24日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约6818字 </span>
+            <span> 预计阅读时间14分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="hint">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-11-24T11:24:37" title="2023-11-24">
+            2023-11-24
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>要设置源地址nat，如果只是少量地址需求，可以使用静态地址转换技术，这是一种内外网IP地址的转换关系固定的NAT方式，最适用于少量地址的一对一转换；如果是大量用户都需要nat，那可以使用动态nat技术，用于将大量内网地址转换为少量外网地址。</p>
+<p>模拟环境网络拓扑大致如下图</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1125-231059-874955b6109616dbcedeb2a030aec5e6-9d1864.png">
+            <img class="mx-auto" alt="模拟环境拓扑图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1125-231059-874955b6109616dbcedeb2a030aec5e6-9d1864.png" />
+        </a>
+    </p>
+<p>前期环境准备，端口、路由可达、防火墙安全域配置等，以及其他nat配置、各nat区别总结，请看博客文章<a href="/it/h3c_network_nat/">h3c防火墙nat配置</a>。</p>
+<h2 id="少量用户nat访问外网">少量用户nat访问外网</h2>
+<p><strong>关键命令</strong>：<code>nat static outbound local_ip global_ip </code></p>
+<p>local_ip是指内部想要访问外部网络的IP地址，global_ip是指nat转换后的外网IP地址。</p>
+<p>假设现在要让<strong>nw1</strong>以静态转换的方式访问<strong>ww</strong>，转换后的地址是<code>10.10.10.254</code>，当然，也可以直接用出接口地址<code>10.10.10.2</code>。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;sys
+<span style="color:#75715e"># 配置出方向静态转换关系</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat static outbound 1.1.1.11 10.10.10.254
+<span style="color:#75715e"># 指定出接口启用nat static</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat static <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 验证配置结果，可以看到nat转换关系，并且相关端口nat状态为Active</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>dis nat static 
+Static NAT mappings:
+  Totally <span style="color:#ae81ff">1</span> outbound static NAT mappings.
+  IP-to-IP:
+    Local IP     : 1.1.1.11
+    Global IP    : 10.10.10.254
+    NAT counting : <span style="color:#ae81ff">0</span>
+    Config status: Active
+
+Interfaces enabled with static NAT:
+  Totally <span style="color:#ae81ff">1</span> interfaces enabled with static NAT.
+  Interface: GigabitEthernet1/0/1
+    Config status: Active
+
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以在<strong>nw1</strong>交换机上telnet登录<strong>ww</strong>看看结果，可以发现在<strong>ww</strong>交换机上显示的登录用户IP是<code>10.10.10.254</code>。而之后我们再从<strong>nwhx</strong>交换机telnet过去，显示的登录用户就直接是<code>8.8.8.2</code>。这也说明我们的NAT配置成功了。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-151730-9f0a1241e709fd56b0d9e88a5d99a594-b6105f.png">
+            <img class="mx-auto" alt="出方向静态转换telnet结果" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-151730-9f0a1241e709fd56b0d9e88a5d99a594-b6105f.png" />
+        </a>
+    </p>
+<p>同时，通过nat地址来反向telnet也是可以的，如下图所示，在<strong>ww</strong>上运行<code>telnet 10.10.10.254</code>，最终登录到了<strong>nw1</strong>上。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-190038-e6b1f978cc1c251f76248d7c73dcdea3-176f28.png">
+            <img class="mx-auto" alt="出方向静态转换反向telnet截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-190038-e6b1f978cc1c251f76248d7c73dcdea3-176f28.png" />
+        </a>
+    </p>
+<h3 id="添加acl限制">添加acl限制</h3>
+<p>只是这么配置的话，<strong>ww</strong>与<strong>nw1</strong>是一个全端口放行状态，但实际可能<strong>ww</strong>只是有个<em><strong>web服务</strong></em>提供给<strong>nw1</strong>访问，其他业务并不对<strong>nw1</strong>开放，这个时候我们就需要进一步添加acl来限制访问范围了。</p>
+<p><strong>（当然，实际上，遇到这种情况，更可能是在ww侧的边界防火墙做nat以及限制等，毕竟权限得握在自己手里才更放心。）</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 先删除刚才的nat static配置</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>undo nat static outbound 1.1.1.11 10.10.10.254
+<span style="color:#75715e"># 配置acl策略，只允许1.1.1.11访问10.10.10.1的80端口</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>acl advanced <span style="color:#ae81ff">3000</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-adv-3000<span style="color:#f92672">]</span>rule permit tcp <span style="color:#111">source</span> 1.1.1.11 <span style="color:#ae81ff">0</span> destination 10.10.10.1 <span style="color:#ae81ff">0</span> destination-port eq <span style="color:#ae81ff">80</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-adv-3000<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置带acl限制的nat static转换</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat static outbound 1.1.1.11 10.10.10.254 acl <span style="color:#ae81ff">3000</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>此时我们再次从<strong>nw1</strong>发起telnet，可以发现在<strong>ww</strong>上显示的登录用户IP是<code>1.1.1.11</code>，虽然登录成功了，但这只是由于两边路由相通，且<a href="/it/network_nat/#%E9%98%B2%E7%81%AB%E5%A2%99%E5%89%8D%E6%9C%9F%E9%85%8D%E7%BD%AE">前期防火墙配置</a>中放行了两个安全域之间的telnet服务，NAT转换实际上并没有进行。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-163724-24d4bc5c03a9a76030c707937bf87a65-6b2b68.png">
+            <img class="mx-auto" alt="带acl静态转换截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-163724-24d4bc5c03a9a76030c707937bf87a65-6b2b68.png" />
+        </a>
+    </p>
+<p>而如果我们再添加一条策略，放行telnet服务端口</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>acl advanced <span style="color:#ae81ff">3000</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-adv-3000<span style="color:#f92672">]</span>rule permit tcp <span style="color:#111">source</span> 1.1.1.11 <span style="color:#ae81ff">0</span> destination 10.10.10.1 <span style="color:#ae81ff">0</span> destination-port eq <span style="color:#ae81ff">23</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>那么telnet将再次经过nat转换并登录成功。但是由于acl策略的限制，此时反向telnet还是无法成功，如下图所示。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-191442-f8f97fd2bed416442c5fdfd7950daf71-b5d046.png">
+            <img class="mx-auto" alt="带acl静态转换反向telnet截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1123-191442-f8f97fd2bed416442c5fdfd7950daf71-b5d046.png" />
+        </a>
+    </p>
+<p><em>当然，这只是为了说明带acl限制的静态转换，实际上用处并不大，因为结合<a href="/it/network_nat/#%E9%98%B2%E7%81%AB%E5%A2%99%E5%89%8D%E6%9C%9F%E9%85%8D%E7%BD%AE">前期防火墙配置</a>，我们只是限制了1.1.1.11到10.10.10.1的流量需要nat，而并没有限制nw域其他地址到ww域的telnet功能。</em></p>
+<h2 id="其他几种静态转换配置">其他几种静态转换配置</h2>
+<p>这里再补充几种相对来说不常用的静态转换配置。</p>
+<h3 id="入方向一对一">入方向一对一</h3>
+<p><strong>关键命令</strong>：<code>nat static inbound global_ip local_ip</code>，<code>ip route-static local_ip global_ip/next_ip</code></p>
+<blockquote>
+<p>入方向的静态地址转换通常用于与接口上的出方向动态地址转换（nat  outbound）、内部服务器（nat server）或出方向静态地址转换（nat static outbound）配合以实现双向NAT，不建议单独配置。</p>
+<p>对于入方向静态地址转换，需要手动添加路由：目的地址为静态地址转换配置中指定的local-ip或local-network；下一跳为静态地址转换配置中指定的外网地址，或者报文出接口的实际下一跳地址。</p>
+<p>入方向一对一静态地址转换用于实现一个内部私有网络地址与一个外部公有网络地址之间的转换，具体过程如下：</p>
+<ul>
+<li>
+<p>对于经过该接口发送的内网访问外网的报文，将其目的IP地址与指定的内网IP地址local-ip进行匹配，并将匹配的目的IP地址转换为global-ip。</p>
+</li>
+<li>
+<p>对于该接口接收到的外网访问内网的报文，将其源IP地址与指定的外网IP地址global-ip进行匹配，并将匹配的源IP地址转换为local-ip。</p>
+</li>
+</ul>
+<p>如果接口上配置的静态地址转换映射中指定了acl参数，则仅对符合指定ACL permit规则的报文进行地址转换。</p>
+</blockquote>
+<p>上面是摘抄的H3C官方对于入方向静态转换的一些描述。换个思路，外网有个IP地址需要访问内网，本来可以在外网侧配置一个出方向的一对一静态转换(源NAT)，但是由于外网侧的设备不具备nat功能，所以在我们内网侧配置入方向一对一静态转换（反向snat？）。</p>
+<p><strong>重点</strong>是这里的<code>global-ip</code>是指的外网想要访问内网的那个外网IP地址，<code>local-ip</code>指的是我们配置的那个nat地址。</p>
+<p>比如模拟环境中ww域的ww_web需要通过nat访问nw域的nw1，nat地址为10.10.10.253，那么global-ip就是11.11.11.11，local-ip就是10.10.10.253。接下来实际配置并验证一下</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置入方向静态转换</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat static in 11.11.11.11 10.10.10.253
+<span style="color:#75715e"># 再手动为之添加静态路由</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>ip route-static 10.10.10.253 <span style="color:#ae81ff">32</span> 10.10.10.1
+</code></pre></td></tr></table>
+</div>
+</div><p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1124-002259-d43dd427844f1c2d53cbdb676bc9da40-ba51b7.png">
+            <img class="mx-auto" alt="入方向静态转换截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1124-002259-d43dd427844f1c2d53cbdb676bc9da40-ba51b7.png" />
+        </a>
+    </p>
+<p>可以看到从ww_web发起telnet的时候，nw1显示的登录用户IP是10.10.101.253(nat地址)；而从nw1向nat地址发起telnet的时候，最终也成功登录到了ww_web。</p>
+<h3 id="出方向地址段">出方向地址段</h3>
+<h4 id="连续地址段">连续地址段</h4>
+<p>假设模拟环境中nw域中1.1.1.1-1.1.1.11都需要nat访问ww域，选择配置地址段出方向静态转换</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 先清除之前配置的一对一静态转换</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>undo nat static inbound 11.11.11.11 10.10.10.253
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>undo nat static outbound 1.1.1.11 10.10.10.254
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>undo ip route-static 10.10.10.253 <span style="color:#ae81ff">32</span> 10.10.10.1
+<span style="color:#75715e"># 配置地址段出方向静态nat</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat sta out net-to-net 1.1.1.1 1.1.1.11 global 10.10.10.16 <span style="color:#ae81ff">28</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>关键命令</strong>就是<code>nat sta out net-to-net [内网开始ip] [内网结束ip] global [nat-ip 掩码]</code>。</p>
+<p>上文中的配置中，<code>1.1.1.1</code>将被转换为<code>10.10.10.16</code>，<code>1.1.1.2</code>被转换为<code>10.10.10.17</code>，以此类推，<code>1.1.1.11</code>被转换为<code>10.10.10.27</code>。</p>
+<p>不过在本次模拟中，如果<strong>nwhx</strong>向ww域发起telnet，不会被nat转换，因为他会以<code>8.8.8.2</code>为源IP发起请求。</p>
+<h4 id="地址集合">地址集合</h4>
+<p>如果是一个不连续的地址合集需要nat访问ww域，那么可以先创建IPv4地址对象组，然后再在nat中引用。</p>
+<p>假设模拟环境中有<code>1.1.1.1</code>、<code>1.1.1.11-1.1.1.20</code>、<code>1.1.1.128-1.1.1.143</code>需要nat访问ww域。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建源头地址对象组</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>object-group ip address source_ip
+<span style="color:#f92672">[</span>fw-obj-grp-ip-source_ip<span style="color:#f92672">]</span>security-zone nw
+<span style="color:#f92672">[</span>fw-obj-grp-ip-source_ip<span style="color:#f92672">]</span>network host address 1.1.1.1
+<span style="color:#f92672">[</span>fw-obj-grp-ip-source_ip<span style="color:#f92672">]</span>net range 1.1.1.11 1.1.1.20
+<span style="color:#f92672">[</span>fw-obj-grp-ip-source_ip<span style="color:#f92672">]</span>net sub 1.1.1.128 <span style="color:#ae81ff">28</span>
+<span style="color:#f92672">[</span>fw-obj-grp-ip-source_ip<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 创建nat地址对象组</span>
+<span style="color:#75715e"># 内部需要nat的ip总共有27个，这里创建nat地址组也至少需要27个</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>object-g ip add nat_ip
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nat_ip<span style="color:#f92672">]</span>sec ww
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nat_ip<span style="color:#f92672">]</span>net sub 10.10.10.96 <span style="color:#ae81ff">28</span>
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nat_ip<span style="color:#f92672">]</span>net host add 10.10.10.88
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nat_ip<span style="color:#f92672">]</span>net ran 10.10.10.128 10.10.10.138
+<span style="color:#75715e"># 配置nat</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat sta out obj source_ip obj nat_ip
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>关键命令</strong>是：<code>nat sta out obj [源地址对象组] obj [nat地址对象组]</code>。</p>
+<p>经上述配置后，模拟器上从<strong>nw1</strong>(1.1.1.11)向<strong>ww_web</strong>(11.11.11.11)发起telnet测试，发现nat并没有生效。感觉可能是地址对象组配置有问题，再次细看一遍说明文档，发现<strong>官方提醒</strong>：基于地址对象组的出方向静态地址转换引用的IPv4地址对象组中，只能存在一个主机对象（host）或者一个子网对象（subnet），否则引用不生效。</p>
+<p>然而经过各种测试，最后两边地址组只剩下<code>net range 1.1.1.11 1.1.1.20</code>、<code>net range 10.10.10.11 10.10.10.20</code>，但还是无法生效，或者我这个版本的HCL模拟器不支持？</p>
+<h2 id="大量用户nat访问外网">大量用户nat访问外网</h2>
+<p>动态nat有好几种配置方式，其中一种简易配置是直接使用出口IP作为nat地址，这种nat方式又叫做Easy IP；另外根据nat过程中是否转换端口号又可以分为<strong>PAT</strong>、<strong>No-PAT</strong>。然后配置的时候，对于内网需要nat的源地址范围的确定方式，又有<strong>基于acl策略</strong>和<strong>基于IP地址对象组</strong>两种。</p>
+<h3 id="基于acl策略">基于acl策略</h3>
+<h4 id="easy-ip">Easy IP</h4>
+<p>这个最简单，就是把内网需要nat的IP地址，直接转换为外网接口地址。</p>
+<p>假设要把1.1.1.0/28网段的内网用户nat转换后访问外网，nat地址为防火墙出口IP: 10.10.10.2。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># acl确认需要nat的内网用户</span>
+&lt;fw&gt;sys
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>acl basic <span style="color:#ae81ff">2001</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2001<span style="color:#f92672">]</span>description 1.1.1.0/28 nat to internet
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2001<span style="color:#f92672">]</span>rule permit <span style="color:#111">source</span> 1.1.1.0 0.0.0.7
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2001<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 出口配置easy ip并启用nat统计</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat outbound <span style="color:#ae81ff">2001</span> counting
+</code></pre></td></tr></table>
+</div>
+</div><p>这样配置之后就算是成功了，配置命令最后的counting，是启用nat命中次数统计。</p>
+<p>此时我们可以在<strong>pc_4</strong>主机上对ww域的发起ping测试，然后在防火墙上运行<code>dis nat outbound</code>，就会看到结果里的<code>NAT counting: 0</code>数据发生了变化，或者浏览器登录防火墙，在相关NAT策略中也能看到命中次数发生了变化。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1129-183018-f583f517183d5b313c2ef11fe724df3c-19305d.png">
+            <img class="mx-auto" alt="esay ip命中次数" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1129-183018-f583f517183d5b313c2ef11fe724df3c-19305d.png" />
+        </a>
+    </p>
+<p>也可以使用<code>dis nat session verbose</code>查看具体的nat信息。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;dis nat session verbose 
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.2/167
+  Destination IP/port: 11.11.11.1/2048
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: ICMP<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.1/4
+  Destination IP/port: 10.10.10.2/0
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: ICMP<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: ICMP_REPLY
+Application: ICMP
+Rule ID: <span style="color:#ae81ff">1</span>
+Rule name: ping_test
+Start time: 2023-11-29 17:56:00  TTL: 16s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到，本次nat会话是从nw域的<code>1.1.1.2</code>向外网域的<code>11.11.11.1</code>发起访问，但是<code>11.11.11.1</code>回包的时候，是回给<code>10.10.10.2</code>的，数据连接协议是ICMP。因为对于<code>11.11.11.2</code>来说，本次会话的源IP就是我们nat之后的<code>10.10.10.2</code>。</p>
+<p>另外，我们还可以发现这个会话是由编号为1，名称为ping_test的那条策略放行的。</p>
+<h4 id="使用nat地址组">使用nat地址组</h4>
+<p>如果我们的外网IP地址有富余，也可以配置<strong>nat地址组</strong>，让内网IP地址使用地址组中的IP作为访问外网的源IP。</p>
+<p>这里我们假设使用<code>10.10.10.5</code>、<code>10.10.10.6</code>做为<code>1.1.1.8/28</code>网段访问外网的源IP</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置nat地址组</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat address-group <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">[</span>fw-address-group-0<span style="color:#f92672">]</span>add 10.10.10.5 10.10.10.6
+<span style="color:#f92672">[</span>fw-address-group-0<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># acl确认内网地址范围</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>acl ba <span style="color:#ae81ff">2002</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2002<span style="color:#f92672">]</span>des 1.1.1.8/28 nat
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2002<span style="color:#f92672">]</span>rule per sou 1.1.1.8 0.0.0.7
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2002<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 出口配置nat</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat out <span style="color:#ae81ff">2002</span> add <span style="color:#ae81ff">0</span> counting
+</code></pre></td></tr></table>
+</div>
+</div><p>到这一步就配置完成了，再次运行<code>dis nat outbound </code>会发现多了一组nat策略，接下来从<strong>nw1</strong>对外发起测试。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1129-193751-b6a52328a56c32decd8ea4e5f90025c6-4f6567.png">
+            <img class="mx-auto" alt="nat配置telnet验证截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1129-193751-b6a52328a56c32decd8ea4e5f90025c6-4f6567.png" />
+        </a>
+    </p>
+<p>当我们发起telnet，<strong>ww_web</strong>显示的登录用户IP是<code>10.10.10.6</code>。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>dis nat sess ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/11648
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.6/1024
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-11-29 18:43:55  TTL: 1190s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用<code>dis nat sess ver</code>查看具体的nat信息，也能发现会话是从<code>1.1.1.11/11648</code>发起，接收方是<code>11.11.11.11/23</code>，但是回包是丢给<code>10.10.10.6/1024</code>。</p>
+<h4 id="no-pat">No-PAT</h4>
+<p>查看刚才的nat会话信息，我们也发现，源IP是从11648端口发起，但是回包是丢给了nat地址的1024端口。这是由于配置的时候没有额外指定，默认使用了PAT允许端口转换。</p>
+<p>如果想要配置不允许端口转换，可以将刚才的配置命令<code>nat out 2002 add 0 counting</code>修改为<code>nat out 2002 add 0 no-pat counting</code>。nw1再次发起telnet登录ww_web。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/11650
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.5/11650
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-11-29 18:52:13  TTL: 1188s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再次查看会话信息，我们发现<code>1.1.1.11</code>和<code>10.10.10.5</code>的端口号都是11650，并没有发生改变。</p>
+<h3 id="基于ip地址对象组">基于IP地址对象组</h3>
+<p>以上是基于acl策略确认需要nat的地址范围来配置的nat，同时，也可以使用IP地址对象组来确认需要nat的地址范围。</p>
+<h4 id="easy-ip-1">Easy IP</h4>
+<p>还是上面的例子，假设要把1.1.1.0/28网段的内网用户nat转换后访问外网，nat地址为防火墙出口IP: 10.10.10.2。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>object-group ip add nw_a
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_a<span style="color:#f92672">]</span>des nw a IP
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_a<span style="color:#f92672">]</span>sec nw
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_a<span style="color:#f92672">]</span>net sub 1.1.1.0 <span style="color:#ae81ff">28</span>
+<span style="color:#75715e"># 配置地址对象组，所属安全域和IP地址范围</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>object-group ip add nw_all
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_all<span style="color:#f92672">]</span>des nw all IP
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_all<span style="color:#f92672">]</span>sec nw
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_all<span style="color:#f92672">]</span>net sub 1.1.1.0 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>fw-obj-grp-ip-nw_all<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置nat策略</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat policy 
+<span style="color:#f92672">[</span>fw-nat-policy<span style="color:#f92672">]</span>rule name nw_nat
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>des all nw ip nat
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>source-ip nw_all
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>outbound-interface g1/0/1
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>action easy-ip
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>fw-nat-policy<span style="color:#f92672">]</span>qu
+</code></pre></td></tr></table>
+</div>
+</div><p>到这一步就配置完成了，然后我们从<strong>nw1</strong>向<strong>ww_web</strong>发起telnet，再运行<code>dis nat ses ver</code>查看nat会话信息，可以看到<code>1.1.1.11</code>被转换成了端口IP<code>10.10.10.2</code>。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/11651
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.2/1024
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-11-29 21:57:15  TTL: 1162s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="使用nat地址组-1">使用nat地址组</h4>
+<p>如果外网出口IP地址有富余，不想使用端口IP作为nat地址，就是先创建nat地址组，然后修改nat策略中的action。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建nat地址组</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat address-group <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>fw-address-group-1<span style="color:#f92672">]</span>add 10.10.10.10 10.10.10.13
+<span style="color:#f92672">[</span>fw-address-group-1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 修改nat策略</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat po
+<span style="color:#f92672">[</span>fw-nat-policy<span style="color:#f92672">]</span>rule name nw_nat
+<span style="color:#f92672">[</span>fw-nat-policy-rule-nw_nat<span style="color:#f92672">]</span>action address-group <span style="color:#ae81ff">1</span> no-pat
+</code></pre></td></tr></table>
+</div>
+</div><p>此时我们再telnet测试，就会发现源IP被转换成了nat地址组中的某个IP，而且端口也不会变化。</p>
+<h4 id="入方向动态转换">入方向动态转换</h4>
+<p>跟静态转换类似，动态nat也可以配置入方向的nat，将大量外网IP地址转换为少量的一个或几个nat地址组，这里省略…</p>
+<h3 id="限制端口范围nat444">限制端口范围(nat444)</h3>
+<p>在上文<a href="#no-pat">基于acl策略的No-PAT</a>中简单提了几嘴，在配置动态转换的时候，如果不明确指定，在转换地址的时候，默认使用PAT模式，会随机转换端口，并且同一个IP在下一次nat的时候，转换的端口可能也会不一样。</p>
+<p>其实还可以通过配置<strong>nat444地址转换</strong>，实现基于端口块的公网IP地址复用，使一个私网IP地址在一个时间段内独占一个公网IP地址的某个端口块。</p>
+<p>还是以nw域<code>1.1.1.0/24</code>网段nat访问ww域为例，nat444地址转换有两种配置方式</p>
+<h4 id="静态nat444">静态nat444</h4>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;sys
+<span style="color:#75715e"># 创建端口块组1</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat port-block-group <span style="color:#ae81ff">1</span>
+<span style="color:#75715e"># 配置内网需要nat的IP地址范围</span>
+<span style="color:#f92672">[</span>fw-port-block-group-1<span style="color:#f92672">]</span>local-ip-address 1.1.1.1 1.1.1.254
+<span style="color:#75715e"># 配置外网nat地址组成员</span>
+<span style="color:#f92672">[</span>fw-port-block-group-1<span style="color:#f92672">]</span>global-ip-pool 10.10.10.2 10.10.10.2
+<span style="color:#75715e"># 配置nat地址的端口范围、每个内网IP占用的端口块大小</span>
+<span style="color:#f92672">[</span>fw-port-block-group-1<span style="color:#f92672">]</span>port-range <span style="color:#ae81ff">25000</span> <span style="color:#ae81ff">50400</span>
+<span style="color:#f92672">[</span>fw-port-block-group-1<span style="color:#f92672">]</span>block-size <span style="color:#ae81ff">100</span>
+<span style="color:#f92672">[</span>fw-port-block-group-1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 在外网侧接口配置启用静态nat444</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat outbound port-block-group <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>qu
+</code></pre></td></tr></table>
+</div>
+</div><p>然后我们就可以从nw侧发起几个ping或者telnet测试，再用<code>dis nat ses ver</code>查看nat会话信息。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.254/1281
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.2/50301
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-12-06 16:11:24  TTL: 1175s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Initiator:
+  Source      IP/port: 1.1.1.11/51073
+  Destination IP/port: 11.11.11.1/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.1/23
+  Destination IP/port: 10.10.10.2/26001
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-12-06 16:12:49  TTL: 1179s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">2</span>
+&lt;fw&gt;dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/51074
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.2/26002
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-12-06 16:16:34  TTL: 1195s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到<code>1.1.1.254</code>telnet登录<code>11.11.11.11</code>时，回包丢给了<code>10.10.10.2/50301</code>；<code>1.1.1.11</code>telnet登录<code>11.11.11.1</code>时，回包丢给了<code>10.10.10.2/26001</code>；之后<code>1.1.1.11</code>telnet登录<code>11.11.11.11</code>时，回包是丢给了<code>10.10.10.2/26002</code>。</p>
+<p>而且后续telnet断开后重连，端口号也还是继续更换，也就是说<strong>本次nat会话虽然已经结束了，但是分配的nat地址端口号还处于被使用状态</strong>。<strong><u>每次有新的nat会话，端口号会一直更换到最大端口号，然后再从最小的那个重新开始循环。</u></strong>（各位看官如果也想验证一下，可以修改一下刚才的配置，把端口块改小一点）</p>
+<h4 id="动态nat444">动态nat444</h4>
+<p>动态nat444在配置上，和基于acl策略且使用nat地址组的普通动态转换很像，只是对于nat地址组额外配置了一个可用的nat端口块范围。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置本地需要nat</span>
+&lt;fw&gt;sys
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>acl ba <span style="color:#ae81ff">2000</span>
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2000<span style="color:#f92672">]</span>rule <span style="color:#ae81ff">0</span> permit <span style="color:#111">source</span> 1.1.1.0 0.0.0.255
+<span style="color:#f92672">[</span>fw-acl-ipv4-basic-2000<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置nat地址及端口范围</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>nat address-group <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>fw-address-group-10<span style="color:#f92672">]</span>address 10.10.10.2 10.10.10.2
+<span style="color:#f92672">[</span>fw-address-group-10<span style="color:#f92672">]</span>port-range <span style="color:#ae81ff">62500</span> <span style="color:#ae81ff">65535</span>
+<span style="color:#f92672">[</span>fw-address-group-10<span style="color:#f92672">]</span>port-block block-size <span style="color:#ae81ff">10</span> extended-block-number <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>fw-address-group-10<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#75715e"># 取消刚才的静态nat444</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>undo nat outbound port-block-group <span style="color:#ae81ff">1</span>
+<span style="color:#75715e"># 配置动态nat444</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat outbound <span style="color:#ae81ff">2000</span> address-group <span style="color:#ae81ff">10</span> counting
+</code></pre></td></tr></table>
+</div>
+</div><p>如同刚才的静态nat444，经过几次telnet测试，感觉就是这个<u><strong><code>动态nat444</code>相对于<code>静态nat444</code>，端口释放更快，telnet连接断开之后，端口好像也同步释放了</strong></u>，下一次telnet别的IP时，端口号没有发生变化。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/57732
+  Destination IP/port: 11.11.11.11/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.11/23
+  Destination IP/port: 10.10.10.2/64260
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-12-07 14:17:26  TTL: 1189s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+&lt;fw&gt;
+&lt;fw&gt;dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 1.1.1.11/57733
+  Destination IP/port: 11.11.11.1/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+Responder:
+  Source      IP/port: 11.11.11.1/23
+  Destination IP/port: 10.10.10.2/64260
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">3</span>
+Rule name: nw_ww_telnet
+Start time: 2023-12-07 14:17:59  TTL: 1194s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/h3c_snat/">https://xy-ylr.github.io/it/h3c_snat/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/h3c_network_nat/">H3C防火墙NAT配置</a></li>
+        
+        <li><a href="/it/diff_for_trunk_access_hybrid/">关于vlan端口trunk、access、hybrid的区别</a></li>
+        
+        <li><a href="/it/network_loopback_err/">网络环路故障排查</a></li>
+        
+        <li><a href="/it/network_packets_loss/">记一次网络丢包故障排查</a></li>
+        
+        <li><a href="/it/dhcp_conf/">交换机DHCP 配置</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/nat'>nat</a></li>
+                
+                <li><a href='/tags/h3c'>h3c</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

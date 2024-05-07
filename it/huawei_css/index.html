@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>华为交换机STACK堆叠与CSS集群配置 | 四十荀的博客</title>
+    <meta property="og:title" content="华为交换机STACK堆叠与CSS集群配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-12-12T10:40:50&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-12-12T10:40:50&#43;08:00'>
+        
+    <meta name="Keywords" content="[网络配置, 华为, stack, 堆叠, css, 集群, 华为集群, 华为堆叠]">
+    <meta name="description" content="华为交换机stack堆叠配置, 华为交换机css集群配置">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/huawei_css/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#堆叠stack">堆叠stack</a>
+      <ul>
+        <li><a href="#基本概念">基本概念</a></li>
+        <li><a href="#配置流程">配置流程</a></li>
+        <li><a href="#配置案例">配置案例</a></li>
+      </ul>
+    </li>
+    <li><a href="#集群css">集群CSS</a>
+      <ul>
+        <li><a href="#基本概念-1">基本概念</a></li>
+        <li><a href="#配置案例-1">配置案例</a></li>
+      </ul>
+    </li>
+    <li><a href="#h3c-irf">h3c irf</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">华为交换机STACK堆叠与CSS集群配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年12月12日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约6148字 </span>
+            <span> 预计阅读时间13分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="hint">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-12-12T10:40:50" title="2023-12-12">
+            2023-12-12
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>堆叠是指将多台支持堆叠特性的交换机通过堆叠线缆连接在一起，从逻辑上变成一台交换设备，作为一个整体参与数据转发。</p>
+<p>集群也类似，将两台支持集群特性的交换机设备组合在一起，从逻辑上虚拟成一台交换设备。</p>
+<h2 id="堆叠stack">堆叠stack</h2>
+<p>官方文档：<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100333465/9939b53">S300, S500, S2700, S5700, S6700 V200R023C00 配置指南-堆叠配置</a>，其他型号交换机的配置也请参考官方文档。</p>
+<h3 id="基本概念">基本概念</h3>
+<h4 id="堆叠成员">堆叠成员</h4>
+<p>参与堆叠系统的那些交换机，按照功能分为三种角色：</p>
+<ul>
+<li>主交换机（master）：负责管理整个堆叠系统，一个堆叠中只有一台master。</li>
+<li>备交换机（standby）：备份交换机，当master故障的时候，standby会升级接替master管理堆叠系统，也只有一台。</li>
+<li>从交换机（slave）：除master和standby以外的其他交换机，只参与业务数据处理。</li>
+</ul>
+<p>另外还有一种单机堆叠，其实就只是一台普通的交换机启用了堆叠功能而已。</p>
+<h4 id="堆叠id">堆叠ID</h4>
+<p>用于标识堆叠成员交换机的唯一ID。可以通过<code>dis stack</code>来查看堆叠ID，回显中的<strong>slot</strong>部分就是；也可以通过业务口指示灯来判断，具体判断方法参考官网，比如<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100333465?section=j03x">S300, S500, S2700, S5700, S6700 V200R023C00交换机通过指示灯显示堆叠ID</a>。</p>
+<p>ID取值范围是0-8，默认为0。</p>
+<p>一般在配置堆叠或者堆叠扩容的时候，推荐先手动配置交换机的堆叠ID，然后再用堆叠线将交换机连接起来。</p>
+<p>可以使用命令<code>stack slot slot-id renumber [n]</code>来更改堆叠ID。</p>
+<h4 id="堆叠优先级">堆叠优先级</h4>
+<p>是系统选举过程中确定master主交换机的一个重要参考指标。</p>
+<p>优先级取值范围1-255，默认为100。可以使用命令<code>stack slot [slot-id] priority [priority]</code>来修改。</p>
+<h4 id="堆叠选举建立过程">堆叠选举建立过程</h4>
+<p>将参与堆叠的交换机连接起来，可以是链形连接也可以是环形连接，然后通电启动。第一条件是比较交换机的启动时间，启动最早的成为master。当交换机的启动时间间隔在20秒之内，系统就会当这些交换机是同时启动的，此时堆叠优先级最大的交换机被选举成为master。如果堆叠优先级也一样，那么mac地址小的那个交换机竞选为master。</p>
+<p>所以如果想要确保某台交换机成为master，最简单就是优先启动，过个半分钟再启动其他交换机。</p>
+<p>选出master之后，如果事先没有手动配置交换机的堆叠ID，此时系统会自动为其他交换机分配堆叠ID。</p>
+<p>之后再进一步选举standby，还是按照启动时间、堆叠优先级、mac地址大小来选举。</p>
+<p>standby也选出来之后，剩余的其他交换机就都是slave。</p>
+<p>最后系统会进一步比较各交换机的软件版本和配置文件，如果有不一样的，都会自动同步master的。</p>
+<p><strong>补充</strong>：</p>
+<p>堆叠建立完成后，如果后续又有新的交换机要加入堆叠，最好是先开机预配置堆叠ID并启用堆叠功能，或者是提前将物理端口加入逻辑堆叠端口，然后关机，将新交换机物理接入堆叠系统后再重新开机。</p>
+<p>如果是环形堆叠，其中一台slave交换机出现了故障或者链路断开了，原环形堆叠变成链形堆叠，堆叠系统重新计算下拓扑并同步一下就算完成了；如果是standby退出了，那还需要重新选举standby；如果是master故障退出了，那原来的standby变为master，然后重新选举新的standby，再计算拓扑并同步。</p>
+<p>如果是链形堆叠，其中一台交换机故障或链路断开退出，可能会导致堆叠分裂，原master所在的一边重新计算拓扑并同步就好了，另一边的可能会重启并重新进行堆叠系统的选举建立。</p>
+<p>如果是分裂出去的堆叠链路修复要重新并入原堆叠系统，或者是有新的堆叠系统要合并到原来的堆叠中，最好的操作是将要合并进来的交换机进行一些预配置后先关机，然后物理线路连接好之后再重新通电，因为两个堆叠系统合并的时候，需要重新竞选master，如果当前堆叠的master竞选失败了，那这一批交换机都会重启，可能会造成大量业务中断。</p>
+<h4 id="堆叠ipmac">堆叠IP/MAC</h4>
+<p>堆叠系统作为一台设备与其他网络设备进行通信时，具有唯一的IP地址和MAC地址。</p>
+<p><strong>堆叠的IP地址</strong>是全局的，不是针对主交换机或其他堆叠成员交换机。任意成员交换机从堆叠系统中移除，都不会改变堆叠系统的IP地址。</p>
+<p>堆叠系统的IP地址可以是任意堆叠成员交换机管理网口或三层端口的IP地址，正常情况下是master的管理口IP，如果master管理口不可用，再选其他的。堆叠管理网口编号与单机一样，都是MEth0/0/1。</p>
+<p><strong>堆叠系统的MAC地址</strong>正常情况下是主交换机master的MAC地址，但是master断开，则有可能造成堆叠mac切换，默认的时间是10分钟。如果断开超过10分钟，堆叠mac会切换为原来的standby（此时已经升级为新的master了）的mac；如果在10分钟内成功重连了，那么堆叠mac不变（虽然堆叠mac还是重连的交换机的mac，但是成员角色还是变了，原standby升级为master，重连的交换机变为slave或者standby，此时可以使用<code>slave switchover</code>来切换一下交换机成员角色）。</p>
+<p>可以使用命令<code>stack timer mac-address switch-delay [delay-time]</code>来修改切换时间。如果时间设置为0，除非堆叠重启，否则mac永远不变。</p>
+<h4 id="多主检测">多主检测</h4>
+<p>由于堆叠系统中所有成员交换机都使用同一个IP地址和MAC地址（堆叠系统MAC），堆叠分裂的时候，可能会产生多个具有相同IP地址和MAC地址的堆叠系统。这对于整个网络系统来说，就是有IP/MAC地址冲突，可能会造成严重网络故障。</p>
+<p>比如分裂的时候master和standby分别在一边，原master所在堆叠重新选举standby并同步拓扑；原standby所在堆叠，standby升级为master并重新选举standby等，没有重新启动交换机选举master，在堆叠mac老化之前，两边堆叠用的都是一样的IP和mac。</p>
+<p>多主检测MAD（Multi-Active Detection），是一种检测和处理堆叠分裂的协议。链路故障导致堆叠系统分裂后，MAD可以实现堆叠分裂的检测、冲突处理和故障恢复，降低堆叠分裂对业务的影响。MAD检测有<strong>直连检测</strong>和<strong>代理检测</strong>两种方式。</p>
+<ul>
+<li>如果参与堆叠的交换机不超过3台，可以使用<strong>Full-mesh直连检测</strong>，将各交换机两两互连。</li>
+<li>因为Full-mesh直连要求每台设备都要互连，如果堆叠交换机超过3台，那需要的端口数实在太多，可以使用<strong>中间设备直连检测</strong>，将每台堆叠成员交换机与中间设备交换机互连。</li>
+<li>如果实在是端口紧张，可以使用<strong>代理检测</strong>，跟中间设备直连检测类似，只是运行代理检测的端口除了用于mad检测，还可以正常运行业务。代理设备可以是其他堆叠系统，或者其他单台交换机。两者之间的互连线路需要配置Eth-Trunk。受限于每个Eth-Trunk最多只有8个端口，所以堆叠成员最好不要超过8个。</li>
+</ul>
+<p>配置mad检测之后，会给堆叠配置Detect状态表示正常工作。如果堆叠分裂了，分裂之后形成的堆叠之间需要相互竞争，成功的继续保持Detect，失败的变为Recovery状态，表示堆叠禁用。Recovery状态的交换机除了保留端口以外的端口都会被down掉。</p>
+<p>竞争规则与master选举类似，先比较启动时间（早的优先），再比较主交换机堆叠优先级（高的优先），最后比较堆叠系统MAC（小的优先）。所以大部分情况下应该都是原堆叠系统master所在的这边保持Detect，另外的转为Recovery。</p>
+<p>如果导致堆叠分裂的故障修复了，Recovery状态的堆叠交换机会重启并与Detect状态的合并，同时端口也恢复up。</p>
+<p>如果故障修复前，Detect状态的堆叠也再次故障了，可以先临时将这部分交换机断线脱网，然后手动启用Recovery状态的堆叠，等所有故障都修复后，再重新合并堆叠系统。</p>
+<h3 id="配置流程">配置流程</h3>
+<p>使用堆叠卡来组建堆叠</p>
+<ol>
+<li>首先安装堆叠卡。</li>
+<li>再开机配置各成员交换机的堆叠ID、堆叠优先级等。</li>
+<li>保存之后关机，然后连接堆叠线再重新开机。</li>
+<li>检查堆叠配置是否成功。</li>
+</ol>
+<p>业务口使用普通网线或光纤线来组建堆叠</p>
+<ol>
+<li>首先配置交换机物理端口加入逻辑堆叠口。</li>
+<li>再配置交换机的堆叠ID、堆叠优先级等。</li>
+<li>保存之后关机，然后连接端口再重新开机。</li>
+<li>检查堆叠配置是否成功。</li>
+</ol>
+<p>业务口专用堆叠线组建堆叠</p>
+<ol>
+<li>可以不用预配置，直接连接端口，具体端口参考官方文档。</li>
+<li>然后按照顺序开机。</li>
+<li>检查堆叠是否成功。</li>
+<li>save保存专用线缆自动生成的配置。</li>
+</ol>
+<p><strong>在连接线缆的时候，都是交换机的1口接另一交换机的2口</strong>。</p>
+<p>堆叠配置完成后，再配置mad检测，以及堆叠mac切换时间、堆叠保留vlan等。</p>
+<h3 id="配置案例">配置案例</h3>
+<p>本人ensp 1.3.00.100，V100R003C00SPC100模拟器，S系列、CE系列交换机相关命令（功能）不完整，无法完成配置，本来还想模拟测试堆叠分裂什么的，只能两手一摊……以下配置内容摘自官方文档<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100333465/d9806384">S5700等交换机堆叠配置</a>。</p>
+<h4 id="业务口普通线缆案例">业务口普通线缆案例</h4>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1221-092144-4942f871aac641dd629f8754e602de51-21f1c8.png">
+            <img class="mx-auto" alt="业务口普通线缆环形堆叠配置" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1221-092144-4942f871aac641dd629f8754e602de51-21f1c8.png" />
+        </a>
+    </p>
+<p>如图所示，交换机SW1到SW5使用业务口普通线缆方式配置环形堆叠，并使SW1成为master。</p>
+<p><strong>配置逻辑口并加入物理口</strong>，以SW1交换机为例，将物理接口G0/0/1加入逻辑堆叠口1，物理接口G0/0/2加入逻辑堆叠口2，其他SW2-SW5配置类似。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> sysname SW1
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface stack-port 0/1
+<span style="color:#f92672">[</span>SW1-stack-port0/1<span style="color:#f92672">]</span> port interface gigabitethernet 0/0/1 <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>SW1-stack-port0/1<span style="color:#f92672">]</span> qu
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface stack-port 0/2
+<span style="color:#f92672">[</span>SW1-stack-port0/2<span style="color:#f92672">]</span> port interface gigabitethernet 0/0/2 <span style="color:#111">enable</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>配置交换机堆叠ID和堆叠优先级</strong>，因为决定SW1为master，所以SW1的堆叠优先级调大一点，堆叠ID就不用改了，而其他的交换机只修改堆叠ID，堆叠优先级保持默认值100。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> stack slot <span style="color:#ae81ff">0</span> priority <span style="color:#ae81ff">200</span>
+<span style="color:#75715e"># 其他交换机修改堆叠ID参考SW2</span>
+<span style="color:#f92672">[</span>SW2<span style="color:#f92672">]</span> stack slot <span style="color:#ae81ff">0</span> renumber <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong><code>save</code>保存配置后关机</strong>，然后准备连接各交换机堆叠口，堆叠连接线缆的时候要求<strong>本设备的stack-port 0/1必须连接邻设备的stack-port 0/2，否则堆叠组建不成功</strong>。所以根据刚才的配置，5台交换机都是一台的G0/0/1端口连接另外一台的G0/0/2端口。</p>
+<p>线缆连接完成后，优先启动SW1交换机，等SW1启动完成后，再依序启动SW2~SW5。</p>
+<p><strong>验证配置</strong>，如果配置成功了，会有大致如下的输出结果</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> display stack
+Stack mode: Service-port
+Stack topology <span style="color:#111">type</span> : Ring
+Stack system MAC: xxxx-xxxx-xxx5
+MAC switch delay time: <span style="color:#ae81ff">10</span> min
+Stack reserved vlan : <span style="color:#ae81ff">4093</span>
+Slot of the active management port: -- 
+Slot     Role        Mac address      Priority   Device <span style="color:#111">type</span>
+-------------------------------------------------------------
+    <span style="color:#ae81ff">0</span>     Master      xxxx-xxxx-xxx5   <span style="color:#ae81ff">200</span>        S5720-28P-LI-AC
+    <span style="color:#ae81ff">1</span>     Standby     xxxx-xxxx-xxx4   <span style="color:#ae81ff">100</span>        S5720-28P-LI-AC
+    <span style="color:#ae81ff">2</span>     Slave       xxxx-xxxx-xxx1   <span style="color:#ae81ff">100</span>        S5720-28P-LI-AC
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="配置mad检测">配置mad检测</h4>
+<p>本案例中是由5台交换机组成的堆叠，所以Full-mesh直连检测直接淘汰，这种方式需要的端口数量太多。中间设备直连检测和代理检测都需要5的倍数个端口，此处堆叠系统本身就与SW6交换机有业务交互，采用代理检测方式。</p>
+<p><strong>堆叠系统配置Eth-Trunk代理检测</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;SW1&gt; system-view
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW1-Eth-Trunk1<span style="color:#f92672">]</span> mad detect mode relay
+<span style="color:#f92672">[</span>SW1-Eth-Trunk1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface gigabitethernet 0/0/3
+<span style="color:#f92672">[</span>SW1-GigabitEthernet0/0/3<span style="color:#f92672">]</span> eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW1-GigabitEthernet0/0/3<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface gigabitethernet 1/0/3
+<span style="color:#f92672">[</span>SW1-GigabitEthernet1/0/3<span style="color:#f92672">]</span> eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW1-GigabitEthernet1/0/3<span style="color:#f92672">]</span> quit
+……
+<span style="color:#f92672">[</span>SW1<span style="color:#f92672">]</span> interface gigabitethernet 5/0/3
+<span style="color:#f92672">[</span>SW1-GigabitEthernet5/0/3<span style="color:#f92672">]</span> eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW1-GigabitEthernet5/0/3<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>代理设备配置Eth-Trunk代理检测功能</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> sysname SW6
+<span style="color:#f92672">[</span>SW6<span style="color:#f92672">]</span> interface eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW6-Eth-Trunk1<span style="color:#f92672">]</span> mad relay
+<span style="color:#f92672">[</span>SW6-Eth-Trunk1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SW6<span style="color:#f92672">]</span> interface gigabitethernet 0/0/1
+<span style="color:#f92672">[</span>SW6-GigabitEthernet0/0/1<span style="color:#f92672">]</span> eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW6-GigabitEthernet0/0/1<span style="color:#f92672">]</span> quit
+……
+<span style="color:#f92672">[</span>SW6<span style="color:#f92672">]</span> interface gigabitethernet 0/0/5
+<span style="color:#f92672">[</span>SW6-GigabitEthernet0/0/5<span style="color:#f92672">]</span> eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SW6-GigabitEthernet0/0/5<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SW6<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>查看配置结果</strong></p>
+<p>在堆叠交换机上使用<code>display mad verbose</code>可以看到详细配置信息；在代理交换机上使用<code>display mad proxy</code>可以看到代理相关信息。</p>
+<h2 id="集群css">集群CSS</h2>
+<p>集群CSS也跟堆叠stack类似，用于将两台支持集群特性的交换机设备组合在一起，从逻辑上虚拟成一台交换设备。只是相对来说集群用于高端交换机，且集群仅指两台虚拟成一台，而堆叠有的甚至可以十几台堆成一台。</p>
+<h3 id="基本概念-1">基本概念</h3>
+<p>组建集群的时候，成员交换机也分主（master）备（standby）交换机；也通过集群ID（CSS ID）作为成员交换机的标识；也有集群优先级（CSS Priority）属性用于角色选举。</p>
+<p>集群ID默认为1，组建集群的时候需要将其中一台的ID修改为2。集群优先级默认为1，优先级值越大，越可能被选为master。</p>
+<p>选举过程也类似，先看启动时间，启动早的成为master；再比较集群优先级，优先级值大的成为master；再比较设备mac地址，mac小的成为master；最后比较集群ID，ID值为1的成为master。</p>
+<h4 id="多主检测-1">多主检测</h4>
+<p>由于集群系统中所有成员交换机都使用同一个IP地址和MAC地址（集群系统MAC），一个集群分裂后，由于这两台交换机运行着相同的配置文件（即原集群系统的配置文件），此时就会产生两个具有相同IP地址和MAC地址的单框集群系统。为防止集群分裂后，产生两个具有相同IP地址和MAC地址的集群系统，引起网络故障，必须进行IP地址和MAC地址的冲突检查。</p>
+<p>多主检测MAD（Multi-Active Detection），是一种检测和处理集群分裂的协议。链路故障导致集群系统分裂后，MAD可以实现集群分裂的检测、冲突处理和故障恢复，降低集群分裂对业务的影响。检测方式同样分为<strong>直连检测</strong>方式和<strong>代理检测</strong>方式，直连检测又可以分为<strong>直接直连</strong>和<strong>中间设备直连</strong>。在同一个集群系统中，两种检测方式互斥，不可以同时配置。</p>
+<h3 id="配置案例-1">配置案例</h3>
+<p>本人ensp 1.3.00.100，V100R003C00SPC100模拟器，模拟器中的相关交换机缺少css功能，无法完成配置，以下配置内容摘自官方文档<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100248021/6b816c61">S12700等交换机集群配置</a>。</p>
+<h4 id="业务口组建集群">业务口组建集群</h4>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1226-094441-e879ccd7c63fa54b68022ecd9e7e5bff-d45faf.png">
+            <img class="mx-auto" alt="业务口组建集群示意图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1226-094441-e879ccd7c63fa54b68022ecd9e7e5bff-d45faf.png" />
+        </a>
+    </p>
+<p>如图所示，核心层两台交换机组建集群，并以SWA为master。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## 配置SWA作为集群master</span>
+<span style="color:#75715e"># css id保持默认值1，连接方式为业务口lpu，优先级提高为100。</span>
+&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> sysname SWA
+<span style="color:#f92672">[</span>SWA<span style="color:#f92672">]</span> <span style="color:#111">set</span> css mode lpu
+<span style="color:#f92672">[</span>SWA<span style="color:#f92672">]</span> <span style="color:#111">set</span> css priority <span style="color:#ae81ff">100</span>
+<span style="color:#75715e"># 配置逻辑口</span>
+<span style="color:#f92672">[</span>SWA<span style="color:#f92672">]</span> interface css-port <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SWA-css-port1<span style="color:#f92672">]</span> port interface xgigabitethernet 1/0/1 to xgigabitethernet 1/0/2 <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>SWA-css-port1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SWA<span style="color:#f92672">]</span> interface css-port <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">[</span>SWA-css-port2<span style="color:#f92672">]</span> port interface xgigabitethernet 2/0/1 to xgigabitethernet 2/0/2 <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>SWA-css-port2<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## 配置SWB作为standby</span>
+<span style="color:#75715e"># 连接方式为业务口lpu，css id改为2，优先级改为10。</span>
+&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> sysname SWB
+<span style="color:#f92672">[</span>SWB<span style="color:#f92672">]</span> <span style="color:#111">set</span> css mode lpu
+<span style="color:#f92672">[</span>SWB<span style="color:#f92672">]</span> <span style="color:#111">set</span> css id <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">[</span>SWB<span style="color:#f92672">]</span> <span style="color:#111">set</span> css priority <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 配置逻辑口</span>
+<span style="color:#f92672">[</span>SWB<span style="color:#f92672">]</span> interface css-port <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SWB-css-port1<span style="color:#f92672">]</span> port interface xgigabitethernet 1/0/1 to xgigabitethernet 1/0/2 <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>SWB-css-port1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SWB<span style="color:#f92672">]</span> interface css-port <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">[</span>SWB-css-port2<span style="color:#f92672">]</span> port interface xgigabitethernet 2/0/1 to xgigabitethernet 2/0/2 <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>SWB-css-port2<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><p>完成以上配置后，集群基础配置就算是初步完成了，可以使用命令<code>display css css-port saved</code>查看集群的逻辑口配置是否与预期一致。使用命令<code>display css status saved</code>查看集群配置信息是否与预期一致。</p>
+<p>如果确认配置无误，接下来就可以连接线缆，然后使用命令<code>css enable</code><strong>使能集群</strong>。执行该命令后，交换机会提示css集群配置会在重启后生效，注意<strong>先使能并重启SWA交换机，这样才能顺利成为master</strong>。</p>
+<p>等两台交换机重启完成，集群应该就组建成功了。后续可以使用命令<code>display css channel all</code>查看css集群链路拓扑。</p>
+<p>接下来就是配置mad检测，以防止集群分裂的时候冲击网络。注意以下两种检测方式二选一就可以了，不用全部配置。</p>
+<h4 id="mad检测-直连">mad检测-直连</h4>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> interface gigabitethernet 1/2/0/0
+<span style="color:#f92672">[</span>HUAWEI-GigabitEthernet1/2/0/0<span style="color:#f92672">]</span> mad detect mode direct
+Warning: This <span style="color:#111">command</span> will block the port, and no other configuration running on this port is recommended. Continue?<span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>:y
+<span style="color:#f92672">[</span>HUAWEI-GigabitEthernet1/2/0/0<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> interface gigabitethernet 2/2/0/0
+<span style="color:#f92672">[</span>HUAWEI-GigabitEthernet2/2/0/0<span style="color:#f92672">]</span> mad detect mode direct
+Warning: This <span style="color:#111">command</span> will block the port, and no other configuration running on this port is recommended. Continue?<span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>:y
+<span style="color:#f92672">[</span>HUAWEI-GigabitEthernet2/2/0/0<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><p>此处是使用GE1/2/0/0和GE2/2/0/0端口配置直连mad检测，可以使用命令<code>display mad verbose</code>查看mad配置情况。</p>
+<h4 id="mad检测-代理">mad检测-代理</h4>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 集群上配置eth-trunk并启用代理mad功能</span>
+&lt;HUAWEI&gt; system-view
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> interface eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>HUAWEI-Eth-Trunk1<span style="color:#f92672">]</span> trunkport gigabitethernet 1/2/0/5
+<span style="color:#f92672">[</span>HUAWEI-Eth-Trunk1<span style="color:#f92672">]</span> trunkport gigabitethernet 2/2/0/5
+<span style="color:#f92672">[</span>HUAWEI-Eth-Trunk1<span style="color:#f92672">]</span> mad detect mode relay
+<span style="color:#f92672">[</span>HUAWEI-Eth-Trunk1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>HUAWEI<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 代理设备上配置eth-trunk并启用代理mad功能</span>
+&lt;SWC&gt; system-view
+<span style="color:#f92672">[</span>SWC<span style="color:#f92672">]</span> interface eth-trunk <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>SWC-Eth-Trunk1<span style="color:#f92672">]</span> trunkport gigabitethernet 1/0/19
+<span style="color:#f92672">[</span>SWC-Eth-Trunk1<span style="color:#f92672">]</span> trunkport gigabitethernet 1/0/21
+<span style="color:#f92672">[</span>SWC-Eth-Trunk1<span style="color:#f92672">]</span> mad relay
+<span style="color:#f92672">[</span>SWC-Eth-Trunk1<span style="color:#f92672">]</span> quit
+<span style="color:#f92672">[</span>SWC<span style="color:#f92672">]</span> quit
+</code></pre></td></tr></table>
+</div>
+</div><p>在代理设备上可以使用命令<code>display mad proxy</code>查看mad代理信息。</p>
+<p>更多补充配置，比如参考官方文档<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100248021/dec8aa01">S12700等交换机集群配置-增强功能</a>。</p>
+<h2 id="h3c-irf">h3c irf</h2>
+<p>h3c有类似的技术叫irf，<a href="/it/h3c_irf_conf/">h3c irf配置</a>，“洗稿”时间比较早，有点罗嗦，仅供参考。</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/huawei_css/">https://xy-ylr.github.io/it/huawei_css/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/h3c_complex_nat/">H3c防火墙双向地址转换配置</a></li>
+        
+        <li><a href="/it/h3c_snat/">H3c防火墙源地址转换配置</a></li>
+        
+        <li><a href="/it/h3c_network_nat/">H3C防火墙NAT配置</a></li>
+        
+        <li><a href="/it/diff_for_trunk_access_hybrid/">关于vlan端口trunk、access、hybrid的区别</a></li>
+        
+        <li><a href="/it/network_loopback_err/">网络环路故障排查</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/%E5%8D%8E%E4%B8%BA'>华为</a></li>
+                
+                <li><a href='/tags/css%E9%9B%86%E7%BE%A4'>css集群</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

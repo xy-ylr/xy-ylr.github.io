@@ -224,7 +224,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约1545字 </span>
+            <span> 共约1667字 </span>
             <span> 预计阅读时间4分钟</span>
         </div>
         
@@ -248,7 +248,7 @@
 
 <div class="post-outdated">
     
-    <div class="hint">
+    <div class="warn">
     
         <p>【注意】本文最后更新于 
             <span class="timeago" datetime="2022-12-02T09:32:08" title="2022-12-02">
@@ -264,90 +264,197 @@
             <p>随着操作系统的长时间运行, 或者服务器新增业务的时候, 可能会出现原有磁盘空间不足, 需要添加硬盘的情况. 想要给系统磁盘空间扩容, 一般是先给新增的硬盘分区, 再对分区进行格式化, 然后挂载到相应的目录上.</p>
 <h2 id="磁盘分区fdisk">磁盘分区fdisk</h2>
 <p>可以使用<code>df -h</code>查看系统当前磁盘空间使用情况:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># df -h</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Filesystem      Size  Used Avail Use% Mounted on
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>devtmpfs        3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /dev
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>tmpfs           3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /dev/shm
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>tmpfs           3.7G  448K  3.7G   1% /run
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>tmpfs           3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /sys/fs/cgroup
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span>/dev/vda1        20G  3.0G   16G  16% /
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span>tmpfs           749M     <span style="color:#2aa198">0</span>  749M   0% /run/user/0
-</code></pre></div><p>再使用<code>fdisk -l</code>查看系统当前已新增但未使用的磁盘:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># fdisk -l</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>Disk /dev/vda: <span style="color:#2aa198">20</span> GiB, <span style="color:#2aa198">21474836480</span> bytes, <span style="color:#2aa198">41943040</span> sectors
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>Units: sectors of <span style="color:#2aa198">1</span> * <span style="color:#268bd2">512</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>Sector size <span style="color:#719e07">(</span>logical/physical<span style="color:#719e07">)</span>: <span style="color:#2aa198">512</span> bytes / <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>I/O size <span style="color:#719e07">(</span>minimum/optimal<span style="color:#719e07">)</span>: <span style="color:#2aa198">512</span> bytes / <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>Disklabel type: dos
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>Disk identifier: 0x6c93b039
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>Device     Boot Start      End  Sectors Size Id Type
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>/dev/vda1  *     <span style="color:#2aa198">2048</span> <span style="color:#2aa198">41943039</span> <span style="color:#2aa198">41940992</span>  20G <span style="color:#2aa198">83</span> Linux
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>Disk /dev/vdb: <span style="color:#2aa198">40</span> GiB, <span style="color:#2aa198">42949672960</span> bytes, <span style="color:#2aa198">83886080</span> sectors
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>Units: sectors of <span style="color:#2aa198">1</span> * <span style="color:#268bd2">512</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>Sector size <span style="color:#719e07">(</span>logical/physical<span style="color:#719e07">)</span>: <span style="color:#2aa198">512</span> bytes / <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>I/O size <span style="color:#719e07">(</span>minimum/optimal<span style="color:#719e07">)</span>: <span style="color:#2aa198">512</span> bytes / <span style="color:#2aa198">512</span> bytes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>
-</code></pre></div><p>两相对照, 可以看出来Disk /dev/vda已经创建分区<code>/dev/vda1</code>并挂载在了根目录<code>/</code>上. 而Disk /dev/vdb尚未使用.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># df -h</span>
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs        3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /dev
+tmpfs           3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /dev/shm
+tmpfs           3.7G  448K  3.7G   1% /run
+tmpfs           3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /sys/fs/cgroup
+/dev/vda1        20G  3.0G   16G  16% /
+tmpfs           749M     <span style="color:#ae81ff">0</span>  749M   0% /run/user/0
+</code></pre></td></tr></table>
+</div>
+</div><p>再使用<code>fdisk -l</code>查看系统当前已新增但未使用的磁盘:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># fdisk -l</span>
+Disk /dev/vda: <span style="color:#ae81ff">20</span> GiB, <span style="color:#ae81ff">21474836480</span> bytes, <span style="color:#ae81ff">41943040</span> sectors
+Units: sectors of <span style="color:#ae81ff">1</span> * <span style="color:#111">512</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+Disklabel type: dos
+Disk identifier: 0x6c93b039
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/vda1  *     <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">41943039</span> <span style="color:#ae81ff">41940992</span>  20G <span style="color:#ae81ff">83</span> Linux
+
+
+Disk /dev/vdb: <span style="color:#ae81ff">40</span> GiB, <span style="color:#ae81ff">42949672960</span> bytes, <span style="color:#ae81ff">83886080</span> sectors
+Units: sectors of <span style="color:#ae81ff">1</span> * <span style="color:#111">512</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> bytes
+Sector size <span style="color:#f92672">(</span>logical/physical<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+I/O size <span style="color:#f92672">(</span>minimum/optimal<span style="color:#f92672">)</span>: <span style="color:#ae81ff">512</span> bytes / <span style="color:#ae81ff">512</span> bytes
+
+</code></pre></td></tr></table>
+</div>
+</div><p>两相对照, 可以看出来Disk /dev/vda已经创建分区<code>/dev/vda1</code>并挂载在了根目录<code>/</code>上. 而Disk /dev/vdb尚未使用.</p>
 <h3 id="新建分区">新建分区</h3>
 <p>使用命令<code>fdisk /dev/vdb</code>开始对磁盘进行分区, 根据提示, 可以输入<kbd>m</kbd>查看命令提示</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># fdisk /dev/vdb</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>Welcome to fdisk <span style="color:#719e07">(</span>util-linux 2.32.1<span style="color:#719e07">)</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>Command <span style="color:#719e07">(</span>m <span style="color:#719e07">for</span> <span style="color:#b58900">help</span><span style="color:#719e07">)</span>: n
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>Partition <span style="color:#b58900">type</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>   p   primary <span style="color:#719e07">(</span><span style="color:#2aa198">0</span> primary, <span style="color:#2aa198">0</span> extended, <span style="color:#2aa198">4</span> free<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>   e   extended <span style="color:#719e07">(</span>container <span style="color:#719e07">for</span> logical partitions<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>Select <span style="color:#719e07">(</span>default p<span style="color:#719e07">)</span>: p
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>Partition number <span style="color:#719e07">(</span>1-4, default 1<span style="color:#719e07">)</span>: <span style="color:#2aa198">1</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>First sector <span style="color:#719e07">(</span>2048-83886079, default 2048<span style="color:#719e07">)</span>: 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>Last sector, +sectors or +size<span style="color:#719e07">{</span>K,M,G,T,P<span style="color:#719e07">}</span> <span style="color:#719e07">(</span>2048-83886079, default 83886079<span style="color:#719e07">)</span>: +10G
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>Created a new partition <span style="color:#2aa198">1</span> of <span style="color:#b58900">type</span> <span style="color:#2aa198">&#39;Linux&#39;</span> and of size <span style="color:#2aa198">10</span> GiB.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>Command <span style="color:#719e07">(</span>m <span style="color:#719e07">for</span> <span style="color:#b58900">help</span><span style="color:#719e07">)</span>: w
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>The partition table has been altered.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>Calling ioctl<span style="color:#719e07">()</span> to re-read partition table.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span>Syncing disks.
-</code></pre></div><p>先输入<kbd>n</kbd>开始新建分区, 输入<kbd>p</kbd>表示创建主分区(<kbd>e</kbd>表示逻辑分区), 然后是确认分区编号和分区在磁盘上的起始位置, 可以直接敲回车键<kbd>Enter</kbd>让系统自动帮我们选择. 最后是确认分区的大小, 比如此处是10G.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># fdisk /dev/vdb</span>
+
+Welcome to fdisk <span style="color:#f92672">(</span>util-linux 2.32.1<span style="color:#f92672">)</span>.
+...
+
+Command <span style="color:#f92672">(</span>m <span style="color:#00a8c8">for</span> <span style="color:#111">help</span><span style="color:#f92672">)</span>: n
+Partition <span style="color:#111">type</span>
+   p   primary <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> primary, <span style="color:#ae81ff">0</span> extended, <span style="color:#ae81ff">4</span> free<span style="color:#f92672">)</span>
+   e   extended <span style="color:#f92672">(</span>container <span style="color:#00a8c8">for</span> logical partitions<span style="color:#f92672">)</span>
+Select <span style="color:#f92672">(</span>default p<span style="color:#f92672">)</span>: p
+Partition number <span style="color:#f92672">(</span>1-4, default 1<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span>
+First sector <span style="color:#f92672">(</span>2048-83886079, default 2048<span style="color:#f92672">)</span>: 
+Last sector, +sectors or +size<span style="color:#f92672">{</span>K,M,G,T,P<span style="color:#f92672">}</span> <span style="color:#f92672">(</span>2048-83886079, default 83886079<span style="color:#f92672">)</span>: +10G
+
+Created a new partition <span style="color:#ae81ff">1</span> of <span style="color:#111">type</span> <span style="color:#d88200">&#39;Linux&#39;</span> and of size <span style="color:#ae81ff">10</span> GiB.
+Command <span style="color:#f92672">(</span>m <span style="color:#00a8c8">for</span> <span style="color:#111">help</span><span style="color:#f92672">)</span>: w
+The partition table has been altered.
+Calling ioctl<span style="color:#f92672">()</span> to re-read partition table.
+Syncing disks.
+</code></pre></td></tr></table>
+</div>
+</div><p>先输入<kbd>n</kbd>开始新建分区, 输入<kbd>p</kbd>表示创建主分区(<kbd>e</kbd>表示逻辑分区), 然后是确认分区编号和分区在磁盘上的起始位置, 可以直接敲回车键<kbd>Enter</kbd>让系统自动帮我们选择. 最后是确认分区的大小, 比如此处是10G.</p>
 <p>最最后输入<kbd>w</kbd>将之写入分区表就算创建成功了.</p>
 <h3 id="删除分区">删除分区</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>Command <span style="color:#719e07">(</span>m <span style="color:#719e07">for</span> <span style="color:#b58900">help</span><span style="color:#719e07">)</span>: d
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Partition number <span style="color:#719e07">(</span>1,2, default 2<span style="color:#719e07">)</span>: <span style="color:#2aa198">2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>Partition <span style="color:#2aa198">2</span> has been deleted.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>Command <span style="color:#719e07">(</span>m <span style="color:#719e07">for</span> <span style="color:#b58900">help</span><span style="color:#719e07">)</span>:
-</code></pre></div><p>如果要删除某个分区, 可以输入<kbd>d</kbd>, 然后选择要删除的分区编号即可.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Command <span style="color:#f92672">(</span>m <span style="color:#00a8c8">for</span> <span style="color:#111">help</span><span style="color:#f92672">)</span>: d
+Partition number <span style="color:#f92672">(</span>1,2, default 2<span style="color:#f92672">)</span>: <span style="color:#ae81ff">2</span>
+
+Partition <span style="color:#ae81ff">2</span> has been deleted.
+
+Command <span style="color:#f92672">(</span>m <span style="color:#00a8c8">for</span> <span style="color:#111">help</span><span style="color:#f92672">)</span>:
+</code></pre></td></tr></table>
+</div>
+</div><p>如果要删除某个分区, 可以输入<kbd>d</kbd>, 然后选择要删除的分区编号即可.</p>
 <h2 id="格式化分区mkfs">格式化分区mkfs</h2>
 <p>再次输入<code>fdisk -l</code>, 可以看到已经多出来一个分区<code>/dev/vdb1</code>, 接下来对其进行格式化.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># mkfs -t ext4 /dev/vdb1</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>mke2fs 1.45.6 <span style="color:#719e07">(</span>20-Mar-2020<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>Creating filesystem with <span style="color:#2aa198">2621440</span> 4k blocks and <span style="color:#2aa198">655360</span> inodes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>Filesystem UUID: 10ba3764-fccd-4132-b361-02fb6bb03a8c
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>Superblock backups stored on blocks: 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>        32768, 98304, 163840, 229376, 294912, 819200, 884736, <span style="color:#2aa198">1605632</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>Allocating group tables: <span style="color:#719e07">done</span>                            
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>Writing inode tables: <span style="color:#719e07">done</span>                            
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>Creating journal <span style="color:#719e07">(</span><span style="color:#2aa198">16384</span> blocks<span style="color:#719e07">)</span>: <span style="color:#719e07">done</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>Writing superblocks and filesystem accounting information: <span style="color:#719e07">done</span>
-</code></pre></div><h2 id="挂载分区">挂载分区</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># mkfs -t ext4 /dev/vdb1</span>
+mke2fs 1.45.6 <span style="color:#f92672">(</span>20-Mar-2020<span style="color:#f92672">)</span>
+Creating filesystem with <span style="color:#ae81ff">2621440</span> 4k blocks and <span style="color:#ae81ff">655360</span> inodes
+Filesystem UUID: 10ba3764-fccd-4132-b361-02fb6bb03a8c
+Superblock backups stored on blocks: 
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, <span style="color:#ae81ff">1605632</span>
+
+Allocating group tables: <span style="color:#00a8c8">done</span>                            
+Writing inode tables: <span style="color:#00a8c8">done</span>                            
+Creating journal <span style="color:#f92672">(</span><span style="color:#ae81ff">16384</span> blocks<span style="color:#f92672">)</span>: <span style="color:#00a8c8">done</span>
+Writing superblocks and filesystem accounting information: <span style="color:#00a8c8">done</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="挂载分区">挂载分区</h2>
 <p>分区创建成功并完成格式化后, 需要将它挂载到指定目录, 否则系统还是无法往该分区中写入数据, 存储空间也就没有增加. 使用<code>mount [分区] [目录]</code>命令来挂载, 比如:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># mount /dev/vdb1 /home/</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># df -h</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>Filesystem      Size  Used Avail Use% Mounted on
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>devtmpfs        3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /dev
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>tmpfs           3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /dev/shm
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>tmpfs           3.7G  452K  3.7G   1% /run
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>tmpfs           3.7G     <span style="color:#2aa198">0</span>  3.7G   0% /sys/fs/cgroup
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>/dev/vda1        20G  3.0G   16G  16% /
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>tmpfs           749M     <span style="color:#2aa198">0</span>  749M   0% /run/user/0
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>/dev/vdb1       9.8G   92K  9.3G   1% /home
-</code></pre></div><p>上述命令是将分区<code>/dev/vdb1</code>挂载给<code>/home</code>目录, 再次运行<code>df -h</code>可以确定已经挂载成功.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># mount /dev/vdb1 /home/</span>
+<span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># df -h</span>
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs        3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /dev
+tmpfs           3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /dev/shm
+tmpfs           3.7G  452K  3.7G   1% /run
+tmpfs           3.7G     <span style="color:#ae81ff">0</span>  3.7G   0% /sys/fs/cgroup
+/dev/vda1        20G  3.0G   16G  16% /
+tmpfs           749M     <span style="color:#ae81ff">0</span>  749M   0% /run/user/0
+/dev/vdb1       9.8G   92K  9.3G   1% /home
+</code></pre></td></tr></table>
+</div>
+</div><p>上述命令是将分区<code>/dev/vdb1</code>挂载给<code>/home</code>目录, 再次运行<code>df -h</code>可以确定已经挂载成功.</p>
 <p>需要注意是, 挂载的时候, <strong>挂载点目录应该是一个空目录, 否则目录中已有的数据可能会丢失</strong>.</p>
 <p>如果要取消挂载, 使用<code>umount</code>命令, <code>umount /home</code>或者<code>umount /dev/vdb1</code>都可以.</p>
 <h2 id="设置开机自动挂载">设置开机自动挂载</h2>
@@ -360,35 +467,83 @@
 </ol>
 </li>
 <li>挂载点, 即该分区想要挂载的目录, 比如&rdquo;/var/www&rdquo;.</li>
-<li>挂载的文件系统类型, 比如ext3, ext4, ntfs, fat32等.</li>
-<li>挂载的文件系统参数, 一般保持默认就好, 即&quot;defaults&rdquo;.</li>
+<li>挂载的文件系统类型, 比如ext3, ext4, ntfs, fat32, iso9660等.</li>
+<li>挂载的文件系统参数, 一般保持默认就好, 即&quot;defaults&rdquo;. 其他还有<code>ro</code>表示只读模式；<code>user</code>表示允许普通用户挂载；<code>noauto</code>表示开机不自动挂载等.</li>
 <li>dump备份, 1表示每天备份, 0表示不备份.</li>
 <li>fsck磁盘校验, 0表示不校验, 1校验(一般给根目录设置), 2稍后校验(其他需要校验的分区).</li>
 </ol>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#719e07">[</span>root@xy-ylr ~<span style="color:#719e07">]</span><span style="color:#586e75"># cat /etc/fstab</span> 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#586e75"># /etc/fstab</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#586e75"># Created by anaconda on Wed Sep  7 02:53:10 2022</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#586e75"># Accessible filesystems, by reference, are maintained under &#39;/dev/disk/&#39;.</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#586e75"># See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info.</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#586e75"># After editing this file, run &#39;systemctl daemon-reload&#39; to update systemd</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#586e75"># units generated from this file.</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#268bd2">UUID</span><span style="color:#719e07">=</span>94a557cd-441e-4dee-b12b-f9274230a1f5 /                       ext4    defaults        <span style="color:#2aa198">1</span> <span style="color:#2aa198">1</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>
-</code></pre></div><h2 id="挂载镜像文件">挂载镜像文件</h2>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>mount -o loop /home/Downloads/xxx.iso /mnt/xxxiso
-</code></pre></div><h2 id="内存交换空间swap">内存交换空间swap</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@xy-ylr ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/fstab</span> 
+
+#
+<span style="color:#75715e"># /etc/fstab</span>
+<span style="color:#75715e"># Created by anaconda on Wed Sep  7 02:53:10 2022</span>
+#
+<span style="color:#75715e"># Accessible filesystems, by reference, are maintained under &#39;/dev/disk/&#39;.</span>
+<span style="color:#75715e"># See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info.</span>
+#
+<span style="color:#75715e"># After editing this file, run &#39;systemctl daemon-reload&#39; to update systemd</span>
+<span style="color:#75715e"># units generated from this file.</span>
+#
+<span style="color:#111">UUID</span><span style="color:#f92672">=</span>94a557cd-441e-4dee-b12b-f9274230a1f5 /                       ext4    defaults        <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="挂载镜像文件">挂载镜像文件</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -o loop /home/Downloads/xxx.iso /mnt/xxxiso
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="内存交换空间swap">内存交换空间swap</h2>
 <h3 id="创建swap">创建swap</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>mkswap /dev/vdb2
-</code></pre></div><h3 id="挂载swap">挂载swap</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>swapon /dev/vdb2
-</code></pre></div><h3 id="设置自动挂载swap">设置自动挂载swap</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#268bd2">UUID</span><span style="color:#719e07">=</span>xxxx-xxxx   swap   swap    defaults        <span style="color:#2aa198">0</span>   <span style="color:#2aa198">0</span>
-</code></pre></div>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkswap /dev/vdb2
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="挂载swap">挂载swap</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">swapon /dev/vdb2
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="设置自动挂载swap">设置自动挂载swap</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#111">UUID</span><span style="color:#f92672">=</span>xxxx-xxxx   swap   swap    defaults        <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>
+</code></pre></td></tr></table>
+</div>
+</div>
         </div>
 
         
@@ -409,6 +564,10 @@
     <h2>See Also</h2>
     <ul class="listing">
         
+        <li><a href="/it/linux_install_zabbix/">Linux操作系统上安装Zabbix运维工具并基础配置</a></li>
+        
+        <li><a href="/it/linux_lvm/">Linux lvm磁盘管理</a></li>
+        
         <li><a href="/it/linux_ssh/">Linux禁用root远程登录</a></li>
         
         <li><a href="/it/linux_commands/">Linux常用命令笔记</a></li>
@@ -428,6 +587,8 @@
                 <li><a href='/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96'>格式化</a></li>
                 
                 <li><a href='/tags/%E6%8C%82%E8%BD%BD'>挂载</a></li>
+                
+                <li><a href='/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86'>磁盘管理</a></li>
                 
             </ul>
             
@@ -455,7 +616,9 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -509,43 +672,43 @@
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -557,25 +720,33 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -583,6 +754,20 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -592,19 +777,53 @@
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -612,15 +831,33 @@
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

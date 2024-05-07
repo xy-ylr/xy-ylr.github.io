@@ -234,7 +234,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约3254字 </span>
+            <span> 共约3421字 </span>
             <span> 预计阅读时间7分钟</span>
         </div>
         
@@ -256,6 +256,18 @@
     
 
 
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-02-28T19:42:51" title="2023-02-28">
+            2023-02-28
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
 
 
         <div class="post-content">
@@ -266,39 +278,92 @@
 <p>可以使用<code>？</code>来查看命令帮助手册，这个很有用。</p>
 <p>以华三的为主，华为的部分命令可能会有些区别，想到了的会额外注明，没有注明的也不代表华为设备就可用。</p>
 <h3 id="查看配置序列号等">查看配置/序列号等</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>dis cu					<span style="color:#586e75"># 查看当前运行配置</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>dis cpu-usage			<span style="color:#586e75"># 查看cpu信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>dis device				<span style="color:#586e75"># 查看设备信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>dis device manuinfo		<span style="color:#586e75"># 查看序列号 部分老设备可能不支持</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>dis environment			<span style="color:#586e75"># 查看温度等信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>dis fan					<span style="color:#586e75"># 查看风扇</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>dis memory				<span style="color:#586e75"># 查看内存</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>dis power				<span style="color:#586e75"># 查看电源</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>dis users				<span style="color:#586e75"># 查看用户</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>dis logbuffer r			<span style="color:#586e75"># 查看日志相关，从最近的开始 有些设备不用加r就会自动倒序</span>
-</code></pre></div><h3 id="查看端口流量等">查看端口流量等</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>dis counters rate inbound interface         <span style="color:#586e75"># 查看入方向流量</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>dis counters rate outbound interface        <span style="color:#586e75"># 查看出方向流量</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>dis int | in rate                           <span style="color:#586e75"># 查看接口历史使用率</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>dis int | in sec                            <span style="color:#586e75"># 查看接口历史使用率及出入方向的字节</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>dis int | in sec|Bri|Ten|Gig                <span style="color:#586e75"># 查看接口使用率</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>dis int | in Last|Bri|Ten|Gig               <span style="color:#586e75"># 查看接口使用率</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>dis int | in CRC|Bri|Ten|Gig                <span style="color:#586e75"># 查看接口错误包</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>dis int | in Last|CRC|Bri|Ten|Gig           <span style="color:#586e75"># 同时查看接口使用率和错误包</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>dis int g1/0/1 | in sec						<span style="color:#586e75"># 查看指定接口使用率</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>dis int brief		<span style="color:#586e75"># 查看所有端口的up/down等信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>dis brief int		<span style="color:#586e75"># 有些老设备可能是这样子反过来的</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#719e07">[</span>h3c<span style="color:#719e07">]</span>int g1/0/1 	<span style="color:#586e75"># 进入指定端口</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#719e07">[</span>h3c g1/0/1<span style="color:#719e07">]</span>dis th	<span style="color:#586e75"># 查看该指定端口配置</span>
-</code></pre></div><p><strong>注意</strong>：目前遇到过的部分华为的设备，查看流量也直接使用<code>dis int brief</code>，已经包含了端口流量使用率。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dis cu					<span style="color:#75715e"># 查看当前运行配置</span>
+dis cpu-usage			<span style="color:#75715e"># 查看cpu信息</span>
+dis device				<span style="color:#75715e"># 查看设备信息</span>
+dis device manuinfo		<span style="color:#75715e"># 查看序列号 部分老设备可能不支持</span>
+dis environment			<span style="color:#75715e"># 查看温度等信息</span>
+dis fan					<span style="color:#75715e"># 查看风扇</span>
+dis memory				<span style="color:#75715e"># 查看内存</span>
+dis power				<span style="color:#75715e"># 查看电源</span>
+dis users				<span style="color:#75715e"># 查看用户</span>
+dis logbuffer r			<span style="color:#75715e"># 查看日志相关，从最近的开始 有些设备不用加r就会自动倒序</span>
+<span style="color:#75715e"># 华为查看序列号</span>
+dis esn
+dis elabel
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看端口流量等">查看端口流量等</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dis counters rate inbound interface         <span style="color:#75715e"># 查看入方向流量</span>
+dis counters rate outbound interface        <span style="color:#75715e"># 查看出方向流量</span>
+dis int <span style="color:#111">|</span> in rate                           <span style="color:#75715e"># 查看接口历史使用率</span>
+dis int <span style="color:#111">|</span> in sec                            <span style="color:#75715e"># 查看接口历史使用率及出入方向的字节</span>
+
+dis int <span style="color:#111">|</span> in sec<span style="color:#111">|</span>Bri<span style="color:#111">|</span>Ten<span style="color:#111">|</span>Gig                <span style="color:#75715e"># 查看接口使用率</span>
+dis int <span style="color:#111">|</span> in Last<span style="color:#111">|</span>Bri<span style="color:#111">|</span>Ten<span style="color:#111">|</span>Gig               <span style="color:#75715e"># 查看接口使用率</span>
+dis int <span style="color:#111">|</span> in CRC<span style="color:#111">|</span>Bri<span style="color:#111">|</span>Ten<span style="color:#111">|</span>Gig                <span style="color:#75715e"># 查看接口错误包</span>
+dis int <span style="color:#111">|</span> in Last<span style="color:#111">|</span>CRC<span style="color:#111">|</span>Bri<span style="color:#111">|</span>Ten<span style="color:#111">|</span>Gig           <span style="color:#75715e"># 同时查看接口使用率和错误包</span>
+dis int g1/0/1 <span style="color:#111">|</span> in sec						<span style="color:#75715e"># 查看指定接口使用率</span>
+
+dis int brief		<span style="color:#75715e"># 查看所有端口的up/down等信息</span>
+dis brief int		<span style="color:#75715e"># 有些老设备可能是这样子反过来的</span>
+
+<span style="color:#f92672">[</span>h3c<span style="color:#f92672">]</span>int g1/0/1 	<span style="color:#75715e"># 进入指定端口</span>
+<span style="color:#f92672">[</span>h3c g1/0/1<span style="color:#f92672">]</span>dis th	<span style="color:#75715e"># 查看该指定端口配置</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>注意</strong>：目前遇到过的部分华为的设备，查看流量也直接使用<code>dis int brief</code>，已经包含了端口流量使用率。</p>
 <h3 id="arp查ipmac等">arp查IP/mac等</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>dis arp					<span style="color:#586e75"># 查看arp表</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>dis arp | in <span style="color:#719e07">[</span>ip-addr<span style="color:#719e07">]</span>/<span style="color:#719e07">[</span>mac-addr<span style="color:#719e07">]</span>		<span style="color:#586e75"># 可以看到指定ip或者mac地址从哪个端口过来</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>dis mac-address			<span style="color:#586e75"># 查看mac表</span>
-</code></pre></div><p>arp表可以用来确认ip来源，比如一开始布线实施的时候没有做好线路标签工作的情况下，确认办公电脑从楼层接入交换机的哪个端口接进来的。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dis arp					<span style="color:#75715e"># 查看arp表</span>
+dis arp <span style="color:#111">|</span> in <span style="color:#f92672">[</span>ip-addr<span style="color:#f92672">]</span>/<span style="color:#f92672">[</span>mac-addr<span style="color:#f92672">]</span>		<span style="color:#75715e"># 可以看到指定ip或者mac地址从哪个端口过来</span>
+dis mac-address			<span style="color:#75715e"># 查看mac表</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>arp表可以用来确认ip来源，比如一开始布线实施的时候没有做好线路标签工作的情况下，确认办公电脑从楼层接入交换机的哪个端口接进来的。</p>
 <h3 id="h3c-include过滤查询">H3C include过滤查询</h3>
 <p>h3c设备使用<code>| include</code>进行一些过滤查询，默认是进行的模糊匹配，你想要查询的字符串“string”，会被当作“*string*”来处理，也就是说只要包含你想要查询的字符串，都会被显示出来。</p>
 <p>
@@ -309,65 +374,161 @@
 <p>如图所示，我只想要精确查看<code>1.1.1</code>网段或者<code>1/0/2</code>端口，但是系统返回的结果包括了<code>1.1.12</code>网段和<code>1/0/22</code>端口的数据。</p>
 <p>咨询h3c官方400之后，反馈说如果想要精确查询，需要在最后添加<code>\&gt;</code>来结尾，也就是上面的查询应该写成<code>dis arp | in 1.1.1\&gt;</code>或者<code>dis arp | in 1/0/2\&gt;</code></p>
 <h3 id="lldp邻居关系">lldp邻居关系</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>h3c<span style="color:#719e07">]</span>lldp global <span style="color:#b58900">enable</span>		<span style="color:#586e75"># 启用lldp，应该是默认就启用的</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>dis lldp neighbor         	<span style="color:#586e75"># 查看详细信息</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>dis lldp neighbor brief   	<span style="color:#586e75"># 查看简略信息，华为</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>dis lldp n l				<span style="color:#586e75"># 查看简略信息，华三</span>
-</code></pre></div><p>查看简略信息，华为以<code>brief</code>结尾，华三以<code>list</code>结尾。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>h3c<span style="color:#f92672">]</span>lldp global <span style="color:#111">enable</span>		<span style="color:#75715e"># 启用lldp，应该是默认就启用的</span>
+dis lldp neighbor         	<span style="color:#75715e"># 查看详细信息</span>
+dis lldp neighbor brief   	<span style="color:#75715e"># 查看简略信息，华为</span>
+dis lldp n l				<span style="color:#75715e"># 查看简略信息，华三</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>查看简略信息，华为以<code>brief</code>结尾，华三以<code>list</code>结尾。</p>
 <p>查看lldp邻居关系可以梳理网络拓扑基本脉络。</p>
 <p>不过有些网络设备之间可能隔着防火墙等安全设备，会导致除了一个mac看不到对端其他具体信息，可以登录防火墙查看端口信息。</p>
 <p>然后在交换机/路由器上查看arp表，根据arp表来确认相应接口的对端设备。</p>
 <h3 id="h3c配置telnetssh">h3c配置telnet/ssh</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>h3c<span style="color:#719e07">]</span>ssh server <span style="color:#b58900">enable</span> 		<span style="color:#586e75"># 启用ssh功能</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>h3c<span style="color:#719e07">]</span>user-interface vty <span style="color:#2aa198">0</span> <span style="color:#2aa198">4</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#719e07">[</span>h3c-line-vty0-4<span style="color:#719e07">]</span>authentication-mode scheme 		<span style="color:#586e75"># 认证方式</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span style="color:#719e07">[</span>h3c-line-vty0-4<span style="color:#719e07">]</span>user-role level-15
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">[</span>h3c<span style="color:#719e07">]</span>local-user admin		<span style="color:#586e75"># 新增ssh用户admin</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>New <span style="color:#b58900">local</span> user added.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span><span style="color:#719e07">[</span>h3c-luser-manage-admin<span style="color:#719e07">]</span>password simple 123456		<span style="color:#586e75"># 配置密码为123456</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span><span style="color:#719e07">[</span>h3c-luser-manage-admin<span style="color:#719e07">]</span>authorization-attribute user-role level-15
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span><span style="color:#719e07">[</span>h3c-luser-manage-admin<span style="color:#719e07">]</span>service-type ssh			<span style="color:#586e75"># 服务类型为ssh</span>
-</code></pre></div><p>将ssh换成telnet就是配置telnet，华为应该通用。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>h3c<span style="color:#f92672">]</span>ssh server <span style="color:#111">enable</span> 		<span style="color:#75715e"># 启用ssh功能</span>
+<span style="color:#f92672">[</span>h3c<span style="color:#f92672">]</span>user-interface vty <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span>
+<span style="color:#f92672">[</span>h3c-line-vty0-4<span style="color:#f92672">]</span>authentication-mode scheme 		<span style="color:#75715e"># 认证方式</span>
+<span style="color:#f92672">[</span>h3c-line-vty0-4<span style="color:#f92672">]</span>user-role level-15
+<span style="color:#f92672">[</span>h3c<span style="color:#f92672">]</span>local-user admin		<span style="color:#75715e"># 新增ssh用户admin</span>
+New <span style="color:#111">local</span> user added.
+<span style="color:#f92672">[</span>h3c-luser-manage-admin<span style="color:#f92672">]</span>password simple 123456		<span style="color:#75715e"># 配置密码为123456</span>
+<span style="color:#f92672">[</span>h3c-luser-manage-admin<span style="color:#f92672">]</span>authorization-attribute user-role level-15
+<span style="color:#f92672">[</span>h3c-luser-manage-admin<span style="color:#f92672">]</span>service-type ssh			<span style="color:#75715e"># 服务类型为ssh</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将ssh换成telnet就是配置telnet，大部分情况下华三华为应该都通用，具体情况需要根据设备型号查看官方基础说明文档。</p>
+<p>如果要补充配置密码复杂度、老化时间、登录失败次数等，使用<code>password-control</code>相关安全配置。</p>
 <h3 id="批量配置端口">批量配置端口</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int range g1/0/11 to g1/0/20		<span style="color:#586e75"># 连续端口</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int ra g1/0/1 g1/0/3 g1/0/5		<span style="color:#586e75"># 不连续端口</span>
-</code></pre></div><p>使用<code>interface range</code>可以批量操作端口，比如将一组端口shutdown，或者将一组端口加入vlan，或者创建链路聚合等。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int range g1/0/11 to g1/0/20		<span style="color:#75715e"># 连续端口</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int ra g1/0/1 g1/0/3 g1/0/5		<span style="color:#75715e"># 不连续端口</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用<code>interface range</code>可以批量操作端口，比如将一组端口shutdown，或者将一组端口加入vlan，或者创建链路聚合等。</p>
 <p>有些设备使用如下命令</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>port-group manual 11				<span style="color:#586e75"># 创建端口组</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>group-member g1/0/1 to g1/0/16		<span style="color:#586e75"># 将端口加入端口组</span>
-</code></pre></div><h3 id="vlan配置">VLAN配置</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span><span style="color:#586e75">## 创建vlan，并将相应端口加入vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>vlan 11		<span style="color:#586e75"># 创建vlan 11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>port GigabitEthernet 1/0/1 to g1/0/10		<span style="color:#586e75"># 将相应端口加入vlan，可以每次加入一个，也可以一次性将一组连续端口同时加入</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span><span style="color:#719e07">[</span>dev1-vlan11<span style="color:#719e07">]</span>qu
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span><span style="color:#586e75">## 也可以在创建好vlan之后，先进入相应端口，然后再为端口配置vlan、端口类型等</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int g1/0/1										<span style="color:#586e75"># 先进入指定端口</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">[</span>dev1-GigabitEthernet1/0/1<span style="color:#719e07">]</span>port link-type trunk			<span style="color:#586e75"># 配置端口类型，有access、trunk、hybrid</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span><span style="color:#719e07">[</span>dev1-GigabitEthernet1/0/1<span style="color:#719e07">]</span>port trunk permit vlan 11	<span style="color:#586e75"># 为trunk类型的端口指定vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">[</span>dev1-GigabitEthernet1/0/1<span style="color:#719e07">]</span>port access vlan 11			<span style="color:#586e75"># 为access类型的端口端口指定vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">[</span>dev1-GigabitEthernet1/0/1<span style="color:#719e07">]</span>undo port trunk permit vlan 1	<span style="color:#586e75"># 使用undo命令取消端口加入某个vlan</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#586e75">## 进入vlanif接口，并设置ip等</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>int Vlan-interface 11						<span style="color:#586e75"># 进入vlanif接口 华为的是 int vlanif 11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>ip address 1.1.1.1 24	<span style="color:#586e75"># 为vlanif接口设置ip</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#719e07">[</span>dev1-Vlan-interface11<span style="color:#719e07">]</span>dis th					<span style="color:#586e75"># 查看配置</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>interface Vlan-interface11
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span> ip address 1.1.1.1 255.255.255.0
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span>#
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span><span style="color:#719e07">return</span>
-</code></pre></div><h3 id="ntp服务配置">NTP服务配置</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#586e75"># 配置ntp服务器，并假设该设备ip地址为1.1.1.1/24</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>dev1<span style="color:#719e07">]</span>ntp-service refclock-master 2		<span style="color:#586e75"># 设置本地时钟作为参考，参考层数为2。1作保留值，默认会以网络时钟等作为最优先参考时钟。</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#586e75"># 配置其他交换机从服务器同步时间</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>ntp-service <span style="color:#b58900">enable</span>					<span style="color:#586e75"># 有些h3c设备需要使用这条命令明确启用ntp，否则无法从服务器端同步时间</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span><span style="color:#719e07">[</span>dev2<span style="color:#719e07">]</span>ntp-service unicast-server 1.1.1.1	<span style="color:#586e75"># 指定1.1.1.1设备为ntp服务器</span>
-</code></pre></div><h3 id="关闭终端日志显示">关闭终端日志显示</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>undo terminal monitor
-</code></pre></div><h3 id="添加备注信息">添加备注信息</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#719e07">[</span>dev<span style="color:#719e07">]</span>des <span style="color:#b58900">test</span>
-</code></pre></div><p><code>description</code>可以给物理端口、vlanif接口、聚合链路等挺多东西设置备注信息的，看实际需求灵活应用。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">port-group manual 11				<span style="color:#75715e"># 创建端口组</span>
+group-member g1/0/1 to g1/0/16		<span style="color:#75715e"># 将端口加入端口组</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="vlan配置">VLAN配置</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">## 创建vlan，并将相应端口加入vlan</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>vlan 11		<span style="color:#75715e"># 创建vlan 11</span>
+<span style="color:#f92672">[</span>dev1-vlan11<span style="color:#f92672">]</span>port GigabitEthernet 1/0/1 to g1/0/10		<span style="color:#75715e"># 将相应端口加入vlan，可以每次加入一个，也可以一次性将一组连续端口同时加入</span>
+<span style="color:#f92672">[</span>dev1-vlan11<span style="color:#f92672">]</span>qu
+
+<span style="color:#75715e">## 也可以在创建好vlan之后，先进入相应端口，然后再为端口配置vlan、端口类型等</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int g1/0/1										<span style="color:#75715e"># 先进入指定端口</span>
+<span style="color:#f92672">[</span>dev1-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port link-type trunk			<span style="color:#75715e"># 配置端口类型，有access、trunk、hybrid</span>
+<span style="color:#f92672">[</span>dev1-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port trunk permit vlan 11	<span style="color:#75715e"># 为trunk类型的端口指定vlan</span>
+<span style="color:#f92672">[</span>dev1-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port access vlan 11			<span style="color:#75715e"># 为access类型的端口端口指定vlan</span>
+<span style="color:#f92672">[</span>dev1-GigabitEthernet1/0/1<span style="color:#f92672">]</span>undo port trunk permit vlan 1	<span style="color:#75715e"># 使用undo命令取消端口加入某个vlan</span>
+
+<span style="color:#75715e">## 进入vlanif接口，并设置ip等</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>int Vlan-interface 11						<span style="color:#75715e"># 进入vlanif接口 华为的是 int vlanif 11</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>ip address 1.1.1.1 24	<span style="color:#75715e"># 为vlanif接口设置ip</span>
+<span style="color:#f92672">[</span>dev1-Vlan-interface11<span style="color:#f92672">]</span>dis th					<span style="color:#75715e"># 查看配置</span>
+#
+interface Vlan-interface11
+ ip address 1.1.1.1 255.255.255.0
+#
+<span style="color:#00a8c8">return</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="ntp服务配置">NTP服务配置</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 配置ntp服务器，此处假设该设备ip地址为1.1.1.1/24</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>ntp-service <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>dev1<span style="color:#f92672">]</span>ntp-service refclock-master 2		<span style="color:#75715e"># 设置本地时钟作为参考，参考层数为2。1作保留值，默认会以网络时钟等作为最优先参考时钟。</span>
+<span style="color:#75715e"># 配置其他交换机从服务器同步时间</span>
+<span style="color:#f92672">[</span>dev2<span style="color:#f92672">]</span>ntp-service <span style="color:#111">enable</span>					<span style="color:#75715e"># 有些设备好像可以不用这条命令，可能默认就是enable的。</span>
+<span style="color:#f92672">[</span>dev2<span style="color:#f92672">]</span>ntp-service unicast-server 1.1.1.1	<span style="color:#75715e"># 指定1.1.1.1设备为ntp服务器</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关闭终端日志显示">关闭终端日志显示</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">undo terminal monitor
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="添加备注信息">添加备注信息</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>dev<span style="color:#f92672">]</span>des <span style="color:#111">test</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>description</code>可以给物理端口、vlanif接口、聚合链路等挺多东西设置备注信息的，看实际需求灵活应用。</p>
 <p>17.为该端口设置ip
 [H3C-Serial3/0]ip address 200.1.1.1 255.255.255.0</p>
 <p>18.对该端口进行复位
@@ -380,11 +541,21 @@
 [H3C-GigabitEthernet1/1/1]shutdown</p>
 <h2 id="思科锐捷设备">思科锐捷设备</h2>
 <h3 id="查看当前配置">查看当前配置</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>show run			<span style="color:#586e75"># 查看当前运行配置</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>show version      	<span style="color:#586e75"># 查看序列号</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>show int status   	<span style="color:#586e75"># 查看端口状态</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>show lldp neighbors <span style="color:#586e75"># 查看lldp关系</span>
-</code></pre></div><h2 id="光交设备">光交设备</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">show run			<span style="color:#75715e"># 查看当前运行配置</span>
+show version      	<span style="color:#75715e"># 查看序列号</span>
+show int status   	<span style="color:#75715e"># 查看端口状态</span>
+show lldp neighbors <span style="color:#75715e"># 查看lldp关系</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="光交设备">光交设备</h2>
 <h3 id="常用查看命令">常用查看命令</h3>
 <p>switchshow        #查看交换机摘要及端口摘要信息</p>
 <p>zoneshow            #查看ZONE信息</p>
@@ -509,7 +680,9 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -563,43 +736,43 @@
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -611,25 +784,33 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -637,6 +818,20 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -646,19 +841,53 @@
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -666,15 +895,33 @@
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

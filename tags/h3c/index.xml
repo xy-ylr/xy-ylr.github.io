@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>h3c on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/h3c/</link>
+    <description>Recent content in h3c on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 01 Dec 2023 15:26:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/h3c/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>H3c防火墙双向地址转换配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_complex_nat/</link>
+      <pubDate>Fri, 01 Dec 2023 15:26:05 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_complex_nat/</guid>
+      <description>&lt;p&gt;双向NAT指的是在转换过程中同时转换报文的源信息和目的信息。双向NAT不是一个单独的功能，而是源NAT和目的NAT的组合。双向NAT是针对同一条流，在其经过设备时同时转换报文的源地址和目的地址。双向NAT主要应用在外网用户访问内部服务器和私网用户访问内部服务器两个场景。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>H3c防火墙源地址转换配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_snat/</link>
+      <pubDate>Fri, 24 Nov 2023 11:24:37 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_snat/</guid>
+      <description>&lt;p&gt;要设置源地址nat，如果只是少量地址需求，可以使用静态地址转换技术，这是一种内外网IP地址的转换关系固定的NAT方式，最适用于少量地址的一对一转换；如果是大量用户都需要nat，那可以使用动态nat技术，用于将大量内网地址转换为少量外网地址。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

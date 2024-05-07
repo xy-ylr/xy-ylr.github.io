@@ -255,8 +255,8 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约6878字 </span>
-            <span> 预计阅读时间14分钟</span>
+            <span> 共约7025字 </span>
+            <span> 预计阅读时间15分钟</span>
         </div>
         
         
@@ -313,9 +313,17 @@
 <ol>
 <li><strong>/etc/gitconfig</strong>: 系统全局配置文件, 包含本地所有用户及其仓库的通用配置, 使用<code>git config</code>配置命令的时候添加<code>--system</code>选项, 配置的信息保存在这个文件中. 在Windows系统中, 该配置文件位于<code>安装目录/ect/gitconfig</code>, 修改该配置文件需要管理员或超级用户权限, 否则会提示权限不足.</li>
 </ol>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git config --system pull.rebase <span style="color:#b58900">true</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>error: could not lock config file C:/Program Files/Git/etc/gitconfig: Permission denied
-</code></pre></div><ol start="2">
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config --system pull.rebase <span style="color:#111">true</span>
+error: could not lock config file C:/Program Files/Git/etc/gitconfig: Permission denied
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
 <li>
 <p><strong>~/.gitconfig</strong>: 也可能是<strong>~/.config/git/config</strong>, 单用户全局配置文件, 只针对当前用户生效, 使用<code>git config --global</code>命令配置的时候, 相关信息保存在该文件中. 在Windows中, 该配置文件默认位于<code>C:\Users\$USER\.gitconfig</code>.</p>
 </li>
@@ -326,136 +334,316 @@
 <p>每一个级别会覆盖上一级别的配置, 所以 .git/config 的配置变量会覆盖 /etc/gitconfig 中的配置变量.</p>
 <h3 id="配置用户信息">配置用户信息</h3>
 <p>当Git安装完成后, 首先要配置的就是<code>用户名</code>和<code>邮箱</code>, 因为每次提交更新的时候, 都会附带这些用户名和邮箱信息:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git config --global user.name <span style="color:#2aa198">&#34;Xy&#34;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>$ git config --global user.email xy@example.com
-</code></pre></div><p>如果添加了<code>--global</code>选项, 表示这台电脑上的所有用户默认都是使用的这个用户名和邮箱信息, 一次配置永久使用. 如果想对某个特定项目使用不通的用户名和邮箱, 可以先进到该项目仓库目录, 然后使用不带<code>--global</code>选项的命令来配置.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config --global user.name <span style="color:#d88200">&#34;Xy&#34;</span>
+$ git config --global user.email xy@example.com
+</code></pre></td></tr></table>
+</div>
+</div><p>如果添加了<code>--global</code>选项, 表示这台电脑上的所有用户默认都是使用的这个用户名和邮箱信息, 一次配置永久使用. 如果想对某个特定项目使用不通的用户名和邮箱, 可以先进到该项目仓库目录, 然后使用不带<code>--global</code>选项的命令来配置.</p>
 <h3 id="配置默认文本编辑器">配置默认文本编辑器</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git config --global core.editor <span style="color:#2aa198">&#34;code --wait&#34;</span>
-</code></pre></div><p>将默认编辑器改为vscode, 其他编辑器可查看官网<a href="https://git-scm.com/book/zh/v2/%E9%99%84%E5%BD%95-C%3A-Git-%E5%91%BD%E4%BB%A4-%E8%AE%BE%E7%BD%AE%E4%B8%8E%E9%85%8D%E7%BD%AE#_core_editor">配置core.editor</a>, 当某个操作需要使用到编辑器的时候, 就会调用此处设置的那个. 如果没有常用的编辑器, 忽略此项配置直接用Git默认的编辑器也可以.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config --global core.editor <span style="color:#d88200">&#34;code --wait&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将默认编辑器改为vscode, 其他编辑器可查看官网<a href="https://git-scm.com/book/zh/v2/%E9%99%84%E5%BD%95-C%3A-Git-%E5%91%BD%E4%BB%A4-%E8%AE%BE%E7%BD%AE%E4%B8%8E%E9%85%8D%E7%BD%AE#_core_editor">配置core.editor</a>, 当某个操作需要使用到编辑器的时候, 就会调用此处设置的那个. 如果没有常用的编辑器, 忽略此项配置直接用Git默认的编辑器也可以.</p>
 <h3 id="查看配置信息">查看配置信息</h3>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>$ git config --list
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>diff.astextplain.textconv<span style="color:#719e07">=</span>astextplain
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>filter.lfs.clean<span style="color:#719e07">=</span>git-lfs clean -- %f
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>filter.lfs.smudge<span style="color:#719e07">=</span>git-lfs smudge -- %f
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>filter.lfs.process<span style="color:#719e07">=</span>git-lfs filter-process
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>filter.lfs.required<span style="color:#719e07">=</span><span style="color:#b58900">true</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>$ git config --list --show-origin
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>file:C:/Program Files/Git/etc/gitconfig diff.astextplain.textconv<span style="color:#719e07">=</span>astextplain
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>file:C:/Program Files/Git/etc/gitconfig filter.lfs.clean<span style="color:#719e07">=</span>git-lfs clean -- %f
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>file:C:/Program Files/Git/etc/gitconfig filter.lfs.smudge<span style="color:#719e07">=</span>git-lfs smudge -- %f
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>file:C:/Program Files/Git/etc/gitconfig filter.lfs.process<span style="color:#719e07">=</span>git-lfs filter-process
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>file:C:/Program Files/Git/etc/gitconfig filter.lfs.required<span style="color:#719e07">=</span><span style="color:#b58900">true</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>...
-</code></pre></div><p>有<code>--list</code>和<code>--show-origin</code>两个选项可用, 如果两个一起用, 那么能看到所有配置以及这些配置所在的配置文件路径. 如果只是用 <code>--list</code>, 就只显示配置信息而不显示文件路径信息.<br>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config --list
+diff.astextplain.textconv<span style="color:#f92672">=</span>astextplain
+filter.lfs.clean<span style="color:#f92672">=</span>git-lfs clean -- %f
+filter.lfs.smudge<span style="color:#f92672">=</span>git-lfs smudge -- %f
+filter.lfs.process<span style="color:#f92672">=</span>git-lfs filter-process
+filter.lfs.required<span style="color:#f92672">=</span><span style="color:#111">true</span>
+...
+
+$ git config --list --show-origin
+file:C:/Program Files/Git/etc/gitconfig diff.astextplain.textconv<span style="color:#f92672">=</span>astextplain
+file:C:/Program Files/Git/etc/gitconfig filter.lfs.clean<span style="color:#f92672">=</span>git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig filter.lfs.smudge<span style="color:#f92672">=</span>git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig filter.lfs.process<span style="color:#f92672">=</span>git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig filter.lfs.required<span style="color:#f92672">=</span><span style="color:#111">true</span>
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>有<code>--list</code>和<code>--show-origin</code>两个选项可用, 如果两个一起用, 那么能看到所有配置以及这些配置所在的配置文件路径. 如果只是用 <code>--list</code>, 就只显示配置信息而不显示文件路径信息.<br>
 当然也可以只查看指定配置项信息, 比如:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git config user.name
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>Xy
-</code></pre></div><h2 id="其他--获取帮助信息">其他&ndash;获取帮助信息</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config user.name
+Xy
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="其他--获取帮助信息">其他&ndash;获取帮助信息</h2>
 <p>如果在使用git的时候对于某个命令或者某些参数选项不熟悉, 可以通过以下方式获取帮助:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git <span style="color:#b58900">help</span> &lt;verb&gt;
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>$ git &lt;verb&gt; --help
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>$ man git-&lt;verb&gt;
-</code></pre></div><p>比如<code>git help config</code>这会调用浏览器弹出一个页面详细说明相关信息, 不过内容是英文的. 也可以使用<code>-h</code>选项来获取简单的参考:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>$ git config -h
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>usage: git config <span style="color:#719e07">[</span>&lt;options&gt;<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>Config file location
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>    --global              use global config file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>    --system              use system config file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>    --local               use repository config file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>    --worktree            use per-worktree config file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>    -f, --file &lt;file&gt;     use given config file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>    --blob &lt;blob-id&gt;      <span style="color:#b58900">read</span> config from given blob object
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>Action
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>    --get                 get value: name <span style="color:#719e07">[</span>value-regex<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>    --get-all             get all values: key <span style="color:#719e07">[</span>value-regex<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>    --get-regexp          get values <span style="color:#719e07">for</span> regexp: name-regex <span style="color:#719e07">[</span>value-regex<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>    --get-urlmatch        get value specific <span style="color:#719e07">for</span> the URL: section<span style="color:#719e07">[</span>.var<span style="color:#719e07">]</span> URL
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>    --replace-all         replace all matching variables: name value <span style="color:#719e07">[</span>value_regex<span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>    --add                 add a new variable: name value
-</code></pre></div><h2 id="创建git仓库">创建Git仓库</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git <span style="color:#111">help</span> &lt;verb&gt;
+$ git &lt;verb&gt; --help
+$ man git-&lt;verb&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>比如<code>git help config</code>这会调用浏览器弹出一个页面详细说明相关信息, 不过内容是英文的. 也可以使用<code>-h</code>选项来获取简单的参考:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git config -h
+usage: git config <span style="color:#f92672">[</span>&lt;options&gt;<span style="color:#f92672">]</span>
+
+Config file location
+    --global              use global config file
+    --system              use system config file
+    --local               use repository config file
+    --worktree            use per-worktree config file
+    -f, --file &lt;file&gt;     use given config file
+    --blob &lt;blob-id&gt;      <span style="color:#111">read</span> config from given blob object
+
+Action
+    --get                 get value: name <span style="color:#f92672">[</span>value-regex<span style="color:#f92672">]</span>
+    --get-all             get all values: key <span style="color:#f92672">[</span>value-regex<span style="color:#f92672">]</span>
+    --get-regexp          get values <span style="color:#00a8c8">for</span> regexp: name-regex <span style="color:#f92672">[</span>value-regex<span style="color:#f92672">]</span>
+    --get-urlmatch        get value specific <span style="color:#00a8c8">for</span> the URL: section<span style="color:#f92672">[</span>.var<span style="color:#f92672">]</span> URL
+    --replace-all         replace all matching variables: name value <span style="color:#f92672">[</span>value_regex<span style="color:#f92672">]</span>
+    --add                 add a new variable: name value
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="创建git仓库">创建Git仓库</h2>
 <p>成功安装Git并完成一些基础配置后, 现在就可以开始使用它了, 那就先创建一个Git仓库吧.</p>
 <p>创建git仓库有两种方法, 一种是本地已有开发项目, 但是未进行版本控制, 现在随着项目进度的发展, 准备对项目进行版本控制, 以方便后续开发维护. 一种是你对别人的某个开源项目感兴趣, 想要研究学习一下, 可以直接克隆他的项目仓库到本地.</p>
 <h3 id="初始化本地项目">初始化本地项目</h3>
 <p>要把本地未进行版本控制的项目, 使用git版本控制, 首先需要进入该项目根目录, 然后使用<code>git init</code>命令来初始化.<br>
 在 Linux/macOS 上, 使用以下命令进入项目根目录：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ <span style="color:#b58900">cd</span> /home/user/my_project
-</code></pre></div><p>在 Windows 上, 可以使用以下命令进入项目根目录：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ <span style="color:#b58900">cd</span> /c/user/my_project
-</code></pre></div><p>进入到项目目录之后, 再执行：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git init
-</code></pre></div><p>命令执行成功后, 根目录下面会多出来一个<code>.git</code>的子目录, 这个子目录里就保存着仓库的所有必须文件. <br>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#111">cd</span> /home/user/my_project
+</code></pre></td></tr></table>
+</div>
+</div><p>在 Windows 上, 可以使用以下命令进入项目根目录：</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#111">cd</span> /c/user/my_project
+</code></pre></td></tr></table>
+</div>
+</div><p>进入到项目目录之后, 再执行：</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git init
+</code></pre></td></tr></table>
+</div>
+</div><p>命令执行成功后, 根目录下面会多出来一个<code>.git</code>的子目录, 这个子目录里就保存着仓库的所有必须文件. <br>
 需要注意的是, 该项目根目录可以是一个空目录, 也可以是非空目录. 如果是非空目录, 刚才的操作只是做了一个初始化, 项目里的那些文件还没有被保存到仓库.</p>
 <h3 id="克隆远程仓库">克隆远程仓库</h3>
 <p>克隆现有的远程仓库到本地也是一句话的事, 使用<code>git clone</code>命令就可以. 当然, 首先第一步也是先把当前活动目录切换到想要放置该项目的目录.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git clone https://github.com/some_project project_name
-</code></pre></div><p>比如下载github上面的某个远程仓库, 只需要在命令后面跟上远程仓库地址就好了, 后面的project_name是下载到本地后你想要命名的项目目录名称, 如果不指定, 默认跟远程仓库名称一样.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/some_project project_name
+</code></pre></td></tr></table>
+</div>
+</div><p>比如下载github上面的某个远程仓库, 只需要在命令后面跟上远程仓库地址就好了, 后面的project_name是下载到本地后你想要命名的项目目录名称, 如果不指定, 默认跟远程仓库名称一样.</p>
 <h2 id="查看仓库状态">查看仓库状态</h2>
 <p>git仓库已经创建完成了, 那就先来看下这个仓库是什么样子吧, 相关命令是<code>git status</code>, 这是个无害命令, 随时都可以敲一下, 用来查看当前仓库各文件的状态, 不同的时候显示的内容可能也各有不同, 也是间接的提示你下一步操作该使用什么命令. 比如刚初始化一个空仓库或克隆一个远程仓库的时候使用这个命令, 那显示的内容有一部分大概是<code>nothing to commit, working tree clean</code>, 而如果已经对仓库内的文件做了一些改动, 那么显示的内容又会变成另一种样子:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>// 一个是ttt仓库, 刚新建的.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>xy@TB14G2:Documents$ <span style="color:#b58900">cd</span> ttt/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>xy@TB14G2:ttt$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>Your branch is up to date with <span style="color:#2aa198">&#39;origin/master&#39;</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>nothing to commit, working tree clean
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>// 一个是gittest仓库, 有做过一些修改了
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>xy@TB14G2:ttt$ <span style="color:#b58900">cd</span> ../gittest/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>xy@TB14G2:gittest$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>No commits yet
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git rm --cached &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>	new file:   .gitmodules
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span>	new file:   content
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span>	...
-</code></pre></div><h2 id="提交更新">提交更新</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// 一个是ttt仓库, 刚新建的.
+xy@TB14G2:Documents$ <span style="color:#111">cd</span> ttt/
+xy@TB14G2:ttt$ git status 
+On branch master
+Your branch is up to date with <span style="color:#d88200">&#39;origin/master&#39;</span>.
+
+nothing to commit, working tree clean
+
+// 一个是gittest仓库, 有做过一些修改了
+xy@TB14G2:ttt$ <span style="color:#111">cd</span> ../gittest/
+xy@TB14G2:gittest$ git status 
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git rm --cached &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+	new file:   .gitmodules
+	new file:   content
+	...
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="提交更新">提交更新</h2>
 <p>仓库创建完成之后, 随着项目的继续开发, 我们也需要将开发进度保存到仓库, 重温一下git的基本概念, 实际项目开发是在工作区进行, 然后需要把文件提交到仓库才能通过git实现版本控制. 这个过程git经过两个步骤来实现, 首先是<code>git add</code>命令, 将更改保存到暂存区, 然后再提交更新<code>git commit</code>, 将更新正式提交到仓库.</p>
 <h3 id="记录更新到暂存区">记录更新到暂存区</h3>
 <p>比如刚才新创建的空仓库ttt, 建好之后, 我们先来个readme文件, 这个时候如果使用<code>git status</code>来查看状态, 应该会有类似如下内容输出提示你有部分文件等待记录：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>xy@TB14G2:ttt$ la
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>xy@TB14G2:ttt$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;这是一个readme文件&#34;</span> &gt;&gt; Readme.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>xy@TB14G2:ttt$ la
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>.git  Readme.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>xy@TB14G2:ttt$ cat Readme.md 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>这是一个readme文件
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>xy@TB14G2:ttt$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>No commits yet
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>Untracked files:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add &lt;file&gt;...&#34;</span> to include in what will be committed<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>	Readme.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>nothing added to commit but untracked files present <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add&#34;</span> to track<span style="color:#719e07">)</span>
-</code></pre></div><p>根据提示我们运行<code>git add &lt;file&gt;</code>命令就好了, 后面可以添加具体的文件名, 那就只记录指定的文件, 也可以使用<code>git add .</code>, 当前目录下所有未记录到暂存区的文件都会被记录.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>xy@TB14G2:ttt$ git add .
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>xy@TB14G2:ttt$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>No commits yet
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git rm --cached &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>	new file:   Readme.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>
-</code></pre></div><p>**注意, 提交到暂存区类似于对文件的当前状态做一个快照（截图）, 如果提交之后, 又对文件做了修改, 需要再次使用<code>git add .</code>, 否则新的修改不会被记录. **</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:ttt$ la
+.git
+xy@TB14G2:ttt$ <span style="color:#111">echo</span> <span style="color:#d88200">&#34;这是一个readme文件&#34;</span> &gt;&gt; Readme.md
+xy@TB14G2:ttt$ la
+.git  Readme.md
+xy@TB14G2:ttt$ cat Readme.md 
+这是一个readme文件
+xy@TB14G2:ttt$ git status 
+On branch master
+
+No commits yet
+
+Untracked files:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git add &lt;file&gt;...&#34;</span> to include in what will be committed<span style="color:#f92672">)</span>
+	Readme.md
+
+nothing added to commit but untracked files present <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git add&#34;</span> to track<span style="color:#f92672">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>根据提示我们运行<code>git add &lt;file&gt;</code>命令就好了, 后面可以添加具体的文件名, 那就只记录指定的文件, 也可以使用<code>git add .</code>, 当前目录下所有未记录到暂存区的文件都会被记录.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:ttt$ git add .
+xy@TB14G2:ttt$ git status 
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git rm --cached &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+	new file:   Readme.md
+
+</code></pre></td></tr></table>
+</div>
+</div><p>**注意, 提交到暂存区类似于对文件的当前状态做一个快照（截图）, 如果提交之后, 又对文件做了修改, 需要再次使用<code>git add .</code>, 否则新的修改不会被记录. **</p>
 <h3 id="提交更新到仓库">提交更新到仓库</h3>
 <p>刚才运行过<code>git add .</code>之后再次查看文件状态, 可以看到文件<code>Readme.md</code>已经出现在<code>待提交的更改(Changes to be committed:)</code>区域了. 
 要提交更新使用<code>git commit</code>命令, 后面可以使用<code>-m</code>选项来添加描述信息, 这样以后不管是自己还是别人查看历史更新的时候, 就能够很方便的搞明白这次更新解决了什么问题.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:ttt$ git commit -m <span style="color:#2aa198">&#34;新增readme文件&#34;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#719e07">[</span>master <span style="color:#719e07">(</span>root-commit<span style="color:#719e07">)</span> 05dea4b<span style="color:#719e07">]</span> 新增readme文件
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span> <span style="color:#2aa198">1</span> file changed, <span style="color:#2aa198">1</span> insertion<span style="color:#719e07">(</span>+<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span> create mode <span style="color:#2aa198">100644</span> Readme.md
-</code></pre></div><p><strong>注意:</strong> 如果没有使用<code>-m</code>选项, 而且前面有配置默认编辑器, 那么此时就会弹出你所配置的编辑器, 让你编辑此次提交的描述信息, 等到你编辑完成并关闭编辑器的时候, 此次commit就算完成了.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:ttt$ git commit -m <span style="color:#d88200">&#34;新增readme文件&#34;</span>
+<span style="color:#f92672">[</span>master <span style="color:#f92672">(</span>root-commit<span style="color:#f92672">)</span> 05dea4b<span style="color:#f92672">]</span> 新增readme文件
+ <span style="color:#ae81ff">1</span> file changed, <span style="color:#ae81ff">1</span> insertion<span style="color:#f92672">(</span>+<span style="color:#f92672">)</span>
+ create mode <span style="color:#ae81ff">100644</span> Readme.md
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>注意:</strong> 如果没有使用<code>-m</code>选项, 而且前面有配置默认编辑器, 那么此时就会弹出你所配置的编辑器, 让你编辑此次提交的描述信息, 等到你编辑完成并关闭编辑器的时候, 此次commit就算完成了.</p>
 <h3 id="为什么要分成两步完成更新提交">为什么要分成两步完成更新提交?</h3>
 <p>其他深入的涉及git设计原理的先不管, 本小白目前也不懂, 一个直观感受是, git是通过命令行界面操作的, 当我使用<code>git add</code>命令将若干文件提交到暂存区之后, 可以通过<code>git status</code>命令来确认一遍我本次需要更新的文件是否已经全部选中了, 然后再一次性把所有相关更改提交到仓库.<br>
 **当然, 如果嫌两步走太繁琐的话, 也可以使用<code>git commit -a</code>命令一次性完成上述两步操作. **</p>
@@ -482,26 +670,51 @@ build/
 </ul>
 <h2 id="删除文件">删除文件</h2>
 <p>如果像平时删除文件那样直接在Git工作区删除文件, 虽然工作区已经删掉了, 但是并未通知到git, 比如我们新建一个aaa.txt文件, 先用<code>git add</code>命令来跟踪, 然后使用<code>rm</code>命令来删除它, 此时运行<code>git status</code>能看到如下提示：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>xy@TB14G2:ttt$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;啊啊啊啊啊&#34;</span> &gt; aaa.txt
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>xy@TB14G2:ttt$ git add .
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>xy@TB14G2:ttt$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>	new file:   aaa.txt
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>xy@TB14G2:ttt$ rm aaa.txt 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>xy@TB14G2:ttt$ git status 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>	new file:   aaa.txt
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>Changes not staged <span style="color:#719e07">for</span> commit:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add/rm &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git restore &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span>	deleted:    aaa.txt
-</code></pre></div><p>明明我们已经删除aaa.txt文件了, git也提示该文件被删除了, 但是<code>Changes to be committed:</code>暂存区域该文件却还在, 需要我们再使用<code>git rm aaa.txt</code>才能完全删除.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:ttt$ <span style="color:#111">echo</span> <span style="color:#d88200">&#34;啊啊啊啊啊&#34;</span> &gt; aaa.txt
+xy@TB14G2:ttt$ git add .
+xy@TB14G2:ttt$ git status 
+On branch master
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+	new file:   aaa.txt
+
+xy@TB14G2:ttt$ rm aaa.txt 
+xy@TB14G2:ttt$ git status 
+On branch master
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git restore --staged &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+	new file:   aaa.txt
+
+Changes not staged <span style="color:#00a8c8">for</span> commit:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git add/rm &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#f92672">)</span>
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git restore &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#f92672">)</span>
+	deleted:    aaa.txt
+</code></pre></td></tr></table>
+</div>
+</div><p>明明我们已经删除aaa.txt文件了, git也提示该文件被删除了, 但是<code>Changes to be committed:</code>暂存区域该文件却还在, 需要我们再使用<code>git rm aaa.txt</code>才能完全删除.</p>
 <h2 id="移动文件">移动文件</h2>
 <p>Git不会显式跟踪文件移动操作, 如果直接在工作区重命名文件, Git会提示有文件被删除以及新增文件等待记录, 类似上面的直接删除文件, 而如果使用命令<code>git mv &lt;file&gt;</code>则不会有上面的提示.</p>
 <p>可以理解为<code>git mv</code>一次性完成了下面三步操作：</p>
@@ -521,90 +734,198 @@ build/
 <h2 id="撤销操作">撤销操作</h2>
 <h3 id="补充更新">补充更新</h3>
 <p>当你刚完成一次commit提交, 却发现有部分文件没有加进去, 或者是提交信息写错了, 这个时候可以运行<code>git commit --amend</code>命令再次补充更新, Git（历史提交记录）会自动把两次提交合并成一个提交.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git commit -m <span style="color:#2aa198">&#39;initial commit&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>$ git add forgotten_file
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>$ git commit --amend
-</code></pre></div><h3 id="取消加入暂存区">取消加入暂存区</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git commit -m <span style="color:#d88200">&#39;initial commit&#39;</span>
+$ git add forgotten_file
+$ git commit --amend
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="取消加入暂存区">取消加入暂存区</h3>
 <p>当你对某些文件做了修改, 并通过<code>git add</code>命令加入了暂存区准备提交更新, 却又准备把部分文件放到下一次提交, 想要先从暂存区删除（把文件状态从<strong>已加入暂存区</strong>改为<strong>已修改未暂存</strong>）, 可以使用<code>git reset HEAD &lt;FILE&gt;</code>命令来取消暂存.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>$ git add *
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>$ git status
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>    renamed:    README.md -&gt; README
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>    modified:   CONTRIBUTING.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>    
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>$ git reset HEAD CONTRIBUTING.md    <span style="color:#586e75"># 取消暂存CONTRIBUTING.md文件</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>Unstaged changes after reset:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>M CONTRIBUTING.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>$ git status
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>    renamed:    README.md -&gt; README
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span>Changes not staged <span style="color:#719e07">for</span> commit:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git checkout -- &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span>    modified:   CONTRIBUTING.md
-</code></pre></div><h3 id="取消文件修改">取消文件修改</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git add *
+$ git status
+On branch master
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+
+    renamed:    README.md -&gt; README
+    modified:   CONTRIBUTING.md
+    
+$ git reset HEAD CONTRIBUTING.md    <span style="color:#75715e"># 取消暂存CONTRIBUTING.md文件</span>
+Unstaged changes after reset:
+M CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+
+    renamed:    README.md -&gt; README
+
+Changes not staged <span style="color:#00a8c8">for</span> commit:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git add &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#f92672">)</span>
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git checkout -- &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#f92672">)</span>
+
+    modified:   CONTRIBUTING.md
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="取消文件修改">取消文件修改</h3>
 <p>当你对某个文件做了大量修改, 突然又不想要了, 准备将它还原成上一次提交时候的状态（或者刚克隆完的状态）, 可以使用<code>git checkout -- &lt;file&gt;</code>命令来从仓库中拉取文件覆盖工作区文件.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>Changes not staged <span style="color:#719e07">for</span> commit:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git add &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git checkout -- &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>    modified:   CONTRIBUTING.md
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>    
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>$ git checkout -- CONTRIBUTING.md   <span style="color:#586e75"># 从仓库检出文件撤销对文件的修改</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>$ git status
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>On branch master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>Changes to be committed:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>  <span style="color:#719e07">(</span>use <span style="color:#2aa198">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>    renamed:    README.md -&gt; README
-</code></pre></div><p><strong>注意, 检出文件后, 在工作区对文件所作的修改将丢失, 常规办法无法恢复</strong></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Changes not staged <span style="color:#00a8c8">for</span> commit:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git add &lt;file&gt;...&#34;</span> to update what will be committed<span style="color:#f92672">)</span>
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git checkout -- &lt;file&gt;...&#34;</span> to discard changes in working directory<span style="color:#f92672">)</span>
+
+    modified:   CONTRIBUTING.md
+    
+$ git checkout -- CONTRIBUTING.md   <span style="color:#75715e"># 从仓库检出文件撤销对文件的修改</span>
+$ git status
+On branch master
+Changes to be committed:
+  <span style="color:#f92672">(</span>use <span style="color:#d88200">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span style="color:#f92672">)</span>
+
+    renamed:    README.md -&gt; README
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>注意, 检出文件后, 在工作区对文件所作的修改将丢失, 常规办法无法恢复</strong></p>
 <h2 id="远程仓库的使用">远程仓库的使用</h2>
 <p>远程仓库可以作为本地的一个远程备份, 也可以用于跟其他人协作开发项目.</p>
 <p><strong>要使用远程仓库, 首先请在github或者gitee等网站注册一个帐号, 然后去新建仓库.</strong> github是国外的, 全球程序员的聚集地, 访问速度会稍微慢一点; gitee是国内的, 访问速度会比较快.</p>
 <h3 id="查看远程仓库信息">查看远程仓库信息</h3>
 <p>如果一开始是通过<code>git clone</code>命令新建的仓库, 那么Git会默认给你克隆的仓库添加origin的别名, 可以使用<code>git remote show [remote]</code>来查看该远程仓库的详细信息([remote]部分可以用远程仓库别名, 也可以用远程仓库的完整URL地址):</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:gittest$ git remote show <span style="color:#b58900">test</span> 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>* remote <span style="color:#b58900">test</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>  Fetch URL: git@gitee.com:xy-ylr/gittest.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>  Push  URL: git@gitee.com:xy-ylr/gittest.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>  HEAD branch: master
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>  Remote branch:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span>    master new <span style="color:#719e07">(</span>next fetch will store in remotes/test<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span>  Local ref configured <span style="color:#719e07">for</span> <span style="color:#2aa198">&#39;git push&#39;</span>:
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span>    master pushes to master <span style="color:#719e07">(</span><span style="color:#b58900">local</span> out of date<span style="color:#719e07">)</span>
-</code></pre></div><h3 id="添加远程仓库">添加远程仓库</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:gittest$ git remote show <span style="color:#111">test</span> 
+* remote <span style="color:#111">test</span>
+  Fetch URL: git@gitee.com:xy-ylr/gittest.git
+  Push  URL: git@gitee.com:xy-ylr/gittest.git
+  HEAD branch: master
+  Remote branch:
+    master new <span style="color:#f92672">(</span>next fetch will store in remotes/test<span style="color:#f92672">)</span>
+  Local ref configured <span style="color:#00a8c8">for</span> <span style="color:#d88200">&#39;git push&#39;</span>:
+    master pushes to master <span style="color:#f92672">(</span><span style="color:#111">local</span> out of date<span style="color:#f92672">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="添加远程仓库">添加远程仓库</h3>
 <p>如果一开始是通过<code>git init</code>创建的仓库, 那默认是没有远程仓库相关信息的, 不过也可以手动添加:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>$ git remote add <span style="color:#b58900">test</span> git@gitee.com:xy-ylr/gittest.git
-</code></pre></div><p>这条命令的意思就是添加一个远程仓库, 并在本地简称为<code>paul</code></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add <span style="color:#111">test</span> git@gitee.com:xy-ylr/gittest.git
+</code></pre></td></tr></table>
+</div>
+</div><p>这条命令的意思就是添加一个远程仓库, 并在本地简称为<code>paul</code></p>
 <h3 id="查看远程仓库列表">查看远程仓库列表</h3>
 <p>一个本地仓库可以添加多个远程仓库, 在关联了多个远程仓库之后, 可以使用<code>git remote -v</code>命令查看所有远程仓库基本信息, 这会列出所有远程仓库的别名以及对应的URL地址, 类似下面这样：</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:gittest$ git remote -v
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span><span style="color:#b58900">test</span>	git@gitee.com:xy-ylr/gittest.git <span style="color:#719e07">(</span>fetch<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#b58900">test</span>	git@gitee.com:xy-ylr/gittest.git <span style="color:#719e07">(</span>push<span style="color:#719e07">)</span>
-</code></pre></div><h3 id="删除或重命名远程仓库">删除或重命名远程仓库</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:gittest$ git remote -v
+<span style="color:#111">test</span>	git@gitee.com:xy-ylr/gittest.git <span style="color:#f92672">(</span>fetch<span style="color:#f92672">)</span>
+<span style="color:#111">test</span>	git@gitee.com:xy-ylr/gittest.git <span style="color:#f92672">(</span>push<span style="color:#f92672">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="删除或重命名远程仓库">删除或重命名远程仓库</h3>
 <p>要删除无用的远程仓库使用命令<code>git remote rm [name]</code>, 删除之后, 与该远程仓库相关的信息会被一起删除。</p>
 <p>重命名远程仓库使用命令<code>git remote rename [old_name] [new_name]</code>。</p>
 <h3 id="推送内容到远程仓库">推送内容到远程仓库</h3>
 <p>要将本地仓库内容推送到远程仓库, 使用<code>git push [remote][branch]</code>命令, [remote]部分是远程仓库的别名(或者完整url), 默认情况下是origin;  [branch]部分是远程仓库的分支, 如果省略, 默认是往远程仓库的master或者main等默认主分支推送.</p>
 <p><strong>注意</strong>: 要往远程仓库推送内容, 首先要保证你已经拥有该远程仓库的最新内容, 且你要推送的新内容是基于远程仓库的最新内容产生的修改. 否则会报错, 类似下面这样</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:gittest$ git push <span style="color:#b58900">test</span> 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>To gitee.com:xy-ylr/gittest.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span> ! <span style="color:#719e07">[</span>rejected<span style="color:#719e07">]</span>        master -&gt; master <span style="color:#719e07">(</span>fetch first<span style="color:#719e07">)</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>error: failed to push some refs to <span style="color:#2aa198">&#39;gitee.com:xy-ylr/gittest.git&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">5</span>hint: Updates were rejected because the remote contains work that you <span style="color:#719e07">do</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">6</span>hint: not have locally. This is usually caused by another repository pushing
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">7</span>hint: to the same ref. You may want to first integrate the remote changes
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">8</span>hint: <span style="color:#719e07">(</span>e.g., <span style="color:#2aa198">&#39;git pull ...&#39;</span><span style="color:#719e07">)</span> before pushing again.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">9</span>hint: See the <span style="color:#2aa198">&#39;Note about fast-forwards&#39;</span> in <span style="color:#2aa198">&#39;git push --help&#39;</span> <span style="color:#719e07">for</span> details.
-</code></pre></div><h3 id="从远程仓库获取代码">从远程仓库获取代码</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 如果本地分支和远程分支不一样，比如本地master，远程main</span>
+<span style="color:#75715e"># 使用 git push remote master:main</span>
+xy@TB14G2:gittest$ git push <span style="color:#111">test</span> 
+To gitee.com:xy-ylr/gittest.git
+ ! <span style="color:#f92672">[</span>rejected<span style="color:#f92672">]</span>        master -&gt; master <span style="color:#f92672">(</span>fetch first<span style="color:#f92672">)</span>
+error: failed to push some refs to <span style="color:#d88200">&#39;gitee.com:xy-ylr/gittest.git&#39;</span>
+hint: Updates were rejected because the remote contains work that you <span style="color:#00a8c8">do</span>
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: <span style="color:#f92672">(</span>e.g., <span style="color:#d88200">&#39;git pull ...&#39;</span><span style="color:#f92672">)</span> before pushing again.
+hint: See the <span style="color:#d88200">&#39;Note about fast-forwards&#39;</span> in <span style="color:#d88200">&#39;git push --help&#39;</span> <span style="color:#00a8c8">for</span> details.
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="从远程仓库获取代码">从远程仓库获取代码</h3>
 <p>要从远程仓库获取代码, 新建项目第一次可以使用<code>git clone</code>, 后续可以使用<code>git pull</code>或者<code>git fetch</code>.</p>
 <p><code>git pull</code>和<code>git fetch</code>的区别是fetch只是拉取更新, 但是不会自动将更新应用到你当前的工作目录, 需要后续使用<code>git merge(合并)</code>或者<code>git rebase(变基)</code>来将远程仓库的内容应用到本地仓库. 而<code>git pull</code>会自动帮你合并.</p>
 <p>当然, 就像上面的<code>git push</code>推送更新, 如果本地仓库存在远程仓库所没有的新内容, 使用<code>git pull</code>或者<code>git merge</code>都可能会报错. 推荐使用<code>git rebase</code>, 这个命令的工作原理是将本地仓库的更新先摘出来, 将远程仓库的内容应用到本地之后, 再将摘出来的这部分本地仓库的更新给接回去. 更多细节参考<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">官方文档&ndash;变基</a></p>
@@ -775,7 +1096,9 @@ build/
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -829,43 +1152,43 @@ build/
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -877,25 +1200,33 @@ build/
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -903,6 +1234,20 @@ build/
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -912,19 +1257,53 @@ build/
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -932,15 +1311,33 @@ build/
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

@@ -152,12 +152,27 @@
       <ul>
         <li><a href="#命令行补全">命令行补全</a></li>
         <li><a href="#命令没有安装">命令没有安装</a></li>
+        <li><a href="#查看某软件是否安装">查看某软件是否安装</a></li>
       </ul>
     </li>
-    <li><a href="#系统篇">系统篇</a></li>
-    <li><a href="#文件篇">文件篇</a></li>
+    <li><a href="#系统篇">系统篇</a>
+      <ul>
+        <li><a href="#系统名称">系统名称</a></li>
+        <li><a href="#系统时间">系统时间</a></li>
+        <li><a href="#系统进程">系统进程</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件篇">文件篇</a>
+      <ul>
+        <li><a href="#目录">目录</a></li>
+        <li><a href="#查看文件">查看文件</a></li>
+        <li><a href="#压缩解压缩">压缩解压缩</a></li>
+        <li><a href="#文件下载">文件下载</a></li>
+      </ul>
+    </li>
     <li><a href="#用户管理篇">用户管理篇</a></li>
     <li><a href="#日志篇">日志篇</a></li>
+    <li><a href="#排序">排序</a></li>
   </ul>
 </nav>
     </div>
@@ -217,8 +232,8 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约1146字 </span>
-            <span> 预计阅读时间3分钟</span>
+            <span> 共约1994字 </span>
+            <span> 预计阅读时间4分钟</span>
         </div>
         
         
@@ -260,37 +275,123 @@
 <h3 id="命令行补全">命令行补全</h3>
 <p>有些linux发行版安装完成后, 在命令行输入部分命令再按<kbd>Tab</kbd>键无法实现命令自动补全, 这是由于缺少相应的扩展包, 使用以下命令安装, 然后重新打开命令行窗口就可以了.</p>
 <p>centos:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum install-y bash-completion
-</code></pre></div><p>ubuntu:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>apt-get install -y bash-completion
-</code></pre></div><h3 id="命令没有安装">命令没有安装</h3>
-<p>想要使用某个命令, 结果发现没有安装, 想要查询该命令来自哪个软件包.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install-y bash-completion
+</code></pre></td></tr></table>
+</div>
+</div><p>ubuntu:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install -y bash-completion
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="命令没有安装">命令没有安装</h3>
+<p>想要使用某个命令, 结果发现没有安装, 想要查询该命令来自哪个软件包；或者确认已安装的命令来自哪个安装包。</p>
 <p>centos:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>yum whatproides <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
-</code></pre></div><p>ubuntu:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>apt-cache search <span style="color:#719e07">[</span>commands<span style="color:#719e07">]</span>
-</code></pre></div><h2 id="系统篇">系统篇</h2>
-<ol>
-<li>
-<p><code>hostname</code>	查看主机名</p>
-<p><code>lsb_release -a</code> 	查看linux发行版信息</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum whatproides <span style="color:#f92672">[</span>commands<span style="color:#f92672">]</span>
+yum provides <span style="color:#f92672">[</span>service<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>ubuntu:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-cache search <span style="color:#f92672">[</span>commands<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 先安装apt-file</span>
+apt install -y apt-file
+apt-file search dh <span style="color:#111">|</span> grep <span style="color:#d88200">&#34;/usr/bin/dh&#34;</span>
+
+<span style="color:#75715e"># 查看已安装命令来自哪个包</span>
+dpkg -S <span style="color:#f92672">[</span>commands<span style="color:#f92672">]</span>
+dpkg-query -S <span style="color:#f92672">[</span>commands<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 确认命令完整路径</span>
+whereis <span style="color:#f92672">[</span>commands<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看某软件是否安装">查看某软件是否安装</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">## rhel系</span>
+rpm -q <span style="color:#f92672">[</span>软件名<span style="color:#f92672">]</span>
+rpm -qa <span style="color:#111">|</span> grep <span style="color:#f92672">[</span>软件名 模糊匹配<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 列出安装路径</span>
+rpm -ql <span style="color:#f92672">[</span>软件名<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">## debian系</span>
+dpkg -l <span style="color:#111">|</span> grep 软件包名称
+apt list --installed <span style="color:#111">|</span> grep 软件包名称
+aptitude search 软件包名称
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="系统篇">系统篇</h2>
+<h3 id="系统名称">系统名称</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看主机名</span>
+hostname
+<span style="color:#75715e"># 临时修改主机名</span>
+hostname <span style="color:#f92672">[</span>new_name<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 永久更改主机名</span>
+vi /etc/hostname
+<span style="color:#75715e"># 使用systemd的linux</span>
+hostnamectl set-hostname <span style="color:#f92672">[</span>new_name<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>lsb_release -a</code> 	查看linux发行版信息</p>
 <p><code>cat /proc/version</code>	查看内核版本信息, 其他还有cpuinfo, meminfo, swaps等</p>
-</li>
-<li>
 <p><code>uname -a</code>   显示系统信息</p>
-<p><code>-r</code>   显示内核版本信息</p>
-<p><code>-n</code>   显示主机名称</p>
-</li>
+<p><code>uname -r</code>   显示内核版本信息</p>
+<p><code>uname -n</code>   显示主机名称</p>
+<ol>
 <li>
 <p><code>df -h</code>    查看磁盘空间使用情况, 单位大小显示为G/M/K等自适应</p>
 <p><code>-T</code> 	显示文件系统信息</p>
-</li>
-<li>
-<p><code>date &quot;+%Y-%m-%d %H:%M:%S&quot;</code> 按照指定格式显示当前系统时间, 不加参数以默认格式显示.</p>
-<p><code>date -s &quot;20200220 20:20:20&quot;</code> 修改系统时间.</p>
-</li>
-<li>
-<p><code>ps -aux | grep sshd</code>, <code>ps -ef | grep sshd</code> 查找sshd相关的进程</p>
 </li>
 <li>
 <p><code>who</code>   显示当前登录的用户信息.</p>
@@ -302,16 +403,105 @@
 <p><code>history</code>  显示最近执行过的10条命令记录, 来源<code>~/.bash_history</code></p>
 </li>
 </ol>
-<h2 id="文件篇">文件篇</h2>
+<h3 id="系统时间">系统时间</h3>
+<p><code>date &quot;+%Y-%m-%d %H:%M:%S&quot;</code> 按照指定格式显示当前系统时间, 不加参数以默认格式显示.</p>
+<p><strong>查看时间、时区等信息</strong></p>
+<p><code>timedatectl</code></p>
+<p><strong>设置时区</strong></p>
+<p><code>cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime</code></p>
+<p><code>timedatectl set-timezone Asia/Shanghai</code></p>
+<p><strong>修改系统时间</strong></p>
+<p><code>date -s &quot;20200220 20:20:20&quot;</code></p>
+<p><code>timedatectl set-time 2024-05-18</code> 设定日期，也可以设定时间</p>
+<p><code>timedatectl set-ntp true</code> 启用ntp同步（ntp服务器地址需额外指定，安装ntp服务）</p>
+<h3 id="系统进程">系统进程</h3>
+<p>查看系统进程、端口占用情况</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看端口号</span>
+netstat -tulnp <span style="color:#111">|</span> grep ssh
+<span style="color:#75715e"># ss类同netstat</span>
+ss -tulnp
+lsof -i -P -n <span style="color:#111">|</span> grep <span style="color:#ae81ff">80</span>
+
+<span style="color:#75715e"># 查看进程</span>
+ps -aux <span style="color:#111">|</span> grep sshd
+ps -ef <span style="color:#111">|</span> grep sshd
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="文件篇">文件篇</h2>
+<h3 id="目录">目录</h3>
+<p>创建多级目录，自动补全中间缺失的目录</p>
+<p><code>mkdir -p dir1/dir2/dir3</code></p>
+<h3 id="查看文件">查看文件</h3>
+<p><code>less /var/log/messages</code></p>
+<p><code>less -N /var/log/messages</code> 带行号查看文件。</p>
+<p><strong>less</strong>命令可以上下滚动查看文件全文，没有编辑功能的<strong>vi</strong>。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># grep反向匹配，使用-v参数</span>
+<span style="color:#75715e"># 排除指定字符串</span>
+grep -v <span style="color:#d88200">&#39;strings&#39;</span> file.txt
+<span style="color:#75715e"># 排除指定单词 -w表示匹配单词</span>
+grep -vw <span style="color:#d88200">&#39;word&#39;</span> file.txt
+<span style="color:#75715e"># 排除多个 -e</span> 
+grep -v -e <span style="color:#d88200">&#39;string1&#39;</span> -e <span style="color:#d88200">&#39;string2&#39;</span> file.txt
+<span style="color:#75715e"># 或者新建文件，每行一个排除项</span>
+grep -v -f exclude.txt file.txt
+<span style="color:#75715e"># 包含指定内容，同时不包含指定内容</span>
+grep <span style="color:#d88200">&#39;string3&#39;</span> file.txt <span style="color:#111">|</span> grep -v -e <span style="color:#d88200">&#39;string1&#39;</span> -e <span style="color:#d88200">&#39;string2&#39;</span>
+grep -v -e -e <span style="color:#d88200">&#39;string1&#39;</span> -e <span style="color:#d88200">&#39;string2&#39;</span> &lt;<span style="color:#f92672">(</span>grep <span style="color:#d88200">&#39;string3&#39;</span> file.txt<span style="color:#f92672">)</span>
+<span style="color:#75715e"># 在指定目录搜索内容的时候排除特定文件</span>
+grep -r --exclude<span style="color:#f92672">=</span><span style="color:#d88200">&#39;*.log&#39;</span> <span style="color:#d88200">&#39;search-string&#39;</span> /path/
+<span style="color:#75715e"># 搜索的时候排除指定目录</span>
+grep -r --exclude-dir<span style="color:#f92672">=</span><span style="color:#d88200">&#39;exclude-dir&#39;</span> <span style="color:#d88200">&#39;search-string&#39;</span> /path/
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="压缩解压缩">压缩解压缩</h3>
+<p><strong>zip</strong></p>
+<p><code>unzip [-d path] test.txt.zip</code> 解压缩zip文件[到指定目录]。</p>
+<p>其他参数，<code>-l</code>查看压缩包中的文件列表；<code>-v</code>查看压缩包文件列表详细信息；</p>
+<p><strong>tar.gz</strong></p>
+<p><code>tar -xzvf filename.tar.gz</code></p>
+<p><code>-x</code>解压tar包；<code>-z</code>使用gzip来解压；<code>-v</code>显示解压过程，可省略；<code>-f</code>文件名。</p>
+<h3 id="文件下载">文件下载</h3>
+<p><code>wget -c URL</code> 从URL地址下载文件，支持断点续传，添加<code>-O</code>参数可以设置本地文件名；添加<code>-x</code>参数可以在本地强制创建目录保存到指定位置。</p>
+<p><code>curl -o [file_name] URL</code> 从URL地址下载文件并重命名。大写的<code>-O</code>参数表示使用原文件名下载保存。</p>
+<p>补充：<code>wget</code>和<code>curl</code>如果以原文件名下载保存，好象是以URL连接中的最后一节作为文件名来保存，跟通过web页面下载时的文件名可能有区别。</p>
+<p>========================================</p>
 <ol>
 <li>
 <p><code>du -h -d 1</code>  显示当前目录各文件及子目录的磁盘使用量, <code>-d N</code>表示递归显示的目录层数为<code>N</code>, 默认列出所有.</p>
 <p><code>-c</code> 	显示当前目录占用磁盘空间的归总数据.</p>
-</li>
-<li>
-<p><code>ls</code>     列出当前目录下的文件及子目录名称, 不包含隐藏文件和隐藏目录.</p>
-<p><code>la</code> 	列出包括隐藏文件和隐藏目录的所有文件及目录名, 等同于<code>ls -a</code></p>
-<p><code>ll</code>	 额外显示出文件权限, 所有者等信息, 等同于<code>ls -al</code></p>
 </li>
 <li>
 <p><code>stat test.txt</code> 查看一个文件的详细信息, 包括Inode, Device, Access, Modify, Change等.</p>
@@ -352,7 +542,7 @@
 </li>
 </ol>
 <h2 id="用户管理篇">用户管理篇</h2>
-<p><code>sudo usermod -aG &lt;groupname&gt; $USER</code>  将当前用户加入某个用户组. <code>-aG</code>两个参数配合使用.</p>
+<p><code>sudo usermod -aG &lt;groupname&gt; $USER</code>  将当前用户追加到某个用户组。<code>-aG</code>两个参数配合使用，如果只使用<code>-G</code>参数，是将用户的辅助组替换为指定用户组。</p>
 <h2 id="日志篇">日志篇</h2>
 <ol>
 <li>
@@ -361,6 +551,18 @@
 <p><code>-u</code> 	查看指定用户(服务)的日志. 比如<code>journalctl -u cron.service</code></p>
 </li>
 </ol>
+<h2 id="排序">排序</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># IP地址排序</span>
+sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4 ip_list.txt
+</code></pre></td></tr></table>
+</div>
+</div>
         </div>
 
         
@@ -410,7 +612,9 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -464,43 +668,43 @@
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -512,25 +716,33 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -538,6 +750,20 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -547,19 +773,53 @@
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -567,15 +827,33 @@
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

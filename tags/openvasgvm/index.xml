@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>openvas(gvm) on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/openvasgvm/</link>
+    <description>Recent content in openvas(gvm) on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 26 Apr 2024 12:34:38 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/openvasgvm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kali2024.1安装配置openvas(gvm)漏洞扫描软件</title>
+      <link>https://xy-ylr.github.io/it/kali_configure_openvas/</link>
+      <pubDate>Fri, 26 Apr 2024 12:34:38 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/kali_configure_openvas/</guid>
+      <description>&lt;p&gt;openvas是开源的全功能的安全漏洞扫描系统，提供全面的网络漏洞检测能力，包含大量可更新的漏洞检测插件，支持多种协议和服务的扫描，并提供了大量的漏洞测试。&lt;/p&gt;
+&lt;p&gt;目前新版openvas改叫gvm了，即Greenbone Vulnerability Management。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

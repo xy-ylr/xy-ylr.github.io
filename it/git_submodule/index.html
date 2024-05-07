@@ -213,7 +213,7 @@
         
         <div class="post-meta">
             <span>|</span>
-            <span> 共约1935字 </span>
+            <span> 共约1978字 </span>
             <span> 预计阅读时间4分钟</span>
         </div>
         
@@ -257,80 +257,167 @@
 <p><strong>补充说明</strong>: 由于本人目前只是在使用hugo搭建个人博客时用到git子模块, 并未有其他深入使用机会, 此文只做一些简单记录, 更多详情请参考官方文档.</p>
 <h2 id="添加子模块">添加子模块</h2>
 <p>要添加子模块, 使用<code>git submodule add</code>命令. 比如我们使用hugo博客系统写博客, 添加主题的时候, 就可以使用子模块功能添加其他人开发的现成的主题模块, 参考本人另一篇文章<a href="/it/github_and_hugo/#%E5%AE%8C%E5%85%A8%E5%8F%91%E5%B8%83%E6%A8%A1%E5%BC%8Fgit%E5%AD%90%E6%A8%A1%E5%9D%97">hugo加github pages搭建个人博客</a>完全发布模式.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>~$ hugo new site myblog
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>~$ <span style="color:#b58900">cd</span> myblog
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>myblog$ git init
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>myblog$ git submodule add <span style="color:#719e07">[</span>theme-repo<span style="color:#719e07">]</span> themes/<span style="color:#719e07">[</span>maupassant<span style="color:#719e07">]</span>
-</code></pre></div><p>在博客主项目myblog中直接使用<code>git submodule add</code>命令, 后面添加主题子模块仓库地址<code>[theme-repo]</code>以及主题路径<code>themes/[maupassant]</code>, 路径可以省略, 默认上在当前目录下新建与子模块仓库同名目录.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">~$ hugo new site myblog
+~$ <span style="color:#111">cd</span> myblog
+myblog$ git init
+myblog$ git submodule add <span style="color:#f92672">[</span>theme-repo<span style="color:#f92672">]</span> themes/<span style="color:#f92672">[</span>maupassant<span style="color:#f92672">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在博客主项目myblog中直接使用<code>git submodule add</code>命令, 后面添加主题子模块仓库地址<code>[theme-repo]</code>以及主题路径<code>themes/[maupassant]</code>, 路径可以省略, 默认上在当前目录下新建与子模块仓库同名目录.</p>
 <p>经过该操作之后, 主项目目录下会多出一个<code>.gitmodules</code>隐藏文件, 文件中记录着子模块的本地路径以及远程仓库地址. 以下上我的博客项目子模块相关信息</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>xy@TB14G2:myblog$ cat .gitmodules 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;public&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> public
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/xy-ylr.github.io.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;themes/maupassant&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> themes/maupassant
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/maupassant-hugo.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;content&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> content
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/blog-markdown.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;themes/even&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> themes/even
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:olOwOlo/hugo-theme-even.git
-</code></pre></div><h2 id="克隆含有子模块的项目">克隆含有子模块的项目</h2>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:myblog$ cat .gitmodules 
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;public&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> public
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/xy-ylr.github.io.git
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;themes/maupassant&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> themes/maupassant
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/maupassant-hugo.git
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;content&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> content
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/blog-markdown.git
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;themes/even&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> themes/even
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:olOwOlo/hugo-theme-even.git
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="克隆含有子模块的项目">克隆含有子模块的项目</h2>
 <p>要克隆含有子模块的项目, 还是使用<code>git clone</code>命令, 不过该命令只会下载主项目的内容, 以及子模块根目录, 但是子模块数据还需要通过额外的命令来下载.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1</span>xy@TB14G2:~$ git clone git@github.com:xy-ylr/blog-frame.git Documents/ttt
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2</span>Cloning into <span style="color:#2aa198">&#39;Documents/ttt&#39;</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3</span>remote: Enumerating objects: 8, <span style="color:#719e07">done</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4</span>remote: Counting objects: 100% <span style="color:#719e07">(</span>8/8<span style="color:#719e07">)</span>, <span style="color:#719e07">done</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5</span>remote: Compressing objects: 100% <span style="color:#719e07">(</span>5/5<span style="color:#719e07">)</span>, <span style="color:#719e07">done</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6</span>remote: Total <span style="color:#2aa198">8</span> <span style="color:#719e07">(</span>delta 0<span style="color:#719e07">)</span>, reused <span style="color:#2aa198">8</span> <span style="color:#719e07">(</span>delta 0<span style="color:#719e07">)</span>, pack-reused <span style="color:#2aa198">0</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7</span>Receiving objects: 100% <span style="color:#719e07">(</span>8/8<span style="color:#719e07">)</span>, <span style="color:#719e07">done</span>.
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8</span>xy@TB14G2:~$ <span style="color:#b58900">cd</span> Documents/ttt/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9</span>xy@TB14G2:ttt$ cat .gitmodules 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;public&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">11</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> public
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">12</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/xy-ylr.github.io.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">13</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;themes/maupassant&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">14</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> themes/maupassant
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">15</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/maupassant-hugo.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">16</span><span style="color:#719e07">[</span>submodule <span style="color:#2aa198">&#34;content&#34;</span><span style="color:#719e07">]</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">17</span>	<span style="color:#268bd2">path</span> <span style="color:#719e07">=</span> content
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">18</span>	<span style="color:#268bd2">url</span> <span style="color:#719e07">=</span> git@github.com:xy-ylr/blog-markdown.git
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">19</span>xy@TB14G2:ttt$ la themes/maupassant/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">20</span>xy@TB14G2:ttt$ git submodule init 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">21</span>Submodule <span style="color:#2aa198">&#39;content&#39;</span> <span style="color:#719e07">(</span>git@github.com:xy-ylr/blog-markdown.git<span style="color:#719e07">)</span> registered <span style="color:#719e07">for</span> path <span style="color:#2aa198">&#39;content&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">22</span>Submodule <span style="color:#2aa198">&#39;public&#39;</span> <span style="color:#719e07">(</span>git@github.com:xy-ylr/xy-ylr.github.io.git<span style="color:#719e07">)</span> registered <span style="color:#719e07">for</span> path <span style="color:#2aa198">&#39;public&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">23</span>Submodule <span style="color:#2aa198">&#39;themes/maupassant&#39;</span> <span style="color:#719e07">(</span>git@github.com:xy-ylr/maupassant-hugo.git<span style="color:#719e07">)</span> registered <span style="color:#719e07">for</span> path <span style="color:#2aa198">&#39;themes/maupassant&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">24</span>xy@TB14G2:ttt$ git submodule update 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">25</span>Cloning into <span style="color:#2aa198">&#39;/home/xy/Documents/ttt/content&#39;</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">26</span>Cloning into <span style="color:#2aa198">&#39;/home/xy/Documents/ttt/public&#39;</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">27</span>Cloning into <span style="color:#2aa198">&#39;/home/xy/Documents/ttt/themes/maupassant&#39;</span>...
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">28</span>Submodule path <span style="color:#2aa198">&#39;content&#39;</span>: checked out <span style="color:#2aa198">&#39;c2924a6ee4366976fa0df9d607527b692e717c4b&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">29</span>Submodule path <span style="color:#2aa198">&#39;public&#39;</span>: checked out <span style="color:#2aa198">&#39;3ca4354f28a5c1d4dc6de7f6aebb847bf63a7dc6&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">30</span>Submodule path <span style="color:#2aa198">&#39;themes/maupassant&#39;</span>: checked out <span style="color:#2aa198">&#39;76e036093e905b60f6d53df161b3472d19394220&#39;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">31</span>xy@TB14G2:ttt$ la themes/maupassant/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">32</span>archetypes   .git        layouts     preview.png   README.md  theme.toml
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">33</span>exampleSite  .gitignore  LICENSE.md  README_EN.md  static
-</code></pre></div><p>由上述操作过程可以看出, 运行<code>git submodule init</code>和<code>git submodule update</code>之后, 才将数据检出到本地子模块目录.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:~$ git clone git@github.com:xy-ylr/blog-frame.git Documents/ttt
+Cloning into <span style="color:#d88200">&#39;Documents/ttt&#39;</span>...
+remote: Enumerating objects: 8, <span style="color:#00a8c8">done</span>.
+remote: Counting objects: 100% <span style="color:#f92672">(</span>8/8<span style="color:#f92672">)</span>, <span style="color:#00a8c8">done</span>.
+remote: Compressing objects: 100% <span style="color:#f92672">(</span>5/5<span style="color:#f92672">)</span>, <span style="color:#00a8c8">done</span>.
+remote: Total <span style="color:#ae81ff">8</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">8</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, pack-reused <span style="color:#ae81ff">0</span>
+Receiving objects: 100% <span style="color:#f92672">(</span>8/8<span style="color:#f92672">)</span>, <span style="color:#00a8c8">done</span>.
+xy@TB14G2:~$ <span style="color:#111">cd</span> Documents/ttt/
+xy@TB14G2:ttt$ cat .gitmodules 
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;public&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> public
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/xy-ylr.github.io.git
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;themes/maupassant&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> themes/maupassant
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/maupassant-hugo.git
+<span style="color:#f92672">[</span>submodule <span style="color:#d88200">&#34;content&#34;</span><span style="color:#f92672">]</span>
+	<span style="color:#111">path</span> <span style="color:#f92672">=</span> content
+	<span style="color:#111">url</span> <span style="color:#f92672">=</span> git@github.com:xy-ylr/blog-markdown.git
+xy@TB14G2:ttt$ la themes/maupassant/
+xy@TB14G2:ttt$ git submodule init 
+Submodule <span style="color:#d88200">&#39;content&#39;</span> <span style="color:#f92672">(</span>git@github.com:xy-ylr/blog-markdown.git<span style="color:#f92672">)</span> registered <span style="color:#00a8c8">for</span> path <span style="color:#d88200">&#39;content&#39;</span>
+Submodule <span style="color:#d88200">&#39;public&#39;</span> <span style="color:#f92672">(</span>git@github.com:xy-ylr/xy-ylr.github.io.git<span style="color:#f92672">)</span> registered <span style="color:#00a8c8">for</span> path <span style="color:#d88200">&#39;public&#39;</span>
+Submodule <span style="color:#d88200">&#39;themes/maupassant&#39;</span> <span style="color:#f92672">(</span>git@github.com:xy-ylr/maupassant-hugo.git<span style="color:#f92672">)</span> registered <span style="color:#00a8c8">for</span> path <span style="color:#d88200">&#39;themes/maupassant&#39;</span>
+xy@TB14G2:ttt$ git submodule update 
+Cloning into <span style="color:#d88200">&#39;/home/xy/Documents/ttt/content&#39;</span>...
+Cloning into <span style="color:#d88200">&#39;/home/xy/Documents/ttt/public&#39;</span>...
+Cloning into <span style="color:#d88200">&#39;/home/xy/Documents/ttt/themes/maupassant&#39;</span>...
+Submodule path <span style="color:#d88200">&#39;content&#39;</span>: checked out <span style="color:#d88200">&#39;c2924a6ee4366976fa0df9d607527b692e717c4b&#39;</span>
+Submodule path <span style="color:#d88200">&#39;public&#39;</span>: checked out <span style="color:#d88200">&#39;3ca4354f28a5c1d4dc6de7f6aebb847bf63a7dc6&#39;</span>
+Submodule path <span style="color:#d88200">&#39;themes/maupassant&#39;</span>: checked out <span style="color:#d88200">&#39;76e036093e905b60f6d53df161b3472d19394220&#39;</span>
+xy@TB14G2:ttt$ la themes/maupassant/
+archetypes   .git        layouts     preview.png   README.md  theme.toml
+exampleSite  .gitignore  LICENSE.md  README_EN.md  static
+</code></pre></td></tr></table>
+</div>
+</div><p>由上述操作过程可以看出, 运行<code>git submodule init</code>和<code>git submodule update</code>之后, 才将数据检出到本地子模块目录.</p>
 <p>当然, 也可以使用<code>git submodule update --init</code>命令将上述的两条命令合并成一条命令, 如果子模块中还有嵌套其他子模块, 可以再添加<code>--recursive</code>选项.</p>
 <p>或者在克隆的时候直接使用<code>git clone --recurse-submodules</code>, 这条命令可以在克隆的时候, 自动初始化并检出子模块数据, 包括嵌套子模块.</p>
 <h2 id="获取子模块更新">获取子模块更新</h2>
 <p>一般情况下, 使用子模块的最简单方式是, 我们主要开发的还是自己的主项目, 子模块只是作为一个第三方库引入, 不对其做任何修改, 只是偶尔获取来自子模块上游的bug修复等更新.</p>
 <p>要获取子模块更新, 可以直接进入子模块目录, 然后使用<code>git fetch</code>加<code>git merge</code>来合并上游的更新, 或者使用<code>git pull</code>, 或者使用<code>git rebase</code>也都可以, 跟在普通仓库中操作一样.  也可以直接在主项目中使用<code>git submodule update --remote [repo]</code>来获取更新.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span>xy@TB14G2:ttt$ git submodule update --remote 
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>xy@TB14G2:ttt$ git submodule update --remote content/
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span>xy@TB14G2:ttt$ git config -f .gitmodules submodule.content.branch <span style="color:#b58900">test</span>
-</code></pre></div><p>如果不指定具体子模块, 会更新项目中的所有子模块, 默认更新的数据来自子模块仓库的<code>master</code>分支, 如果想要跟踪其他分支, 可以使用<code>git config</code>命令来设置, 比如上述命令中, 意思就是跟踪<code>content子</code>模块的<code>test</code>分支, 并将该配置保存在<code>.gitmodules</code>文件中.</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xy@TB14G2:ttt$ git submodule update --remote 
+xy@TB14G2:ttt$ git submodule update --remote content/
+xy@TB14G2:ttt$ git config -f .gitmodules submodule.content.branch <span style="color:#111">test</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果不指定具体子模块, 会更新项目中的所有子模块, 默认更新的数据来自子模块仓库的<code>master</code>分支, 如果想要跟踪其他分支, 可以使用<code>git config</code>命令来设置, 比如上述命令中, 意思就是跟踪<code>content子</code>模块的<code>test</code>分支, 并将该配置保存在<code>.gitmodules</code>文件中.</p>
 <p>如果确实需要在子模块中进行二次开发, 其实也可以把当作普通的git仓库, 只需要进入子模块目录中, 就可以使用fetch, pull, push等命令完成操作,  参考官方中文文档<a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E8%8E%B7%E5%8F%96-Git-%E4%BB%93%E5%BA%93">Git-基础</a>, <a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%AE%80%E4%BB%8B">Git-分支</a>, 或者我的另两篇文章<a href="/it/git_basic_use/">Git基础配置及使用</a>, <a href="/it/git_branch/">Git分支</a></p>
 <h2 id="获取主项目更新">获取主项目更新</h2>
 <p>获取主项目更新和普通仓库获取上游更新没有区别, 只是需要注意的是, 对于子模块只是拉取提交记录, 而不会自动合并到本地, 需要额外运行<code>git submodule update</code>命令, 具体操作参考本文的<a href="#%E5%85%8B%E9%9A%86%E5%90%AB%E6%9C%89%E5%AD%90%E6%A8%A1%E5%9D%97%E7%9A%84%E9%A1%B9%E7%9B%AE">克隆含有子模块的项目</a>部分.</p>
 <h2 id="推送更新到远程仓库">推送更新到远程仓库</h2>
 <p>如果只是在主项目中开发, 相关操作和普通git仓库没有区别. 如果有对子模块进行来二次开发, 那需要先提交并推送子模块的更新, 然后再推送主项目更新. 要不然其他人拉取主项目更新的时候, 由于子模块的更改都还在本地仓库未上传, 他们运行<code>git submodule update</code>的时候, 会提示子模块中不包含某某提交, 获取该提交失败. 此时可以添加配置选项, 当主项目推送更新的时候, 检查子模块是否已经完成推送, 或者自动推送子模块更新.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">1</span><span style="color:#586e75">&lt;!-- 主项目推送的时候, 检查子模块是否已经完成推送 --&gt;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">2</span>git config push.recurseSubmodules check
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">3</span><span style="color:#586e75">&lt;!-- 主项目推送的时候, 自动完成子模块的推送工作 --&gt;</span>
-<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">4</span>git config push.recurseSubmodules on-demand
-</code></pre></div>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown"><span style="color:#75715e">&lt;!-- 主项目推送的时候, 检查子模块是否已经完成推送 --&gt;</span>
+git config push.recurseSubmodules check
+<span style="color:#75715e">&lt;!-- 主项目推送的时候, 自动完成子模块的推送工作 --&gt;</span>
+git config push.recurseSubmodules on-demand
+</code></pre></td></tr></table>
+</div>
+</div>
         </div>
 
         
@@ -393,7 +480,9 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
         
     </div>
     <br />
@@ -447,43 +536,43 @@
 <ul class="widget-list">
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_huawei_network_basic/" title="华三华为网络基础配置命令">华三华为网络基础配置命令</a>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/excel_use/" title="Excel使用小技巧">Excel使用小技巧</a>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/h3c_irf_conf/" title="H3C交换机irf配置">H3C交换机irf配置</a>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_fdisk/" title="Linux系统磁盘的分区 格式化与挂载">Linux系统磁盘的分区 格式化与挂载</a>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/rime_configuration/" title="Rime安装与基本配置">Rime安装与基本配置</a>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_install_zabbix/" title="Linux操作系统上安装Zabbix运维工具">Linux操作系统上安装Zabbix运维工具</a>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_ssh/" title="Linux禁用root远程登录">Linux禁用root远程登录</a>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/linux_commands/" title="Linux常用命令笔记">Linux常用命令笔记</a>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_submodule/" title="Git子模块">Git子模块</a>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
     </li>
     
     <li>
-        <a href="https://xy-ylr.github.io/it/git_branch/" title="Git分支">Git分支</a>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
     </li>
     
 </ul>
@@ -495,25 +584,33 @@
         <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
     <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/github/">github (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/hugo/">hugo (1)</a></li>
-    
-    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (3)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/rime/">rime (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
     
     <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (2)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
     
-    <li><a href="https://xy-ylr.github.io/categories/%E8%B4%A2%E7%BB%8F/">财经 (1)</a></li>
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
     
 </ul>
     </section>
@@ -521,6 +618,20 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
     
     <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
     
@@ -530,19 +641,53 @@
     
     <a href="https://xy-ylr.github.io/tags/github/">github</a>
     
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
     <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
     
     <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
     
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
     <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
     
     <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
     
     <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
     
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
     <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
     
     <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
     
     <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
     
@@ -550,15 +695,33 @@
     
     <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
     
     <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
     
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
     
     <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
     
-    <a href="https://xy-ylr.github.io/tags/%E8%B4%A2%E7%BB%8F/">财经</a>
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
     
 </div>
     </section>

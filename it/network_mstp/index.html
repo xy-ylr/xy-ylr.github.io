@@ -1,0 +1,1249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>mstp配置 | 四十荀的博客</title>
+    <meta property="og:title" content="mstp配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-06-07T09:36:44&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-06-07T09:36:44&#43;08:00'>
+        
+    <meta name="Keywords" content="[mstp配置]">
+    <meta name="description" content="mstp配置,华为交换机mstp配置,华三交换机mstp配置">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/network_mstp/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#常见协议比较">常见协议比较</a></li>
+    <li><a href="#基本知识">基本知识</a>
+      <ul>
+        <li><a href="#设备角色">设备角色：</a></li>
+        <li><a href="#端口角色">端口角色：</a></li>
+        <li><a href="#端口状态">端口状态</a></li>
+        <li><a href="#mstp概念补充">MSTP概念补充</a></li>
+        <li><a href="#拓扑计算与配置要点">拓扑计算与配置要点</a></li>
+      </ul>
+    </li>
+    <li><a href="#mstp基础案例">MSTP基础案例</a>
+      <ul>
+        <li><a href="#配置mst域和msti实例">配置MST域和MSTI实例</a></li>
+        <li><a href="#配置msti根桥">配置MSTI根桥</a></li>
+        <li><a href="#配置阻塞端口路径开销">配置阻塞端口路径开销</a></li>
+        <li><a href="#配置边缘端口和bpdu保护">配置边缘端口和bpdu保护</a></li>
+        <li><a href="#配置根保护">配置根保护</a></li>
+        <li><a href="#端口vlan等配置">端口vlan等配置</a></li>
+        <li><a href="#验证配置结果">验证配置结果</a></li>
+      </ul>
+    </li>
+    <li><a href="#复杂案例">复杂案例</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">mstp配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年6月7日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约7516字 </span>
+            <span> 预计阅读时间16分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-06-07T09:36:44" title="2023-06-07">
+            2023-06-07
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>简单理解，生成树协议是为了实现网络冗余，但又能自动阻塞部分端口链路以避免网络环路的一种网络技术，本文主要介绍MSTP生成树。</p>
+<p>可直接跳转文末查看<a href="#mstp%E9%85%8D%E7%BD%AE%E6%A1%88%E4%BE%8B">配置案例</a>，有不懂的再返回阅读<a href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86">基本知识</a>。</p>
+<p>本文生成树涉及相关命令、模拟环境，以华为ensp为主，<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/35a610ca">华为官方手册</a>。</p>
+<h2 id="常见协议比较">常见协议比较</h2>
+<p>常见生成树协议有：生成树协议STP（Spanning Tree Protocol）、快速生成树协议RSTP（Rapid Spanning Tree Protocol）、多生成树协议MSTP（Multiple Spanning Tree Protocol）。</p>
+<p>最早的是STP生成树协议，后面随着网络的发展壮大，网络复杂性也越来越高，逐渐又有了RSTP、MSTP等。</p>
+<table>
+<thead>
+<tr>
+<th>协议名称</th>
+<th>收敛速度</th>
+<th>流量转发</th>
+<th>配置难度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STP（IEEE802.1d）</td>
+<td>慢</td>
+<td>所有VLAN共享一棵生成树，所有VLAN的流量按照同样的路径转发</td>
+<td>低</td>
+</tr>
+<tr>
+<td>RSTP（IEEE802.1w）</td>
+<td>快</td>
+<td>所有VLAN共享一棵生成树，所有VLAN的流量按照同样的路径转发</td>
+<td>低</td>
+</tr>
+<tr>
+<td>MSTP（IEEE802.1S）</td>
+<td>快</td>
+<td>可以不同VLAN各自形成生成树，每棵生成树之间相互独立，VLAN流量也各自独立</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<p>STP和RSTP都是只生成一个生成树，所有的VLAN数据都是按照同样的路径去转发。</p>
+<p>RSTP只是在STP基础上新增了一些端口角色、并改进了生成树计算算法，用于实现网络拓扑更加快速的收敛。</p>
+<p>也正是由于STP和RSTP网络中所有的VLAN共享一棵生成树，不能按VLAN分别阻塞冗余链路，无法在VLAN间实现流量的负载分担；同时，链路被阻塞后将不再承载任何流量，造成带宽浪费，甚至还有可能造成部分VLAN的报文无法转发。于是后面又出现了MSTP协议来弥补这些不足，并兼容STP和RSTP，既可以快速收敛，又提供了数据转发的多个路径，并在数据转发过程中实现VLAN数据的负载均衡。</p>
+<p>RSTP和MSTP都比STP的收敛速度快，但RSTP和MSTP之间没有快慢之分。</p>
+<h2 id="基本知识">基本知识</h2>
+<h3 id="设备角色">设备角色：</h3>
+<p>设备角色分为<code>根桥</code>和<code>非根桥</code>，STP/RSTP有且仅有一个根桥；MSTP可以生成多个生成树，也就可以有多个根桥。<code>根桥</code>处于整个网络的<strong>逻辑中心</strong>，一般情况下根桥就是网络中的核心交换机。还有一个相对概念的<code>指定桥</code>，这个与<code>指定端口</code>角色有关。</p>
+<h3 id="端口角色">端口角色：</h3>
+<p>每种协议所具备的端口角色不一样，如下图：</p>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>根端口</th>
+<th>指定端口</th>
+<th>alternate端口</th>
+<th>backup端口</th>
+<th>边缘端口</th>
+<th>master端口</th>
+<th>域边缘端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STP</td>
+<td>Y</td>
+<td>Y</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>RSTP</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>MSTP</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+</tbody>
+</table>
+<p>指定端口-指定桥图
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0608-211214-a9fe9595cb00e11825f68e01c4cfd229-a275d8.png">
+            <img class="mx-auto" alt="根端口-指定端口" src="http://img.xy-ylr.cn/picgo/it/2023-0608-211214-a9fe9595cb00e11825f68e01c4cfd229-a275d8.png" />
+        </a>
+    </p>
+<h4 id="根端口">根端口</h4>
+<p><code>非根桥</code>去往<code>根桥</code>路径开销最小的那个上联端口</p>
+<h4 id="指定端口">指定端口</h4>
+<p><code>指定端口</code>与<code>指定桥</code>有关，如上面图所示，<code>指定桥</code>是本设备去往根桥的<strong>上联设备</strong>，而<code>指定端口</code>就是<strong>指定桥</strong>上面与本设备根端口互连的那个端口。</p>
+<p>在MSTP中，指定端口的描述略有变化，是<strong>设备本身</strong>与下联设备根端口互连的那个端口。</p>
+<p>某种程度上来说，端口还是那个端口，只是主体变了。比如上图中dev2的GE2口，在STP和RSTP中，它是dev4的指定端口；而在MSTP中，它是dev2的指定端口。</p>
+<h4 id="alternate端口">Alternate端口</h4>
+<p>这是<strong>根端口的备份端口</strong>，当前去往<code>根桥</code>的最优链路出现故障不通了，那原来被阻塞的那条冗余链路就会激活，这条链路上的本地端口在激活之前就是alternate端口，不过此时链路激活了，该端口也由alternate端口转为了根端口。</p>
+<h4 id="backup端口">Backup端口</h4>
+<p>这是<strong>指定端口的备份端口</strong>，与alternate端口类似，且应该是alternate端口的对端口子。当原来的指定端口故障时，backup端口就会起来转为新的指定端口。</p>
+<h4 id="边缘端口">边缘端口</h4>
+<p>边缘端口就是与终端互连的口子，没啥好说的了。</p>
+<h4 id="master端口域边缘端口">master端口/域边缘端口</h4>
+<p><code>master端口</code>和<code>域边缘端口</code>是MSTP新增的端口角色，涉及到其他几个新概念，相关内容见后文<a href="#mstp%E6%A6%82%E5%BF%B5%E8%A1%A5%E5%85%85">MSTP相关概念补充</a>。</p>
+<p><strong>域边缘端口</strong>是MST域之间互连的端口。</p>
+<p><strong>master端口</strong>也叫主端口，是将MST域连到总根的端口，位于整个域到总根的最短路径上，所以这个master端口不一定就在域根设备上。master端口是MST域中的报文去往总根的必经之路。master端口在CIST上的角色是根端口，而在其他MSTI上的角色则是master端口。</p>
+<p>master端口也是一种特殊的（去往总根的）域边缘端口。</p>
+<h3 id="端口状态">端口状态</h3>
+<p>STP是端口角色少（只有根端口和指定端口），但是端口状态多。</p>
+<p><strong>STP端口状态表</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>端口状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disabled</td>
+<td>端口状态为Down，不处理BPDU报文，也不转发用户流量。</td>
+</tr>
+<tr>
+<td>Listening</td>
+<td>过渡状态，开始生成树计算，端口可以接收和发送BPDU，但不转发用户流量。</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>过渡状态，建立无环的MAC地址转发表，不转发用户流量。</td>
+</tr>
+<tr>
+<td>Forwarding</td>
+<td>端口可以接收和发送BPDU，也转发用户流量。只有根端口或指定端口才能进入Forwarding状态。</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>端口仅仅接收并处理BPDU，不转发用户流量。</td>
+</tr>
+</tbody>
+</table>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/Local/Temp/2023-1016-145440-331c35eb8def7e39b0e97154a3f8302a-2bdfcc.png">
+            <img class="mx-auto" alt="STP端口状态变化图" src="http://img.xy-ylr.cn/Local/Temp/2023-1016-145440-331c35eb8def7e39b0e97154a3f8302a-2bdfcc.png" />
+        </a>
+    </p>
+<ol>
+<li>端口Up或使能了STP，会从Disabled状态进入到Blocking状态。</li>
+<li>端口被选举为根端口或指定端口，会进入Listening状态。</li>
+<li>端口的Forward Delay定时器超时，会进入Learning/Forwarding状态。</li>
+<li>端口不再是根端口或指定端口时，会进入Blocking状态。</li>
+<li>端口Down或者去使能STP时，就进入Disabled状态。</li>
+</ol>
+<p>以上是STP的端口状态和变化关系，后来的RSTP/MSTP经过优化，增加了端口角色，但减少了端口状态，只剩下了<code>Forwarding</code>、<code>Discarding</code>、<code>Learning</code>三种。</p>
+<p><strong>RSTP/MSTP端口状态</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>端口状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forwarding</td>
+<td>端口转发用户流量，也学习MAC地址，且接收和发送BPDU报文。</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>过渡状态，设备根据收到的用户流量构建MAC地址表。端口可以接收和发送BPDU报文，但不转发用户流量。</td>
+</tr>
+<tr>
+<td>Discarding</td>
+<td>端口只接收BPDU报文，不转发用户流量，也不学习MAC地址。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>端口状态和端口角色对应表</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>端口状态</th>
+<th>根端口/Master端口</th>
+<th>指定端口</th>
+<th>域边缘端口</th>
+<th>Alternate端口</th>
+<th>Backup端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forwarding</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Discarding</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mstp概念补充">MSTP概念补充</h3>
+<p><em><strong>（本人只模拟验证了简单的单域结构的MSTP网络，可能对于下面部分概念的理解并不准确）</strong></em></p>
+<h4 id="msti">MSTI</h4>
+<p>是MSTP网络中的最小生成树实例，或者可以这么子理解：每个MSTI都是一个STP/RSTP。</p>
+<h4 id="mst域">MST域</h4>
+<p>MST域是多生成树域（Multiple Spanning Tree Region），由交换网络中的多台交换设备以及它们之间的网段所构成。同一个MST域的设备具有下列特点：</p>
+<ul>
+<li>都启动了MSTP。</li>
+<li>具有相同的域名。</li>
+<li>具有相同的VLAN到生成树实例映射配置。</li>
+<li>具有相同的MSTP修订级别配置。</li>
+</ul>
+<p>一个或者多个MSTI组成一个MST域，而一个或多个MST域构成一个完整的MSTP网络。</p>
+<h4 id="vlan映射表">VLAN映射表</h4>
+<p>因为MSTP网络中是可以根据不同VLAN形成不同的生成树（MSTI）的，而每个VLAN都单独生成一个MSTI的话，不仅可能导致数量过多，也过于消耗网络设备资源。因为有些VLAN的流量可能比较少、有些VLAN可能都是给某个部门或者某个区域使用的，那么这些VLAN其实使用同一个生成树就好了，还能节省一些系统资源开销。所以一个MSTI中是有可能包含多个VLAN的。</p>
+<p>VLAN映射表就是用来记录VLAN和MSTI之间的映射关系的。</p>
+<h4 id="ist">IST</h4>
+<p>内部生成树IST（Internal Spanning Tree）是一个特殊的MSTI，MSTI的ID为0，通常称为MSTI0。</p>
+<p>IST是CIST在MST域中的一个片段。</p>
+<p>大概可以这么理解，但不一定准确^ ^，把MST域中的所有MSTI实例堆叠到一起（重复线路、重复设备归一），按照堆叠后的线路连接域内所有设备就构成了一个IST（应该是包含了实际连接的所有线路，此时忽略VLAN属性，仅看连接线路，可能会给人一种存在环路的感觉）。</p>
+<h4 id="cst">CST</h4>
+<p>当复杂的MSTP网络中存在多个MST域的时候，如果把每个MST域想象成一个节点，CST就是通过STP或RSTP协议计算生成的连接所有MST域的一个公共生成树CST（Common Spanning Tree）。</p>
+<h4 id="cist">CIST</h4>
+<p>公共和内部生成树CIST（Common and Internal Spanning Tree）是通过STP或RSTP协议计算生成的，连接一个交换网络内所有交换设备的单生成树。</p>
+<p>IST+CST=CIST。（简单理解，CIST拓扑结构大概也跟所有网络设备的实际物理连线重合，就CST部分跟实际连线比起来可能少一点）</p>
+<h4 id="sst">SST</h4>
+<p>构成单生成树SST（Single Spanning Tree）有两种情况：</p>
+<ul>
+<li>运行STP或RSTP的交换设备只能属于一个生成树。</li>
+<li>MST域中只有一个交换设备，这个交换设备构成单生成树。</li>
+</ul>
+<p><em>不是很理解，好像就是网络中只有单独一个网络设备的意思。</em></p>
+<h4 id="总根">总根</h4>
+<p>CIST的根桥，就是整个MSTP网络中总的根桥。</p>
+<h4 id="域根">域根</h4>
+<p>分为MSTI域根和特殊的IST域根。因为MST域中各MSTI生成树的拓扑不同，域根也可能不一样。</p>
+<h4 id="主桥">主桥</h4>
+<p>Master Bridge，也就是IST Master，它是域内距离总根最近的交换设备。应该就是master端口所在的设备。</p>
+<h3 id="拓扑计算与配置要点">拓扑计算与配置要点</h3>
+<p>MSTP报文以及拓扑计算细节暂时不用太关注，反正设备会自动帮忙完成。大致过程就是MSTP将整个二层网络划分为多个MST域，各域之间通过计算生成CST；域内则通过计算生成多棵生成树，每棵生成树都是一个MSTI，其中的MSTI 0也称为IST。</p>
+<p>MSTP同STP一样，使用BPDU报文进行生成树的计算，只是BPDU中携带的是设备上MSTP的配置信息，报文中包含<code>根设备ID</code>、<code>外部路径开销</code>、<code>域根ID</code>、<code>内部路径开销</code>、<code>指定端口ID</code>等选项，这些选项各有不同的<strong>计算优先级</strong>，然后经过一系列的比对，选举确认各设备的成员角色以及相关端口角色等。具体的计算规则、向量优先级等可以参考华为官网：<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/1e8b4309">S12700, S12700E V200R021C10 配置指南-以太网交换-MSTP拓扑计算</a>。</p>
+<ol>
+<li>CIST生成树的计算</li>
+</ol>
+<p>通过比较BPDU后，在整个网络中选择一个优先级最高的设备作为CIST的根桥。在每个MST域内MSTP通过计算生成IST；同时MSTP将每个MST域作为单台设备对待，通过计算在域间生成CST。CST和IST构成了整个网络的CIST。</p>
+<ol start="2">
+<li>MSTI的计算</li>
+</ol>
+<p>在MST域内，MSTP根据VLAN与MSTI的映射关系，针对不同的VLAN生成不同的MSTI。每棵生成树独立进行计算，计算过程与STP计算生成树的过程类似。</p>
+<p>在MSTP中，一个VLAN报文将沿着如下路径进行转发：</p>
+<ul>
+<li>
+<p>在MST域内，沿着其对应的MSTI转发；</p>
+</li>
+<li>
+<p>在MST域间，沿着CST转发。</p>
+</li>
+</ul>
+<p>虽然拓扑计算过程会自动完成，但是最终拓扑想要收敛成我们预想的结构，这其中还有几个配置选项需要了解一下。</p>
+<ul>
+<li>
+<p>配置根桥/备份根桥</p>
+<p>正常情况下设备的实例优先级数值越小，该设备就越可能成为根桥或者备份根桥。或者也可以直接配置指定设备成为根桥/备份根桥，比如核心、汇聚等重点设备。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置设备为实例0的根桥</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp instance <span style="color:#ae81ff">0</span> root primary
+  
+<span style="color:#75715e"># 配置备份根桥</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp instance <span style="color:#ae81ff">0</span> root secondary
+  
+<span style="color:#75715e"># 调整优先级值为0</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp instance <span style="color:#ae81ff">0</span> priority <span style="color:#ae81ff">0</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置端口路径开销</p>
+<p>设备上到达根桥路径开销最小的端口会成为根端口，反或来如果想要某条线路作为备份线路，就可以调大端口路径开销值，使其成为备用线路。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置端口路径开销计算方法 值有dot1d-1998、dot1t、legacy</span> 
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp pathcost-standard legacy
+<span style="color:#75715e"># 配置端口在实例2中的路径开销值</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>Huawei-GigabitEthernet0/0/2<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span> cost <span style="color:#ae81ff">20000</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置端口优先级</p>
+<p>如果想要某条线路作为备份线路，也可以调大该线路的端口优先级，使其成为阻塞口。缺省情况下，端口的优先级数值为128，取值范围是0～240，步长为16。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置端口在实例2中的优先级</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>Huawei-GigabitEthernet0/0/2<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span>  port priority <span style="color:#ae81ff">240</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置bpdu保护</p>
+<p>配置bpdu保护，可以防止有人伪造bpdu恶意攻击，使边缘端口自动恢复为非边缘端口，引起网络震荡。使能bpdu保护后，交换机会自动将收到bpdu报文的边缘端口down掉。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp bpdu-protection
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置tc报文保护</p>
+<p>交换机如果被恶意攻击，频繁的收到bpdu报文提示拓扑变化，频繁的修改mac或arp表，既消耗资源还对网络稳定性造成影响。配置tc报文保护后，就可以限制单位时间内收到的报文处理次数，超出部分等超时后统一处理。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置单位时间为10秒</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp tc-protection interval <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 配置单位时间内处理次数为5次</span>
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>stp tc-protection threshold <span style="color:#ae81ff">5</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置根保护</p>
+<p>正常情况下，MSTP拓扑收敛完成后，核心、汇聚等重点设备的根桥身份不会变动，但是受到恶意攻击，或者是通过优先级等自动完成收敛的，则有可能收到更高优先级的bpdu报文，导致根桥变动，拓扑结构跟着大变动。可以在根桥设备的<strong>指定端口</strong>上配置根保护，通过维持指定端口的角色来保护根交换设备的地位。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>int g0/0/1
+<span style="color:#f92672">[</span>Huawei-GigabitEthernet0/0/1<span style="color:#f92672">]</span>stp root-protection
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>参考：<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/a2368aff">MSTP配置任务概览</a>、<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/5e917476">配置MSTP基本功能-可选部分</a>、<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/f2c38357">配置影响MSTP拓扑收敛的参数</a>、<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100247751/755b9f98">配置MSTP保护功能</a></p>
+<h2 id="mstp基础案例">MSTP基础案例</h2>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2024-0115-222458-749fe9fd0cb966ae8f368d39a641f038-88bbcb.png">
+            <img class="mx-auto" alt="MSTP基础案例拓扑图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2024-0115-222458-749fe9fd0cb966ae8f368d39a641f038-88bbcb.png" />
+        </a>
+    </p>
+<p>如图所示，LSW6表示外部网络，LSW7~LSW10为内部网络，运行MSTP，内部网络共有vlan11~vlan20这么10个vlan网段。为实现流量负载分担，vlan11~vlan15网关在LSW7交换机上，通过LSW7的GE0/0/9口访问外部网络；vlan16~vlan20网关在LSW8上，通过LSW8的GE0/0/9口访问外部网络。接入交换机LSW9与LSW10之间的为备用线路，当两者的上行链路有一条出现故障的时候，可以通过对方的上行链路连通网关。</p>
+<p>根据网络需求，此处我们使用MSTP多实例，配置vlan映射表来实现。</p>
+<h3 id="配置mst域和msti实例">配置MST域和MSTI实例</h3>
+<p>将LSW7-LSW10加入到MST域，域名为RG1；创建实例MSTI1、MSTI2，并创建MSTP实例的vlan映射表。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;Huawei&gt;sys
+Enter system view, <span style="color:#00a8c8">return</span> user view with Ctrl+Z.
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>sys LSW8
+<span style="color:#75715e">## LSW8交换机开始配置MST域相关</span>
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>stp region-configuration 
+<span style="color:#75715e"># 配置域名</span>
+<span style="color:#f92672">[</span>LSW8-mst-region<span style="color:#f92672">]</span>region-name RG1
+<span style="color:#75715e"># 配置vlan映射</span>
+<span style="color:#f92672">[</span>LSW8-mst-region<span style="color:#f92672">]</span>ins <span style="color:#ae81ff">1</span> vl <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">15</span>
+<span style="color:#f92672">[</span>LSW8-mst-region<span style="color:#f92672">]</span>ins <span style="color:#ae81ff">2</span> vl <span style="color:#ae81ff">16</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#75715e"># 激活MST域配置</span>
+<span style="color:#f92672">[</span>LSW8-mst-region<span style="color:#f92672">]</span>act reg
+</code></pre></td></tr></table>
+</div>
+</div><p>其他3个交换机也一样配置。</p>
+<p>配置MST域后，必须执行<code>active region-configuration</code>以激活MST域才能生效。后续如果有修改MST域相关参数，也需要再次执行该命令才能生效。</p>
+<h3 id="配置msti根桥">配置MSTI根桥</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># LSW8配置</span>
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">1</span> root secondary 
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span> root primary
+<span style="color:#75715e"># LSW7配置</span>
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">1</span> root primary 
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span> root secondary
+</code></pre></td></tr></table>
+</div>
+</div><p>将LSW7交换机配置为MSTI1实例的根桥，MSTI2实例的备份根桥；LSW8交换机正好反过来。</p>
+<h3 id="配置阻塞端口路径开销">配置阻塞端口路径开销</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置LSW7的端口路径开销值计算方法为华为计算方法</span>
+<span style="color:#75715e"># 其他交换机的也一样</span>
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>stp pathcost-standard legacy
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>stp pathcost-standard legacy
+<span style="color:#f92672">[</span>LSW9<span style="color:#f92672">]</span>stp pathcost-standard legacy
+<span style="color:#f92672">[</span>LSW10<span style="color:#f92672">]</span>stp pathcost-standard legacy
+<span style="color:#75715e"># 再修改LSW9交换机的GE0/0/2口对于MSTI2实例的端口路径开销值</span>
+<span style="color:#f92672">[</span>LSW9<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/2<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span> cost <span style="color:#ae81ff">20000</span>
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/2<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># LSW10的2口提升对于MSTI1的端口路径开销值</span>
+<span style="color:#f92672">[</span>LSW10<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>LSW10-GigabitEthernet0/0/2<span style="color:#f92672">]</span>stp ins <span style="color:#ae81ff">2</span> cost <span style="color:#ae81ff">20000</span>
+<span style="color:#f92672">[</span>LSW10-GigabitEthernet0/0/2<span style="color:#f92672">]</span>qu
+</code></pre></td></tr></table>
+</div>
+</div><p>在MSTI1实例中，LSW7是根桥，非根桥设备LSW10中的数据，既可以走GE0/0/1口经LSW8到达，也可以走GE0/0/2口经LSW9到达。为了按照我们预想的形成拓扑，修改GE0/0/2口关于MSTI1实例的路径开销值，使之成为阻塞口（如果走GE0/0/2口经LSW9到达，等于LSW10串联在LSW9下面，实际环境中，面向终端的接入交换机性能相对来说会差一些，当网络比较庞大终端数很多的时候，串联情况下有可能出现LSW9性能不足的问题）。LSW9关于MSTI2实例同理。</p>
+<h3 id="配置边缘端口和bpdu保护">配置边缘端口和bpdu保护</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## LSW8配置bpdu保护和边缘端口，其他交换机配置类似</span>
+<span style="color:#75715e"># 配置边缘端口</span>
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>port-group <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>LSW8-port-group-1<span style="color:#f92672">]</span>group-member g0/0/4 to g0/0/8 g0/0/10 to g0/0/24
+<span style="color:#f92672">[</span>LSW8-port-group-1<span style="color:#f92672">]</span>stp edged-port en
+<span style="color:#f92672">[</span>LSW8-port-group-1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置bpdu保护</span>
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>stp bpdu-protection
+</code></pre></td></tr></table>
+</div>
+</div><p>将与网络设备互连之外的其他端口全部配置为边缘端口，后续如果有其他网络设备接入，再将相应端口取消边缘端口配置。其他几个交换机同理。</p>
+<p>配置bpdu保护，防止有人伪造bpdu恶意攻击，使边缘端口自动恢复为非边缘端口，引起网络震荡。</p>
+<p>注意，如果配置了bpdu保护，那从边缘端口接入交换机，端口可能会被自动down掉，所以需要<code>undo stp edge</code>取消边缘端口配置。</p>
+<h3 id="配置根保护">配置根保护</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 指定端口配置根保护</span>
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>int g0/0/3
+<span style="color:#f92672">[</span>LSW7-GigabitEthernet0/0/3<span style="color:#f92672">]</span>stp root-protection
+
+<span style="color:#f92672">[</span>LSW8<span style="color:#f92672">]</span>int g0/0/3
+<span style="color:#f92672">[</span>LSW8-GigabitEthernet0/0/3<span style="color:#f92672">]</span>stp root-protection
+</code></pre></td></tr></table>
+</div>
+</div><p>为LSW7和LSW8两个MSTI域根配置根保护，防止有人发起恶意bpdu攻击，使得两台合法根设备丢失根交换设备地位。</p>
+<h3 id="端口vlan等配置">端口vlan等配置</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## LSW7交换机vlan、端口等相关配置，LSW8类似</span>
+<span style="color:#75715e"># 创建vlan</span>
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>vlan batch <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#75715e"># 配置下行端口</span>
+<span style="color:#f92672">[</span>LSW7<span style="color:#f92672">]</span>int g0/0/3
+<span style="color:#f92672">[</span>LSW7-GigabitEthernet0/0/3<span style="color:#f92672">]</span>port li tr
+<span style="color:#f92672">[</span>LSW7-GigabitEthernet0/0/3<span style="color:#f92672">]</span>port tr al vl <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#75715e"># LSW7创建eth-trunk，并配置允许通过的vlan</span>
+<span style="color:#f92672">[</span>LSW7-GigabitEthernet0/0/3<span style="color:#f92672">]</span>int eth <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>tr	
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>trunkport g0/0/1
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>trunkport g0/0/2
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>port li tr
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>port tr al vl <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>LSW7-Eth-Trunk1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e">## LSW9配置vlan、端口等，LSW10类似</span>
+<span style="color:#f92672">[</span>LSW9<span style="color:#f92672">]</span>vlan ba <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>LSW9<span style="color:#f92672">]</span>int g0/0/1
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/1<span style="color:#f92672">]</span>port li tr
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/1<span style="color:#f92672">]</span>port tr al vl <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/1<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/2<span style="color:#f92672">]</span>port li tr 
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/2<span style="color:#f92672">]</span>port tr al vl <span style="color:#ae81ff">11</span> to <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/2<span style="color:#f92672">]</span>int g0/0/3
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/3<span style="color:#f92672">]</span>port li a
+<span style="color:#f92672">[</span>LSW9-GigabitEthernet0/0/3<span style="color:#f92672">]</span>port de vl <span style="color:#ae81ff">11</span>
+<span style="color:#75715e"># LSW10的GE0/0/3口配置vlan20</span>
+<span style="color:#f92672">[</span>LSW10-GigabitEthernet0/0/3<span style="color:#f92672">]</span>port de vl <span style="color:#ae81ff">20</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>到这一步，MSTP部分就算配置完成了。</p>
+<h3 id="验证配置结果">验证配置结果</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;LSW7&gt;dis stp bri
+ MSTID  Port                        Role  STP State     Protection
+   <span style="color:#ae81ff">0</span>    GigabitEthernet0/0/3        DESI  FORWARDING      ROOT
+   <span style="color:#ae81ff">0</span>    GigabitEthernet0/0/9        ALTE  DISCARDING      NONE
+   <span style="color:#ae81ff">0</span>    Eth-Trunk1                  ROOT  FORWARDING      NONE
+   <span style="color:#ae81ff">1</span>    GigabitEthernet0/0/3        DESI  FORWARDING      ROOT
+   <span style="color:#ae81ff">1</span>    Eth-Trunk1                  DESI  FORWARDING      NONE
+   <span style="color:#ae81ff">2</span>    GigabitEthernet0/0/3        DESI  FORWARDING      ROOT
+   <span style="color:#ae81ff">2</span>    Eth-Trunk1                  ROOT  FORWARDING      NONE
+</code></pre></td></tr></table>
+</div>
+</div><p>在MSTI1实例中，LSW7是根桥设备，GE0/0/3和Eth-Trunk1都是指定端口，而且GE0/0/3有配置根保护。</p>
+<p>而在MSTI2实例中，根桥是LSW8，所以Eth-Trunk1是根端口，而GE0/0/3是指定端口。</p>
+<p>在LSW8上查看，则正好相反。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;LSW10&gt;dis stp bri
+ MSTID  Port                        Role  STP State     Protection
+   <span style="color:#ae81ff">0</span>    GigabitEthernet0/0/1        ROOT  FORWARDING      NONE
+   <span style="color:#ae81ff">0</span>    GigabitEthernet0/0/2        DESI  FORWARDING      NONE
+   <span style="color:#ae81ff">0</span>    GigabitEthernet0/0/3        DESI  FORWARDING      BPDU
+   <span style="color:#ae81ff">1</span>    GigabitEthernet0/0/1        ROOT  FORWARDING      NONE
+   <span style="color:#ae81ff">1</span>    GigabitEthernet0/0/2        ALTE  DISCARDING      NONE
+   <span style="color:#ae81ff">2</span>    GigabitEthernet0/0/1        ROOT  FORWARDING      NONE
+   <span style="color:#ae81ff">2</span>    GigabitEthernet0/0/2        DESI  FORWARDING      NONE
+   <span style="color:#ae81ff">2</span>    GigabitEthernet0/0/3        DESI  FORWARDING      BPDU
+</code></pre></td></tr></table>
+</div>
+</div><p>在LSW10上查看MSTP配置信息，在MSTI1实例中，GE0/0/1口是根端口，通过该端口经LSW8到达根桥设备LSW7；而GE0/0/2口是Alternate端口，根端口的备份端口。</p>
+<p>而在MSTI2实例中，GE0/0/1口是根端口，通过该端口到达根桥设备LSW8；GE0/0/2口是指定端口，因为当LSW9与LSW7直接的链路出现故障的时候，LSW9将通过LSW10来传输数据；GE0/0/3口我们配置了 vlan20和bpdu保护，所以是属于MSTI2实例。</p>
+<h2 id="复杂案例">复杂案例</h2>
+<p>好像又没啥必要，先留着吧~</p>
+<h2 id="总结">总结</h2>
+<p>根据个人目前的工作经验来看，最早的STP生成树收敛速度慢，最后的MSTP生成树（多MSTI实例的）则配置相对过于复杂，网络逻辑拓扑图与实际线路连接也有不少区别，按照当前网络设备的性能、网络线缆的传输速率等，只是为了冗余链路方面的需求的话，直接使用链路聚合也能满足，看起来还更简单直观。</p>
+<p>自我感觉大部分时候在配置网络的时候，STP等功能，直接保持默认出厂设置，然后网络核心交换机手动配置为根桥，再简单配置一下边缘端口、bpdu保护，或者对于互连端口以外的其他端口默认配置<code>undo stp enable</code>，核心、汇聚等重要互联线路直接上聚合链路，多实例MSTP好像没太大必要。</p>
+<p>比如上面的基础案例中，可以在LSW7和LSW8之间配置堆叠，将两台交换机虚拟成一台，然后LSW9和LSW10两台接入交换机可以通过Eth-Trunk聚合链路上联堆叠，LSW9和LSW10之间的备份链路则可以取消，同时也无需配置MSTP多实例。</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/network_mstp/">https://xy-ylr.github.io/it/network_mstp/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C-MSTP'>网络, MSTP</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

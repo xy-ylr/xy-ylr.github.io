@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>patch update on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/patch-update/</link>
+    <description>Recent content in patch update on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 11 Mar 2024 16:21:03 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/patch-update/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Vmware更新补丁方法</title>
+      <link>https://xy-ylr.github.io/it/vmware_patches_updates/</link>
+      <pubDate>Mon, 11 Mar 2024 16:21:03 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/vmware_patches_updates/</guid>
+      <description>&lt;p&gt;偶尔会有需求要更新vmware的漏洞补丁，相关命令不常用，总是要现场搜，记录一下，以后找起来方便。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

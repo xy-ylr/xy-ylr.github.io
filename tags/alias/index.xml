@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>alias on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/alias/</link>
+    <description>Recent content in alias on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 28 Jun 2023 17:04:56 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/alias/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux系统中alias别名功能</title>
+      <link>https://xy-ylr.github.io/it/linux_alias/</link>
+      <pubDate>Wed, 28 Jun 2023 17:04:56 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_alias/</guid>
+      <description>&lt;p&gt;使用linux终端的时候，偶尔会遇到一些命令比较长，或者说偶尔会多层级目录跳转，全部手动输入的话会比较麻烦，而且整个路径记录起来也麻烦，这个时候就可以使用alias来定义一个简短的别名。&lt;/p&gt;
+&lt;p&gt;如果直接在终端命令行窗口定义别名，那只在当前使用有效，关闭窗口后就没了，想要永久有效，需要写到&lt;code&gt;~/.bash_aliases&lt;/code&gt;文件中。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

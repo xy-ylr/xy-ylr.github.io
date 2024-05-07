@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>网络环路故障排查 | 四十荀的博客</title>
+    <meta property="og:title" content="网络环路故障排查 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-05-30T19:02:20&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-05-30T19:02:20&#43;08:00'>
+        
+    <meta name="Keywords" content="四十荀,xy-ylr,python,linux,未来新农人,偶尔骑行或健身^_^">
+    <meta name="description" content="网络环路故障排查">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/network_loopback_err/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#网络环路模拟-ensp">网络环路模拟-ensp</a>
+      <ul>
+        <li><a href="#关闭stp">关闭stp</a></li>
+        <li><a href="#配置网络互通">配置网络互通</a></li>
+        <li><a href="#检测下挂网络环路">检测下挂网络环路</a></li>
+        <li><a href="#检测本级网络环路-失败">检测本级网络环路-失败</a></li>
+      </ul>
+    </li>
+    <li><a href="#华三hcl">华三hcl</a>
+      <ul>
+        <li><a href="#模拟本级环路-异常">模拟本级环路-异常</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">网络环路故障排查</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年5月30日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约2527字 </span>
+            <span> 预计阅读时间6分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-05-30T19:02:20" title="2023-05-30">
+            2023-05-30
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>如果网络中存在环路，会导致网络设备对于广播、组播等报文重复发送，产生广播风暴等问题，浪费网络资源甚至造成网络瘫痪。</p>
+<p>由于当前的交换机、路由器等网络设备，出厂默认启用stp，会自动修剪网络消除环路，一般情况下在主干网络中不会产生环路故障。</p>
+<p>但是末端网络，比如办公室可能存在多个终端，通过若干个傻瓜式小交换机连接到接入交换机，此时就有可能在多个小交换机串联的时候出现环路。</p>
+<p>当网络中出现环路，终端用户可能无法上网，或者网络时断时续；检查交换机可能出现mac地址漂移、cpu或者内存使用率异常等现象。</p>
+<h2 id="网络环路模拟-ensp">网络环路模拟-ensp</h2>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1010-151606-b873c09ec89a0a6e2242207e94217e8b-f34dc5.png">
+            <img class="mx-auto" alt="网络环路模拟" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1010-151606-b873c09ec89a0a6e2242207e94217e8b-f34dc5.png" />
+        </a>
+    </p>
+<p>这里通过华为ensp模拟器模拟一下环路现象。</p>
+<p>假设该网络通过vlan10互通，LSW1交换机上配置网关192.168.10.1/24，PC1配置192.168.10.11/24，PC2配置192.168.10.12/24.</p>
+<h3 id="关闭stp">关闭stp</h3>
+<p>在模拟器中要模拟环路，首先需要关闭交换机的stp功能，否则stp功能会自动消除环路现象。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;Huawei&gt;sys
+<span style="color:#f92672">[</span>Huawei<span style="color:#f92672">]</span>sys lsw1
+<span style="color:#f92672">[</span>lsw1<span style="color:#f92672">]</span>undo stp <span style="color:#111">enable</span> 
+Warning: The global STP state will be changed. Continue? <span style="color:#f92672">[</span>Y/N<span style="color:#f92672">]</span>y
+Info: This operation may take a few seconds. Please <span style="color:#111">wait</span> <span style="color:#00a8c8">for</span> a moment...done.
+</code></pre></td></tr></table>
+</div>
+</div><p>另外几台交换机操作类似。</p>
+<h3 id="配置网络互通">配置网络互通</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>lsw1<span style="color:#f92672">]</span>vlan batch <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 其他交换机类似，只是不需要配置vlanif</span>
+<span style="color:#f92672">[</span>lsw1<span style="color:#f92672">]</span>int vl <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>lsw1-Vlanif10<span style="color:#f92672">]</span>ip add 192.168.10.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>lsw1-Vlanif10<span style="color:#f92672">]</span>int g0/0/1
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>port li	
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>port link-t t
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>port tr al vl <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>undo port tr al vl <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>交换机之间互连的端口都配置为trunk，lsw3、lsw4与pc互连的<code>G0/0/3</code>口配置为access。配置完成后可以先将lsw3的<code>G0/0/2</code>端口shutdown，手动去除环路，此时两个pc和网关之间都可以ping通。</p>
+<p>取消shutdown之后，互ping就不通了，同时可能在lsw2、lsw3、lsw4交换机上看到类似如下的mac地址漂移的提示：</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;lsw2&gt;
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 11:36:27-08:00 lsw2 L2IFPPI/4/MFLPVLANALARM:OID 1.3.6.1.4.1.2011.5.2
+5.160.3.7 MAC move detected, <span style="color:#111">VlanId</span> <span style="color:#f92672">=</span> 10, <span style="color:#111">MacAddress</span> <span style="color:#f92672">=</span> 5489-9872-6b34, Original-
+<span style="color:#111">Port</span> <span style="color:#f92672">=</span> GE0/0/3, Flapping <span style="color:#111">port</span> <span style="color:#f92672">=</span> GE0/0/2. Please check the network accessed to fl
+apping port. User interface con0 is available
+</code></pre></td></tr></table>
+</div>
+</div><p>如果之后先去吃个饭，或者看个小电影、追个剧什么的，再进行后续操作，甚至会觉得命令行窗口有点卡.</p>
+<h3 id="检测下挂网络环路">检测下挂网络环路</h3>
+<p>相对于lsw1交换机来说，是下挂网络的lsw2、lsw3、lsw4之间存在环路，进行如下配置可以实现环路检测：</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 进入G0/0/1接口并启用环路检测</span>
+<span style="color:#f92672">[</span>lsw1<span style="color:#f92672">]</span>int g0/0/1
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>loopback-detect <span style="color:#111">enable</span>
+<span style="color:#75715e"># 配置接口对vlan 10进行环路检测</span>
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>loopback-detect packet vlan <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 配置到这里的时候可能就会刷出类似下面的提示</span>
+<span style="color:#75715e"># 在G0/0/1接口检测到环路，当前已将接口状态改为shutdown（默认处理方式）</span>
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 15:13:21-08:00 lsw1 LBDT/4/Porttrap:OID 1.3.6.1.4.1.2011.5.25.174.3.
+<span style="color:#ae81ff">3</span> Loopback does exist on interface<span style="color:#f92672">(</span>7<span style="color:#f92672">)</span>GigabitEthernet0/0/1 <span style="color:#f92672">(</span> VLAN <span style="color:#ae81ff">10</span> <span style="color:#f92672">)</span> , loopback
+ detect status: 3.<span style="color:#f92672">(</span>1:normal<span style="color:#111">;</span> 2:block<span style="color:#111">;</span> 3:shutdown<span style="color:#111">;</span> 4:trap<span style="color:#111">;</span> 5:nolearn<span style="color:#f92672">)</span>
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 15:13:22-08:00 lsw1 %%01PHY/1/PHY<span style="color:#f92672">(</span>l<span style="color:#f92672">)[</span>0<span style="color:#f92672">]</span>:    GigabitEthernet0/0/1: ch
+ange status to down
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 15:13:22-08:00 lsw1 %%01IFNET/4/IF_STATE<span style="color:#f92672">(</span>l<span style="color:#f92672">)[</span>1<span style="color:#f92672">]</span>:Interface Vlanif10 ha
+s turned into DOWN state.
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 15:13:22-08:00 lsw1 %%01IFNET/4/LINK_STATE<span style="color:#f92672">(</span>l<span style="color:#f92672">)[</span>2<span style="color:#f92672">]</span>:The line protocol I
+P on the interface Vlanif10 has entered the DOWN state.
+Oct <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">2023</span> 15:13:24-08:00 lsw1 %%01PHY/1/PHY<span style="color:#f92672">(</span>l<span style="color:#f92672">)[</span>3<span style="color:#f92672">]</span>:    GigabitEthernet0/0/1: ch
+ange status to down
+<span style="color:#75715e"># 配置接口对于环路的处理方式为block</span>
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>loopback-detect action block
+<span style="color:#75715e"># 配置环路检测报文发送间隔为10秒</span>
+<span style="color:#f92672">[</span>lsw1-GigabitEthernet0/0/1<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>lsw1<span style="color:#f92672">]</span>loopback-detect packet-interval <span style="color:#ae81ff">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>配置完成后可以通过<code>dis loopback-detect</code>来查看结果</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;lsw1&gt;dis loopback-detect
+Loopback-detect sending-packet interval: <span style="color:#ae81ff">10</span>
+
+--------------------------------------------------------------------------------
+Interface                     RecoverTime    Action                       Status
+--------------------------------------------------------------------------------
+GigabitEthernet0/0/1                    -     block     BLOCK<span style="color:#f92672">(</span>Loopback detected<span style="color:#f92672">)</span>
+GigabitEthernet0/0/24                   -  shutdown                       NORMAL
+--------------------------------------------------------------------------------
+
+&lt;lsw1&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到<code>G0/0/1</code>接口的状态变为了<strong>BLOCK</strong>，说明配置是成功的， 端口检测到了下挂网络有环路，并将端口阻塞以防止下挂网络环路造成的广播风暴等蔓延过来。</p>
+<h3 id="检测本级网络环路-失败">检测本级网络环路-失败</h3>
+<p>对于lsw2、lsw3、lsw4交换机来说，环路是发生在本级网络中。</p>
+<p>但是！本人在上述lsw2交换机中模拟并没有成功，原因未知。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 配置G0/0/2接口使能环路检测</span>
+<span style="color:#f92672">[</span>lsw2<span style="color:#f92672">]</span>int g0/0/2
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/2<span style="color:#f92672">]</span>loopback-detect <span style="color:#111">enable</span>
+<span style="color:#75715e"># 配置接口对vlan 10进行环路检测</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/2<span style="color:#f92672">]</span>loopback-detect packet vlan <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 配置接口对于环路的处理方式为block</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/2<span style="color:#f92672">]</span>loopback-detect action block
+<span style="color:#75715e"># 配置环回消失后接口的恢复时间为30秒</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/2<span style="color:#f92672">]</span>loopback-detect recovery-time <span style="color:#ae81ff">30</span>
+<span style="color:#75715e"># 同样的配置G0/0/3接口</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/2<span style="color:#f92672">]</span>int g0/0/3
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/3<span style="color:#f92672">]</span>loopback-detect <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/3<span style="color:#f92672">]</span>loopback-detect packet vlan <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/3<span style="color:#f92672">]</span>loopback-detect action block
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/3<span style="color:#f92672">]</span>loopback-detect recovery-time <span style="color:#ae81ff">30</span>
+<span style="color:#75715e"># 配置环路检测报文发送间隔为10秒</span>
+<span style="color:#f92672">[</span>lsw2-GigabitEthernet0/0/3<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>lsw2<span style="color:#f92672">]</span>loopback-detect packet-interval <span style="color:#ae81ff">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>完成后，通过<code>dis loopback-detect</code>的输出结果能看到，配置是成功了的。但是不管隔多久通过上述命令查看结果，都一直是这个样子，不见某个接口被阻塞。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lsw2<span style="color:#f92672">]</span>dis loopback-detect
+Loopback-detect sending-packet interval: <span style="color:#ae81ff">10</span>
+
+--------------------------------------------------------------------------------
+Interface                     RecoverTime    Action                       Status
+--------------------------------------------------------------------------------
+GigabitEthernet0/0/2                   <span style="color:#ae81ff">30</span>     block                       NORMAL
+GigabitEthernet0/0/3                   <span style="color:#ae81ff">30</span>     block                       NORMAL
+--------------------------------------------------------------------------------
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="华三hcl">华三hcl</h2>
+<p>华三的命令与华为的稍微有点区别，模拟下挂网络环路也成功了，此处省略。</p>
+<h3 id="模拟本级环路-异常">模拟本级环路-异常</h3>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1010-233347-0c295a270ac3023346cbd6c12c1b02a4-11c991.png">
+            <img class="mx-auto" alt="hcl模拟网络环路" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1010-233347-0c295a270ac3023346cbd6c12c1b02a4-11c991.png" />
+        </a>
+    </p>
+<p>前期配置类似，关闭stp，然后配置相应端口允许通过vlan10等。</p>
+<p>然后在sw4交换机上配置环路检测</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 配置在G1/0/2接口启用环路检测，检测vlan为vlan 10</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>int g1/0/2
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/2<span style="color:#f92672">]</span>loopback-detection <span style="color:#111">enable</span> vlan <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 可以看到交换机直接开始提示环路了，说明我们的配置是成功的</span>
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/2<span style="color:#f92672">]</span>%Oct <span style="color:#ae81ff">10</span> 23:30:47:651 <span style="color:#ae81ff">2023</span> sw4 LPDT/4/LPDT_LOOPED: Loopback exists on GigabitEthernet1/0/1.
+%Oct <span style="color:#ae81ff">10</span> 23:30:47:651 <span style="color:#ae81ff">2023</span> sw4 LPDT/4/LPDT_VLAN_LOOPED: Loopback exists on GigabitEthernet1/0/1 in VLAN 10.
+<span style="color:#75715e"># 配置环路检测的处理方式为shutdown</span>
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/2<span style="color:#f92672">]</span>loopback-detection action shutdown
+<span style="color:#75715e">## 同样在G1/0/1接口也开启环路检测</span>
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/2<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/1<span style="color:#f92672">]</span>loopback-detection <span style="color:#111">enable</span> vlan <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># 此处设置G1/0/1接口的处理方式为block</span>
+<span style="color:#f92672">[</span>sw4-GigabitEthernet1/0/1<span style="color:#f92672">]</span>loopback-detection action block
+<span style="color:#75715e">## 验证配置</span>
+<span style="color:#75715e"># 能看到G1/0/1接口动作为block，G1/0/2接口不显示，有点奇怪</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>dis loopback-detection
+Loopback detection is enabled.
+Loopback detection interval is <span style="color:#ae81ff">15</span> second<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>.
+Loopback is detected on following interfaces:
+  Interface                  Action mode
+  GigabitEthernet1/0/1       block
+<span style="color:#75715e"># 通过dis int bri命令可以看到G1/0/2接口被down掉了</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>dis int bri
+Brief information on interfaces in route mode:
+Link: ADM - administratively down<span style="color:#111">;</span> Stby - standby
+Protocol: <span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> - spoofing
+Interface            Link Protocol Primary IP      Description
+InLoop0              UP   UP<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>    --
+MGE0/0/0             DOWN DOWN     --
+NULL0                UP   UP<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>    --
+REG0                 UP   --       --
+
+Brief information on interfaces in bridge mode:
+Link: ADM - administratively down<span style="color:#111">;</span> Stby - standby
+Speed: <span style="color:#f92672">(</span>a<span style="color:#f92672">)</span> - auto
+Duplex: <span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>/A - auto<span style="color:#111">;</span> H - half<span style="color:#111">;</span> F - full
+Type: A - access<span style="color:#111">;</span> T - trunk<span style="color:#111">;</span> H - hybrid
+Interface            Link Speed   Duplex Type PVID Description
+FGE1/0/53            DOWN 40G     A      A    <span style="color:#ae81ff">1</span>
+FGE1/0/54            DOWN 40G     A      A    <span style="color:#ae81ff">1</span>
+GE1/0/1              UP   1G<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   F<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   T    <span style="color:#ae81ff">1</span>
+GE1/0/2              DOWN auto    A      T    1		<span style="color:#75715e"># 这里</span>
+GE1/0/3              UP   1G<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   F<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   A    <span style="color:#ae81ff">10</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>不过hcl模拟器好像也有点异常，如果像上面这样在<code>G1/0/1</code>和<code>G1/0/2</code>接口都配置环路检测，可以发现1口的处理方式为block，2口的处理方式不显示；实际上2口已经被down掉了，但是pc6上ping网关或者pc5却还是不通的。</p>
+<p>而如果在只配置<code>G1/0/2接口环路检测模式为</code>shutdown`的时候，结果如下</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 在G1/0/1接口检测到环路</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>dis loopback-detection
+Loopback detection is enabled.
+Loopback detection interval is <span style="color:#ae81ff">15</span> second<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>.
+Loopback is detected on following interfaces:
+  Interface                  Action mode
+  GigabitEthernet1/0/1       none
+<span style="color:#75715e"># 查看接口状态，显示没有接口被down</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>dis int bri
+Brief information on interfaces in route mode:
+Link: ADM - administratively down<span style="color:#111">;</span> Stby - standby
+Protocol: <span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> - spoofing
+Interface            Link Protocol Primary IP      Description
+InLoop0              UP   UP<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>    --
+MGE0/0/0             DOWN DOWN     --
+NULL0                UP   UP<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>    --
+REG0                 UP   --       --
+
+Brief information on interfaces in bridge mode:
+Link: ADM - administratively down<span style="color:#111">;</span> Stby - standby
+Speed: <span style="color:#f92672">(</span>a<span style="color:#f92672">)</span> - auto
+Duplex: <span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>/A - auto<span style="color:#111">;</span> H - half<span style="color:#111">;</span> F - full
+Type: A - access<span style="color:#111">;</span> T - trunk<span style="color:#111">;</span> H - hybrid
+Interface            Link Speed   Duplex Type PVID Description
+FGE1/0/53            DOWN 40G     A      A    <span style="color:#ae81ff">1</span>
+FGE1/0/54            DOWN 40G     A      A    <span style="color:#ae81ff">1</span>
+GE1/0/1              UP   1G<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   F<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   T    <span style="color:#ae81ff">1</span>
+GE1/0/2              UP   1G<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   F<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   T    <span style="color:#ae81ff">1</span>
+GE1/0/3              UP   1G<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   F<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>   A    <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>sw4<span style="color:#f92672">]</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>然后在pc6上ping网关或者pc5都能通，分明是自动消除了环路的效果。</p>
+<p><strong>感觉两边的模拟器都有点不正常</strong></p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/network_loopback_err/">https://xy-ylr.github.io/it/network_loopback_err/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/network_packets_loss/">记一次网络丢包故障排查</a></li>
+        
+        <li><a href="/it/dhcp_conf/">交换机DHCP 配置</a></li>
+        
+        <li><a href="/it/h3c_huawei_network_basic/">华三华为网络基础配置命令</a></li>
+        
+        <li><a href="/it/h3c_irf_conf/">H3C交换机irf配置</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF'>网络环路</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

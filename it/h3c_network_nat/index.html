@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>H3C防火墙NAT配置 | 四十荀的博客</title>
+    <meta property="og:title" content="H3C防火墙NAT配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-11-19T21:44:31&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-11-19T21:44:31&#43;08:00'>
+        
+    <meta name="Keywords" content="[h3c, nat, nat static, nat server, h3c nat, 华三防火墙nat配置]">
+    <meta name="description" content="h3c防火墙nat配置">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/h3c_network_nat/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本介绍">基本介绍</a></li>
+    <li><a href="#配置案例">配置案例</a>
+      <ul>
+        <li><a href="#前期配置准备">前期配置准备</a></li>
+        <li><a href="#源nat">源NAT</a></li>
+        <li><a href="#目的nat">目的NAT</a></li>
+        <li><a href="#双向nat">双向NAT</a></li>
+      </ul>
+    </li>
+    <li><a href="#常用显示和维护命令">常用显示和维护命令</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">H3C防火墙NAT配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年11月19日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约3726字 </span>
+            <span> 预计阅读时间8分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="hint">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-11-19T21:44:31" title="2023-11-19">
+            2023-11-19
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>简单理解，NAT是网络规模越来越大，而IPv4地址资源却越来越少，为了使两个不同的网络（公网和私网）连通，而将网络报文中的源或者目的IP地址进行转换的一种技术。所以简单的分类，NAT分为源NAT、目的NAT、源目的双向NAT。</p>
+<p>由于NAT技术将数据报文中的IP地址进行了转换，一定程度上实现了对外隐藏内部网络拓扑、内部服务器真实IP地址等功能，可以杜绝部分网络攻击，提高网络安全性；也由于对外隐藏了内部网络拓扑，所以当内部网络结构调整的时候，外部网络不需要跟着变动，某种程度上也算是方便了网络管理。</p>
+<h2 id="基本介绍">基本介绍</h2>
+<p><strong>源NAT</strong></p>
+<p>源NAT就是内网需要访问外网，在发起访问请求的时候，将内部网络的源IP转换成外网IP。</p>
+<p><strong>目的NAT</strong></p>
+<p>当内网有部分服务需要对外提供访问，因为服务部署在内网，外部网络本身是无法直接连通的，所以我们可以把外网IP映射到相应的内部服务器IP，这样当外网用户访问我们的外网IP的时候，请求就会自动转换并发送到配置好的对应业务服务器。</p>
+<p><strong>双向NAT</strong></p>
+<p>双向NAT指的是在转换过程中同时转换报文的源信息和目的信息。双向NAT不是一个单独的功能，而是源NAT和目的NAT的组合。双向NAT是针对同一条流，在其经过设备时同时转换报文的源地址和目的地址。双向NAT主要应用在外网用户访问内部服务器和私网用户访问内部服务器两个场景。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1120-165406-905dc5f930d0fe320a13b7affe48432d-e5e8d7.png">
+            <img class="mx-auto" alt="NAT分类" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1120-165406-905dc5f930d0fe320a13b7affe48432d-e5e8d7.png" />
+        </a>
+    </p>
+<p>以上是华为的分类方法，华三分法是静态转换、动态转换、内部服务器等，叫法虽然不一样，但本质上nat原理应该是一样的。</p>
+<h2 id="配置案例">配置案例</h2>
+<p>以下案例基于H3C的HCL模拟器&ndash;F1060防火墙，应该H3C同系列相关防火墙通用。相关操作以命令行为主，同时提供web界面的配置结果截图。</p>
+<p>如图所示，nw侧边界有一台防火墙，隔离ww区域。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1125-231059-874955b6109616dbcedeb2a030aec5e6-9d1864.png">
+            <img class="mx-auto" alt="hcl模拟环境图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1125-231059-874955b6109616dbcedeb2a030aec5e6-9d1864.png" />
+        </a>
+    </p>
+<h3 id="前期配置准备">前期配置准备</h3>
+<p>前期配置准备主要是配置交换机、防火墙、虚拟主机等设备的端口地址、路由信息，防火墙放行相关策略。</p>
+<p>如果物理机内存够多，建议调整防火墙内存，默认的512M可能稍微配置点策略、nat等，就要变卡了。</p>
+<h4 id="交换机前期配置">交换机前期配置</h4>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## nwhx交换机配置</span>
+&lt;H3C&gt;sys
+<span style="color:#f92672">[</span>H3C<span style="color:#f92672">]</span>sys nwhx
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">101</span>
+<span style="color:#f92672">[</span>nwhx-vlan101<span style="color:#f92672">]</span>int vl101
+<span style="color:#f92672">[</span>nwhx-Vlan-interface101<span style="color:#f92672">]</span>ip add 1.1.1.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>nwhx-Vlan-interface101<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>int g1/0/2
+<span style="color:#f92672">[</span>nwhx-GigabitEthernet1/0/2<span style="color:#f92672">]</span>port acc vl <span style="color:#ae81ff">101</span>
+<span style="color:#f92672">[</span>nwhx-Vlan-interface101<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>nwhx-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port li rou
+<span style="color:#f92672">[</span>nwhx-GigabitEthernet1/0/1<span style="color:#f92672">]</span>ip add 8.8.8.2 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>nwhx-GigabitEthernet1/0/1<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>ip route-static 0.0.0.0 <span style="color:#ae81ff">0</span> 8.8.8.1
+<span style="color:#75715e"># 启用telnet功能并配置登录帐号密码</span>
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>telnet ser en
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>user-interface vty <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span>
+<span style="color:#f92672">[</span>nwhx-line-vty0-4<span style="color:#f92672">]</span>authentication-mode scheme
+<span style="color:#f92672">[</span>nwhx-line-vty0-4<span style="color:#f92672">]</span>user-role level-15
+<span style="color:#f92672">[</span>nwhx-line-vty0-4<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>nwhx<span style="color:#f92672">]</span>local-user admin
+New <span style="color:#111">local</span> user added.
+<span style="color:#f92672">[</span>nwhx-luser-manage-admin<span style="color:#f92672">]</span>pass s 123!@#
+<span style="color:#f92672">[</span>nwhx-luser-manage-admin<span style="color:#f92672">]</span>authorization-attribute user-role level-15
+<span style="color:#f92672">[</span>nwhx-luser-manage-admin<span style="color:#f92672">]</span>service-type telnet
+</code></pre></td></tr></table>
+</div>
+</div><p>ww等交换机的配置类似，此处略过。</p>
+<h4 id="防火墙前期配置">防火墙前期配置</h4>
+<p>1，防火墙相关端口配置ip地址，并加入安全域。其中mgmt域是用于将HCL模拟器与物理机打通，这个IP地址要看物理机的<code>VirtualBox Host-Only Network</code>网卡配置。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 防火墙配置，默认帐号密码都是admin</span>
+login: admin
+Password:
+&lt;H3C&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#f92672">[</span>H3C<span style="color:#f92672">]</span>sys fw
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/0
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/0<span style="color:#f92672">]</span>ip add 192.168.56.2 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/0<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>ip add 10.10.10.2 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>int g1/0/2
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/2<span style="color:#f92672">]</span>ip add 8.8.8.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/2<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置安全域，这里使用自定义的域，也可以利用系统自带的Trust、Untrust等域，只是需要注意首字母大写</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>security-zone name mgmt
+<span style="color:#f92672">[</span>fw-security-zone-mgmt<span style="color:#f92672">]</span>imp
+<span style="color:#f92672">[</span>fw-security-zone-mgmt<span style="color:#f92672">]</span>import int
+<span style="color:#f92672">[</span>fw-security-zone-mgmt<span style="color:#f92672">]</span>import interface g1/0/0
+<span style="color:#f92672">[</span>fw-security-zone-mgmt<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>security-zone name nw
+<span style="color:#f92672">[</span>fw-security-zone-nw<span style="color:#f92672">]</span>import int g1/0/2
+<span style="color:#f92672">[</span>fw-security-zone-nw<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>sec name ww
+<span style="color:#f92672">[</span>fw-security-zone-ww<span style="color:#f92672">]</span>imp int g1/0/1
+<span style="color:#f92672">[</span>fw-security-zone-ww<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置路由</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>ip route-static 0.0.0.0 <span style="color:#ae81ff">0</span> 10.10.10.1
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>ip route-static 1.1.1.0 <span style="color:#ae81ff">24</span> 8.8.8.2
+</code></pre></td></tr></table>
+</div>
+</div><p>此时虽然网络路由已经通了，但是nwhx交换机只可以ping通内部的其他交换机，而防火墙的nw侧互连端口、ww侧互连端口等都还ping不通，因为防火墙默认拒绝所有流量通过。</p>
+<p>2，配置安全策略，放通任意设备ping、nw域到ww域的telnet功能、mgmt域到防火墙的http等功能</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## 创建策略，默认拒绝所有</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>security-policy ip
+<span style="color:#75715e"># 创建策略名称为deny_any</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip<span style="color:#f92672">]</span>rule <span style="color:#ae81ff">0</span> name deny_any
+<span style="color:#75715e"># 策略动作为拒绝</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-0-deny_any<span style="color:#f92672">]</span>action drop
+<span style="color:#75715e"># 策略涉及的服务为any</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-0-deny_any<span style="color:#f92672">]</span>service any
+<span style="color:#75715e">## 创建策略，用于放通ping功能</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-0-deny_any<span style="color:#f92672">]</span>rule name ping_test
+<span style="color:#f92672">[</span>fw-security-policy-ip-1-ping_test<span style="color:#f92672">]</span>service ping
+<span style="color:#f92672">[</span>fw-security-policy-ip-1-ping_test<span style="color:#f92672">]</span>action pass
+<span style="color:#75715e"># 移动策略</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip<span style="color:#f92672">]</span>move rule <span style="color:#ae81ff">1</span> before <span style="color:#ae81ff">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>rule的时候可以指定数字，比如<code>rule 0 name ...</code>，也可以省略数字，让系统自动生成。</p>
+<p>rule 0的deny_any策略，其实就是防火墙的默认功能，拒绝所有流量经过防火墙，此处再显性配置一条。</p>
+<p>rule 1的ping_test策略，用于放通任意ping功能，但是由于这条策略是在deny_any后面，所有流量匹配到默认拒绝所有之后，这条策略就匹配不到，无法生效了，所以最后需要<code>move rule 1 before 0</code>将之往前移动一下，后续再新增什么策略，也一样需要至少移动到<strong>deny_any</strong>策略之前。</p>
+<p>到了这一步，我们的物理主机可以ping通防火墙，nw、ww侧的主机和交换机也都可以ping通防火墙了。</p>
+<p>接下来配置策略放行mgmt域到防火墙的http功能，这样我们就可以在本地通过浏览器访问防火墙。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">## 创建策略放行mgmt</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>sec ip
+<span style="color:#f92672">[</span>fw-security-policy-ip<span style="color:#f92672">]</span>rule name mgmt_pass_http
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>description pass mgmt to FW <span style="color:#00a8c8">for</span> http,tel
+net
+<span style="color:#75715e"># 设定源安全域</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>source-zone mgmt
+<span style="color:#75715e"># 设定目的安全域</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>destination-zone Local
+<span style="color:#75715e"># 设定服务</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>service http
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>service https
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>service telnet
+<span style="color:#75715e"># 设定策略动作为允许</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>action pass
+<span style="color:#75715e"># 移动策略位置</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip<span style="color:#f92672">]</span>move rule <span style="color:#ae81ff">2</span> be <span style="color:#ae81ff">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>配置到这一步，我们就可以在本地物理机浏览器上打开防火墙的web页面了，并且在<strong>策略</strong>中看到刚才配置的3条策略，如下图：</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-142724-55f220bc8895b9b837c67141bb995290-176ac7.png">
+            <img class="mx-auto" alt="防火墙策略页截图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-142724-55f220bc8895b9b837c67141bb995290-176ac7.png" />
+        </a>
+    </p>
+<p>当然在实际应用中，我们不好只配置安全域，还需要根据实际情况配置源/目地IP，此处做个简单限制，源IP仅限192.168.56.1。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建对象组名称为mgmt，属于mgmt域，ip地址为192.168.56.1</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>object-group ip address mgmt
+<span style="color:#f92672">[</span>fw-obj-grp-ip-mgmt<span style="color:#f92672">]</span>description guanliyuan ip
+<span style="color:#f92672">[</span>fw-obj-grp-ip-mgmt<span style="color:#f92672">]</span>sec mgmt
+<span style="color:#f92672">[</span>fw-obj-grp-ip-mgmt<span style="color:#f92672">]</span>network host add 192.168.56.1
+<span style="color:#f92672">[</span>fw-obj-grp-ip-mgmt<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 修改刚才的rule 2策略</span>
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>sec ip
+<span style="color:#f92672">[</span>fw-security-policy-ip<span style="color:#f92672">]</span>rule <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">[</span>fw-security-policy-ip-2-mgmt_pass_http<span style="color:#f92672">]</span>source-ip mgmt
+</code></pre></td></tr></table>
+</div>
+</div><p>经过以上配置后，可以在web页面的<strong>对象</strong>中发现多了一个IPv4地址对象组，<strong>策略</strong>中的<strong>源地址</strong>也变了，如下图所示。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-145554-1b4d17347c456df6bdf28281fe46d4f4-656837.png">
+            <img class="mx-auto" alt="IPv4地址对象组" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-145554-1b4d17347c456df6bdf28281fe46d4f4-656837.png" />
+        </a>
+    </p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-145644-c1481b2dfd88d777e065e37b6d7c3cb0-259afb.png">
+            <img class="mx-auto" alt="策略页截图2" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-145644-c1481b2dfd88d777e065e37b6d7c3cb0-259afb.png" />
+        </a>
+    </p>
+<p>最后再配置放行nw、ww安全域之间的telnet功能</p>
+<pre><code>[fw]sec ip
+# 新建策略nw_ww_telnet，放行nw域到ww域的telnet
+[fw-security-policy-ip]rule name nw_ww_telnet
+[fw-security-policy-ip-3-nw_ww_telnet]source-zone nw
+[fw-security-policy-ip-3-nw_ww_telnet]destination-z ww
+[fw-security-policy-ip-3-nw_ww_telnet]service telnet 
+[fw-security-policy-ip-3-nw_ww_telnet]action pass
+[fw-security-policy-ip-3-nw_ww_telnet]qu
+[fw-security-policy-ip]move rule 3 be 0
+# 新建策略ww_nw_telnet，放行ww到nw的telnet
+[fw-security-policy-ip]rule name ww_nw_telnet
+[fw-security-policy-ip-4-ww_nw_telnet]source-z ww
+[fw-security-policy-ip-4-ww_nw_telnet]destination-z nw
+[fw-security-policy-ip-4-ww_nw_telnet]service telnet 
+[fw-security-policy-ip-4-ww_nw_telnet]act pass
+[fw-security-policy-ip-4-ww_nw_telnet]qu
+[fw-security-policy-ip]move rule 4 be 0
+</code></pre><p>配置到这里，nw、ww安全域已经可以相互telnet了，简单验证一下，如下图所示，ww交换机已经成功登录到了nwhx交换机，前期准备工作就算是完成了。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-161217-364ca710689d8984c6002648eaa923aa-d985d3.png">
+            <img class="mx-auto" alt="telnet测试" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1122-161217-364ca710689d8984c6002648eaa923aa-d985d3.png" />
+        </a>
+    </p>
+<h3 id="源nat">源NAT</h3>
+<p>详见<a href="/it/h3c_snat/">H3c防火墙源地址转换配置</a></p>
+<h3 id="目的nat">目的NAT</h3>
+<p>如果内网有ftp、web等服务器需要开放给外网访问，可以配置目的Nat，将内网IP映射到外网IP，让外网用户访问相应的外网IP就能转换到内网对应的服务器上。内网服务器nat就是这么一种目的nat。</p>
+<h4 id="基本配置">基本配置</h4>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;sys
+<span style="color:#f92672">[</span>fw<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat server global 10.10.10.254 inside 1.1.1.11 counting
+</code></pre></td></tr></table>
+</div>
+</div><p>基本的配置就是这样，之后外网用户都可以通过外网IP<code>10.10.10.254</code>访问到内网的<code>1.1.1.11</code>，web界面的配置结果如下图。
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1130-230430-7a543843965c4a5e9719900485253f78-acd281.png">
+            <img class="mx-auto" alt="最简nat server配置结果图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1130-230430-7a543843965c4a5e9719900485253f78-acd281.png" />
+        </a>
+    </p>
+<p>此时我们从<strong>ww_web</strong>向这<code>10.10.10.254</code>发起telnet请求，最终会登录到<strong>nw1</strong>。可以使用<code>dis nat ses ver</code>看到更多nat会话信息</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;fw&gt;dis nat ses ver
+Slot 1:
+Initiator:
+  Source      IP/port: 11.11.11.11/1794
+  Destination IP/port: 10.10.10.254/23
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/1
+  Source security zone: ww
+Responder:
+  Source      IP/port: 1.1.1.11/23
+  Destination IP/port: 11.11.11.11/1794
+  DS-Lite tunnel peer: -
+  VPN instance/VLAN ID/Inline ID: -/-/-
+  Protocol: TCP<span style="color:#f92672">(</span>6<span style="color:#f92672">)</span>
+  Inbound interface: GigabitEthernet1/0/2
+  Source security zone: nw
+State: TCP_ESTABLISHED
+Application: TELNET
+Rule ID: <span style="color:#ae81ff">4</span>
+Rule name: ww_nw_telnet
+Start time: 2023-11-30 08:58:43  TTL: 1161s
+Initiator-&gt;Responder:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+Responder-&gt;Initiator:            <span style="color:#ae81ff">0</span> packets          <span style="color:#ae81ff">0</span> bytes
+
+Total sessions found: <span style="color:#ae81ff">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当然，我们也可以直接用G1/0/1端口IP作为nat地址，也就是Easy IP模式。</p>
+<h4 id="添加端口限制">添加端口限制</h4>
+<p>而在实际使用过程中，我们可能会根据内部服务器提供的服务，来进一步限定nat的端口号、协议类型。</p>
+<p>比如刚才案例中，我们限定为telnet服务，23端口，那么刚才的命令就会变成如下</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>fw-GigabitEthernet1/0/1<span style="color:#f92672">]</span>nat ser protocol tcp global 10.10.10.254 <span style="color:#ae81ff">23</span> in 1.1.1.11 <span style="color:#ae81ff">23</span> counting
+</code></pre></td></tr></table>
+</div>
+</div><p>对应的web界面结果如下图
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1130-232237-840608689fdc2d3d2ca3d9860eba57cb-57b2f0.png">
+            <img class="mx-auto" alt="对应的web界面结果图" src="http://img.xy-ylr.cn/picgo/picgo-clipboard-images/2023-1130-232237-840608689fdc2d3d2ca3d9860eba57cb-57b2f0.png" />
+        </a>
+    </p>
+<p>如果内网有多个服务需要nat对外使用，可以在端口上添加多条nat server。</p>
+<h3 id="双向nat">双向NAT</h3>
+<p>详见<a href="/it/h3c_complex_nat/">H3c防火墙双向地址转换配置</a></p>
+<h2 id="常用显示和维护命令">常用显示和维护命令</h2>
+<p>查看所有nat相关：<code>dis nat all</code></p>
+<p>查看当前nat会话信息：<code>dis nat se ver</code></p>
+<p>查看静态nat配置：<code>dis nat static</code></p>
+<p>查看内部服务器：<code>dis nat server</code></p>
+<p>查看出方向动态nat：<code>dis nat outbound</code></p>
+<p>查看入方向动态nat：<code>dis nat inbound</code></p>
+<p>其他还有一些命令请通过<code>dis nat ?</code>补全命令自行查看。</p>
+<h2 id="总结">总结</h2>
+<p>大部分情况下的nat需求，仅单方面配置源nat或者目的nat就够了，比如：</p>
+<ol>
+<li>如果内网有少量用户需要nat访问外网，可以配置出方向静态nat（源nat）。</li>
+<li>如果内网有大量用户需要nat访问外网，那么可以配置出方向动态nat（源nat）。</li>
+<li>而如果内网有web、ftp等业务需要对外开放，那么可以配置内部服务器nat（目的nat）。</li>
+</ol>
+<p>再复杂一些的环境，就需要根据实际需求，同时配置出方向静态nat、入方向静态nat、内部服务器nat、出方向动态nat、入方向动态nat中的几种来实现双向nat了，比如：</p>
+<ol>
+<li>内网有web、ftp等服务器需对外开放，同时其他内网用户要求也可以通过nat地址访问这些内网服务器。那么可以同时配置内网服务器nat、出方向动态nat，并启用nat hairpin功能。</li>
+<li>如果外部服务器绑定有域名，且外部服务器的IP与内网用户IP重叠，内网用户要nat之后通过域名访问外部服务器。那么需要配置出方向动态nat、入方向动态nat，同时还要开启dns的nat alg功能。</li>
+<li>如果内外网有业务往来，两边都有可能向对方发起业务访问请求。
+<ol>
+<li>正常情况下，如果两边都有边界防火墙等可以配置nat，且两边的IP地址不重叠，那边两边分别配置目的nat（内部服务器）就可以了。</li>
+<li>如果只有一边可以配置nat，那么可以配置内部服务器nat、入方向动态nat或者入方向静态nat。</li>
+<li>如果只有一遍可以配置nat，且两边IP地址重叠，那么还需要再配置出方向动态nat或者出方向静态nat。</li>
+</ol>
+</li>
+<li>可能还有其他一些特殊情况，具体情况具体分析吧……</li>
+</ol>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/h3c_network_nat/">https://xy-ylr.github.io/it/h3c_network_nat/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/diff_for_trunk_access_hybrid/">关于vlan端口trunk、access、hybrid的区别</a></li>
+        
+        <li><a href="/it/network_loopback_err/">网络环路故障排查</a></li>
+        
+        <li><a href="/it/network_packets_loss/">记一次网络丢包故障排查</a></li>
+        
+        <li><a href="/it/dhcp_conf/">交换机DHCP 配置</a></li>
+        
+        <li><a href="/it/h3c_huawei_network_basic/">华三华为网络基础配置命令</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/nat%E9%85%8D%E7%BD%AE'>nat配置</a></li>
+                
+                <li><a href='/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99'>h3c防火墙</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

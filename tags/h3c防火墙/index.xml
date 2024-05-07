@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>h3c防火墙 on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/</link>
+    <description>Recent content in h3c防火墙 on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 19 Nov 2023 21:44:31 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>H3C防火墙NAT配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_network_nat/</link>
+      <pubDate>Sun, 19 Nov 2023 21:44:31 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_network_nat/</guid>
+      <description>&lt;p&gt;简单理解，NAT是网络规模越来越大，而IPv4地址资源却越来越少，为了使两个不同的网络（公网和私网）连通，而将网络报文中的源或者目的IP地址进行转换的一种技术。所以简单的分类，NAT分为源NAT、目的NAT、源目的双向NAT。&lt;/p&gt;
+&lt;p&gt;由于NAT技术将数据报文中的IP地址进行了转换，一定程度上实现了对外隐藏内部网络拓扑、内部服务器真实IP地址等功能，可以杜绝部分网络攻击，提高网络安全性；也由于对外隐藏了内部网络拓扑，所以当内部网络结构调整的时候，外部网络不需要跟着变动，某种程度上也算是方便了网络管理。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>network on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/network/</link>
+    <description>Recent content in network on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 19 Jan 2024 11:02:49 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SNMP基础</title>
+      <link>https://xy-ylr.github.io/it/snmp/</link>
+      <pubDate>Fri, 19 Jan 2024 11:02:49 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/snmp/</guid>
+      <description>&lt;p&gt;SNMP是简单网络管理协议，用以监测连接到网络上的设备是否有任何引起管理上关注的情况。SNMP采用轮询机制，提供最基本的功能集，适合小型、快速、低价格的环境使用，以用户数据报协议（UDP）报文为承载，因而受到绝大多数设备的支持，同时保证管理信息在任意两点传送，便于管理员在网络上的任何节点检索信息，进行故障排查。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

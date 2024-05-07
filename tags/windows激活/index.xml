@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows激活 on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/</link>
+    <description>Recent content in windows激活 on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 06 Feb 2024 08:56:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>利用VLMCSD部署本地KMS服务器</title>
+      <link>https://xy-ylr.github.io/it/vlmcsd_kms/</link>
+      <pubDate>Tue, 06 Feb 2024 08:56:48 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/vlmcsd_kms/</guid>
+      <description>&lt;p&gt;老早以前，windows xp、win7、win8，激活系统的时候都是网上找的激活软件，到了win10，改用kms激活，不过一开始都是用的网上别人搭建的kms服务器。后来工作中又经常遇到内网环境需要激活，一开始都是直接放弃激活，就那么子用着。最近网上搜了下kms如何本地激活，抄一份攻略方便以后使用——利用VLMCSD部署本地KMS服务器来激活windows系统、office套件。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,10 +6,20 @@
     <description>Recent content in 网络工程师 on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 May 2023 15:08:41 +0800</lastBuildDate>
     
 	<atom:link href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>交换机DHCP 配置</title>
+      <link>https://xy-ylr.github.io/it/dhcp_conf/</link>
+      <pubDate>Wed, 17 May 2023 15:08:41 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/dhcp_conf/</guid>
+      <description>&lt;p&gt;DHCP是动态主机配置协议，一种集中对用户IP地址进行动态管理和配置的技术。适用于终端用户较多，甚至是用户随机入网、随机时长、但是用户数超过可分配IP个数的网络环境。&lt;/p&gt;
+&lt;p&gt;根据IP地址分配机制，可以由管理员手动分配；也可以由DHCP给用户动态分配一个有使用期限的IP地址；或者有DHCP给用户静态分配一个无限期使用的IP地址，这个类似于人工手动分配，但是可以避免一些人工配置的失误。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>华三华为网络基础配置命令</title>

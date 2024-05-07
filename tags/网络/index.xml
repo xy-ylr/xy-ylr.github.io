@@ -6,10 +6,85 @@
     <description>Recent content in 网络 on 四十荀的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 28 Feb 2023 19:42:51 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 12 Dec 2023 10:40:50 +0800</lastBuildDate>
     
 	<atom:link href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>华为交换机STACK堆叠与CSS集群配置</title>
+      <link>https://xy-ylr.github.io/it/huawei_css/</link>
+      <pubDate>Tue, 12 Dec 2023 10:40:50 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/huawei_css/</guid>
+      <description>&lt;p&gt;堆叠是指将多台支持堆叠特性的交换机通过堆叠线缆连接在一起，从逻辑上变成一台交换设备，作为一个整体参与数据转发。&lt;/p&gt;
+&lt;p&gt;集群也类似，将两台支持集群特性的交换机设备组合在一起，从逻辑上虚拟成一台交换设备。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>H3c防火墙双向地址转换配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_complex_nat/</link>
+      <pubDate>Fri, 01 Dec 2023 15:26:05 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_complex_nat/</guid>
+      <description>&lt;p&gt;双向NAT指的是在转换过程中同时转换报文的源信息和目的信息。双向NAT不是一个单独的功能，而是源NAT和目的NAT的组合。双向NAT是针对同一条流，在其经过设备时同时转换报文的源地址和目的地址。双向NAT主要应用在外网用户访问内部服务器和私网用户访问内部服务器两个场景。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>H3c防火墙源地址转换配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_snat/</link>
+      <pubDate>Fri, 24 Nov 2023 11:24:37 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_snat/</guid>
+      <description>&lt;p&gt;要设置源地址nat，如果只是少量地址需求，可以使用静态地址转换技术，这是一种内外网IP地址的转换关系固定的NAT方式，最适用于少量地址的一对一转换；如果是大量用户都需要nat，那可以使用动态nat技术，用于将大量内网地址转换为少量外网地址。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>H3C防火墙NAT配置</title>
+      <link>https://xy-ylr.github.io/it/h3c_network_nat/</link>
+      <pubDate>Sun, 19 Nov 2023 21:44:31 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/h3c_network_nat/</guid>
+      <description>&lt;p&gt;简单理解，NAT是网络规模越来越大，而IPv4地址资源却越来越少，为了使两个不同的网络（公网和私网）连通，而将网络报文中的源或者目的IP地址进行转换的一种技术。所以简单的分类，NAT分为源NAT、目的NAT、源目的双向NAT。&lt;/p&gt;
+&lt;p&gt;由于NAT技术将数据报文中的IP地址进行了转换，一定程度上实现了对外隐藏内部网络拓扑、内部服务器真实IP地址等功能，可以杜绝部分网络攻击，提高网络安全性；也由于对外隐藏了内部网络拓扑，所以当内部网络结构调整的时候，外部网络不需要跟着变动，某种程度上也算是方便了网络管理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于vlan端口trunk、access、hybrid的区别</title>
+      <link>https://xy-ylr.github.io/it/diff_for_trunk_access_hybrid/</link>
+      <pubDate>Thu, 01 Jun 2023 20:43:44 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/diff_for_trunk_access_hybrid/</guid>
+      <description>&lt;p&gt;平常很少用到hybrid接口，时间久了总是会忘记，然后又要去翻资料，索性自己简单整理记录一篇&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>网络环路故障排查</title>
+      <link>https://xy-ylr.github.io/it/network_loopback_err/</link>
+      <pubDate>Tue, 30 May 2023 19:02:20 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/network_loopback_err/</guid>
+      <description>&lt;p&gt;如果网络中存在环路，会导致网络设备对于广播、组播等报文重复发送，产生广播风暴等问题，浪费网络资源甚至造成网络瘫痪。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>记一次网络丢包故障排查</title>
+      <link>https://xy-ylr.github.io/it/network_packets_loss/</link>
+      <pubDate>Tue, 30 May 2023 19:00:12 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/network_packets_loss/</guid>
+      <description>&lt;p&gt;前阵子驻点维护的公安天网项目，查看前端相机视频的时候，丢包率比较高。后续的排查过程有点一言难尽，这里做个记录。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>交换机DHCP 配置</title>
+      <link>https://xy-ylr.github.io/it/dhcp_conf/</link>
+      <pubDate>Wed, 17 May 2023 15:08:41 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/dhcp_conf/</guid>
+      <description>&lt;p&gt;DHCP是动态主机配置协议，一种集中对用户IP地址进行动态管理和配置的技术。适用于终端用户较多，甚至是用户随机入网、随机时长、但是用户数超过可分配IP个数的网络环境。&lt;/p&gt;
+&lt;p&gt;根据IP地址分配机制，可以由管理员手动分配；也可以由DHCP给用户动态分配一个有使用期限的IP地址；或者有DHCP给用户静态分配一个无限期使用的IP地址，这个类似于人工手动分配，但是可以避免一些人工配置的失误。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>华三华为网络基础配置命令</title>

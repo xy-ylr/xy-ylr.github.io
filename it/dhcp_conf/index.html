@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>交换机DHCP 配置 | 四十荀的博客</title>
+    <meta property="og:title" content="交换机DHCP 配置 - 四十荀的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-05-17T15:08:41&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-05-17T15:08:41&#43;08:00'>
+        
+    <meta name="Keywords" content="四十荀,xy-ylr,python,linux,未来新农人,偶尔骑行或健身^_^">
+    <meta name="description" content="交换机DHCP 配置">
+        
+    <meta name="author" content="四十荀">
+    <meta property="og:url" content="https://xy-ylr.github.io/it/dhcp_conf/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+        <link href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xy-ylr.github.io">
+                        四十荀的博客
+                    </a>
+                
+                <p class="description">运维工程师, 未来新农人, 间歇性运动</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xy-ylr.github.io">首页</a>
+                    
+                    <a  href="https://xy-ylr.github.io/it/" title="计算机">计算机</a>
+                    
+                    <a  href="https://xy-ylr.github.io/licai/" title="理财">理财</a>
+                    
+                    <a  href="https://xy-ylr.github.io/nongye/" title="农业">农业</a>
+                    
+                    <a  href="https://xy-ylr.github.io/yundong/" title="健身">健身</a>
+                    
+                    <a  href="https://xy-ylr.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://xy-ylr.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -230px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+         
+         
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+         
+         
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#dhcp原理">DHCP原理</a></li>
+    <li><a href="#最简模式-动态分配">最简模式-动态分配</a>
+      <ul>
+        <li><a href="#静态绑定">静态绑定</a></li>
+        <li><a href="#ip不参与动态分配">IP不参与动态分配</a></li>
+        <li><a href="#调整ip地址租期">调整IP地址租期</a></li>
+      </ul>
+    </li>
+    <li><a href="#dhcp-snooping">DHCP Snooping</a></li>
+    <li><a href="#dhcp中继">DHCP中继</a>
+      <ul>
+        <li><a href="#关于中继使用场景">关于中继使用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#相关运维命令">相关运维命令</a></li>
+    <li><a href="#更多配置">更多配置</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">交换机DHCP 配置</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年5月17日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/%E7%BD%91%E7%BB%9C'>网络</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-meta">
+            <span>|</span>
+            <span> 共约4202字 </span>
+            <span> 预计阅读时间9分钟</span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        
+        
+
+    
+    
+    
+
+    
+    
+
+
+<div class="post-outdated">
+    
+    <div class="warn">
+    
+        <p>【注意】本文最后更新于 
+            <span class="timeago" datetime="2023-05-17T15:08:41" title="2023-05-17">
+            2023-05-17
+            </span>，文中内容可能已过时，请谨慎使用。
+        </p>
+    </div>
+</div>
+
+
+
+        <div class="post-content">
+            <p>DHCP是动态主机配置协议，一种集中对用户IP地址进行动态管理和配置的技术。适用于终端用户较多，甚至是用户随机入网、随机时长、但是用户数超过可分配IP个数的网络环境。</p>
+<p>根据IP地址分配机制，可以由管理员手动分配；也可以由DHCP给用户动态分配一个有使用期限的IP地址；或者有DHCP给用户静态分配一个无限期使用的IP地址，这个类似于人工手动分配，但是可以避免一些人工配置的失误。</p>
+<p><strong>本文相关配置命令以H3C模拟器为准，华为设备配置可能略有不同。且各版本型号配置命令可能也有区别</strong></p>
+<p>参考资料：<a href="https://www.h3c.com/cn/d_201505/868866_30005_0.htm#_Toc419105190">华三交换机DHCP配置</a>、<a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100304753/49db68bf">华为交换机DHCP配置</a></p>
+<h2 id="dhcp原理">DHCP原理</h2>
+<p>这里只大概介绍最简单的一次性成功的工作原理，细节请另找资料阅读。</p>
+<ol>
+<li>客户端发起广播(DHCP DISCOVER报文)，向网段内所有其他’用户‘申请IP：<em>我需要一份工作(IP)，哪位老板给份工作(IP)…</em></li>
+<li>网段内的DHCP服务器或者中继收到报文后会根据自身的DHCP地址池等情况给出回应(DHCP OFFER报文)：<em>小伙子，我这边有份工作(IP)，钱多事少，快来吧…</em></li>
+<li>客户端收到（可能有多个）服务器发来的报文，选择第一个DHCP服务器的报文，提取IP地址等，然后再次发起广播(DHCP REQUEST报文)：<em>我收到了XX老板的职位邀请(IP)，准备上岗了，请老板确认一下…</em></li>
+<li>DHCP服务器收到DHCP REQUEST报文，确认无误后，再次给出回应(DHCP ACK报文)：<em>好的，欢迎小伙子入职(IP)，好好表现…</em></li>
+</ol>
+<h2 id="最简模式-动态分配">最简模式-动态分配</h2>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0530-223358-6fe0d1672b1ea0f8c455e3ca934eda28-66847f.png">
+            <img class="mx-auto" alt="dhcp配置" src="http://img.xy-ylr.cn/picgo/it/2023-0530-223358-6fe0d1672b1ea0f8c455e3ca934eda28-66847f.png" />
+        </a>
+    </p>
+<p>如图所示，最简单的配置模式，就是局域网中所有终端用户都使用动态获取IP地址的方式，那就只需要在交换机上启用DHCP服务并配置IP地址池等功能就可以了。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;H3C&gt;sys
+<span style="color:#f92672">[</span>H3C<span style="color:#f92672">]</span>sysn server
+<span style="color:#75715e"># 启用dhcp服务</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp <span style="color:#111">enable</span>
+<span style="color:#75715e"># 创建vlan 10</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>server-vlan10<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 进入vlanif 10接口，配置ip地址并使接口工作在dhcp服务器模式</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>int vl10
+<span style="color:#f92672">[</span>server-Vlan-interface10<span style="color:#f92672">]</span>ip add 10.1.1.254 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>server-Vlan-interface10<span style="color:#f92672">]</span>dhcp <span style="color:#00a8c8">select</span> server
+<span style="color:#f92672">[</span>server-Vlan-interface10<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 创建dhcp地址池vlan10，并配置ip地址池，网关和dns地址等</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp ser ip-pool vlan10
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>network 10.1.1.0 mask 255.255.255.0
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>gateway-list 10.1.1.254
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>dns-list 60.191.134.196
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置与终端互连的端口为access vlan10</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>int ra g1/0/1 to g1/0/10
+<span style="color:#f92672">[</span>server-if-range<span style="color:#f92672">]</span>port acc vl <span style="color:#ae81ff">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果局域网内有自建dns服务器，就用自建的dns服务器IP地址；如果没有，就用运营商的，或者其他公共dns地址。如果是普通外网的话不配置dns应该也可以，按照平时电脑上IP地址的经验来看，电脑会默认用网关做dns，网关实际没有配置dns相关功能，就会自动向上一级寻找，如果都没配置，最终也会找到运营商的dns服务器来解析域名什么的。</p>
+<p>经过这些配置后，终端PC机等就能够自动获取到10.1.1.0网段的IP地址。如果还有其他接入交换机位于该核心交换机与终端之间，将接入交换机端口也配置access vlan10就好了。</p>
+<p>实际上，如果局域网络很简单，此处交换机可以直接使用vlan 1来配置dhcp，那其他交换机就可以什么都不配置直接当傻瓜机来用。</p>
+<h3 id="静态绑定">静态绑定</h3>
+<p>可能网络中有搭建web服务器、ftp服务器、以及自建dns服务器等，这些服务端业务需要使用固定IP地址，我们也可以使用静态绑定的方式把相关业务IP地址固定下来。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;server&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp ser ip vlan10
+<span style="color:#75715e"># 采用静态绑定方式将IP地址与服务器网口mac地址绑定</span>
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>static-bind ip 10.1.1.110 <span style="color:#ae81ff">24</span> hardware-address 64e0-80c3
+-0506
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>static-bind ip 10.1.1.111 <span style="color:#ae81ff">24</span> hard 64e0-0415-0406
+</code></pre></td></tr></table>
+</div>
+</div><p>服务器mac地址可以从服务器网卡信息上看到，如果已经提前手动配置好了IP地址，那在交换机上运行命令<code>dis arp</code>也能看到。</p>
+<p><strong>备注</strong>：此处模拟器上web和ftp也是用的dhcp模式，没有手动配置ip，按照我对华三官方文档的理解，此处我设置了静态绑定之后，web或者ftp向dhcp服务器申请ip的时候，dhcp服务器应该会根据mac将我绑定的ip分配给他们，<del>实际确实按照顺序给他们分别分配了10.1.1.4和10.1.1.5的ip。甚至我把web改为静态配置10.1.1.110后，使用<code>dis dhcp server ip-in-use</code>看到的还是属于<code>Not used</code>状态，只能两手一摊表示，**傻逼…**</del> 后来又仔细看了下，发现通过<code>dis mac-add</code>看到的设备mac地址并不是出厂桥MAC地址，也就是说我静态绑定的时候mac搞错了-_-|||，绑定正确的mac确实是这种效果的。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0530-231702-95bc673afb889e98c444d5614edd4f5e-bc8bbf.png">
+            <img class="mx-auto" alt="h3c hcl模拟器静态绑定bug" src="http://img.xy-ylr.cn/picgo/it/2023-0530-231702-95bc673afb889e98c444d5614edd4f5e-bc8bbf.png" />
+        </a>
+    </p>
+<h3 id="ip不参与动态分配">IP不参与动态分配</h3>
+<p>如果没有配置静态绑定，那么虽然我们已经手动配置好了IP地址，但是当我们在交换机上运行命令<code>dis dhcp server ip-in-use</code>查看DHCP服务器已分配IP的时候，是看不到这些服务器IP地址的。这也就意味着，随着客户端的增加，这些IP（主机关机了的时候）有可能会被动态分配给别的终端使用，这时候我们也可以主动把一些IP地址配置为不参与动态分配。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;server&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp server forbidden-ip 10.1.1.110
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp server forbidden-ip 10.1.1.111
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="调整ip地址租期">调整IP地址租期</h3>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;server&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span>dhcp ser ip-pool vlan10
+<span style="color:#75715e"># 设置IP地址租期为2分钟</span>
+<span style="color:#f92672">[</span>server-dhcp-pool-vlan10<span style="color:#f92672">]</span>expired day <span style="color:#ae81ff">0</span> hour <span style="color:#ae81ff">0</span> minute <span style="color:#ae81ff">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可选配置，默认情况下IP地址租期为1天。如果是公共场合供他人无线连接上网，或者其他终端数很多且更换频繁的场景，可以把租期设置的短一些；如果企业内部办公电脑使用，基本不会有变化的，也可以考虑把租期延长。</p>
+<h2 id="dhcp-snooping">DHCP Snooping</h2>
+<p>DHCP Snooping是DHCP的一种安全特性。</p>
+<p>DHCP Snooping可以对交换机端口设置trust，以保证客户端从受信任的DHCP服务器获取IP。当客户端发出广播报文后，网络中的DHCP服务器会作出回应，从trust端口过来的DHCP报文会正常转发给客户端，而从其他未设置为trust的非信任端口(非法DHCP服务器)过来的DHCP报文会被丢弃。</p>
+<p>一个最基本的好处就是，在终端接入交换机上设置了dhcp snooping之后，底下终端网络有人误接路由器，造成网络中多出来一个非法dhcp服务器，也只会造成局部（比如误接路由器的办公室办公室）无法上网，不至于影响到其他地方。</p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0531-133728-f447d091fe55f7d1d5863fbf7c5e6f63-35075d.png">
+            <img class="mx-auto" alt="dhcp snooping配置" src="http://img.xy-ylr.cn/picgo/it/2023-0531-133728-f447d091fe55f7d1d5863fbf7c5e6f63-35075d.png" />
+        </a>
+    </p>
+<p>trust_server交换机上dhcp服务的配置参考前面<a href="#%E6%9C%80%E7%AE%80%E6%A8%A1%E5%BC%8F-%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D">最简模式-动态分配</a>部分。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;H3C&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#f92672">[</span>H3C<span style="color:#f92672">]</span>sysn snooping
+<span style="color:#75715e"># 开启dhcp</span>
+<span style="color:#f92672">[</span>snooping<span style="color:#f92672">]</span>dhcp <span style="color:#111">enable</span>
+<span style="color:#75715e"># 开启dhcp snooping</span>
+<span style="color:#f92672">[</span>snooping<span style="color:#f92672">]</span>dhcp snooping <span style="color:#111">enable</span>
+<span style="color:#75715e"># 进入与dhcp服务器互连的口子，并配置dhcp snooping trust</span>
+<span style="color:#f92672">[</span>snooping<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>snooping-GigabitEthernet1/0/1<span style="color:#f92672">]</span>dhcp snooping trust
+<span style="color:#f92672">[</span>snooping-GigabitEthernet1/0/1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 创建vlan并将与终端互连的口子加入相应vlan</span>
+<span style="color:#f92672">[</span>snooping<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>snooping-vlan10<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>snooping<span style="color:#f92672">]</span>int ra g1/0/1 to g1/0/10
+<span style="color:#f92672">[</span>snooping-if-range<span style="color:#f92672">]</span>port acc vl <span style="color:#ae81ff">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>如果是有多个交换机串联的，那就将交换机上联方向去往dhcp服务的口子都设置为dhcp snooping trust。</strong></p>
+<h2 id="dhcp中继">DHCP中继</h2>
+<p>因为DHCP获取IP地址只能在同网段广播发送请求报文，所以如果DHCP服务器和客户端不在一个网段内，则客户端无法获取到IP地址。这个时候可以部署DHCP中继，中继会在接收到客户端发送的请求后，进行相应包装，然后转发给DHCP服务器，然后在收到DHCP服务器返回的报文后再转发给客户端。</p>
+<p><strong>文章开头提到的参考资料，关于dhcp中继部分，华三的案例太简洁了，可以看华为的，比较详细</strong></p>
+<p>
+        <a data-fancybox="gallery" href="http://img.xy-ylr.cn/picgo/it/2023-0603-230845-b1fb02a5efd1b2f495841d2f127dd42e-993848.png">
+            <img class="mx-auto" alt="dhcp中继配置" src="http://img.xy-ylr.cn/picgo/it/2023-0603-230845-b1fb02a5efd1b2f495841d2f127dd42e-993848.png" />
+        </a>
+    </p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">82
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">83
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">84
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">85
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">86
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">### 配置dhcp和relay相关接口</span>
+<span style="color:#75715e">## 配置dhcp相关接口</span>
+&lt;dhcp&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#75715e"># 创建vlan 10 20 30</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>dhcp-vlan10<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>dhcp-vlan20<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">30</span>
+<span style="color:#75715e"># 使能vlanif30接口，并配置管理ip</span>
+<span style="color:#f92672">[</span>dhcp-vlan20<span style="color:#f92672">]</span>int vl30
+<span style="color:#f92672">[</span>dhcp-Vlan-interface30<span style="color:#f92672">]</span>ip add 10.1.3.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>dhcp-Vlan-interface30<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 使能vlanif10接口，并配置IP作为vlan10网段网关</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>int vl10
+<span style="color:#f92672">[</span>dhcp-vlan-interface10<span style="color:#f92672">]</span>ip add 10.1.1.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>dhcp-vlan-interface10<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 将连接终端相关端口配置为Access口，并放行vlan 10</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>int ra g1/0/2 to g1/0/10
+<span style="color:#f92672">[</span>dhcp-if-range<span style="color:#f92672">]</span>port acc vl <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>dhcp-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置与relay互连的端口为Hybrid，放行vlan 30并untagged</span> 
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>dhcp-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port link-type hybrid
+<span style="color:#f92672">[</span>dhcp-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port hybrid pvid vlan <span style="color:#ae81ff">30</span>
+<span style="color:#f92672">[</span>dhcp-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port hybrid vlan <span style="color:#ae81ff">30</span> untagged
+<span style="color:#f92672">[</span>dhcp-GigabitEthernet1/0/1<span style="color:#f92672">]</span>undo port hybrid vlan <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">## 配置relay相关接口</span>
+&lt;relay&gt;sys
+System View: <span style="color:#00a8c8">return</span> to User View with Ctrl+Z.
+<span style="color:#75715e"># 创建vlan 10 20 30</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>relay-vlan10<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>relay-vlan20<span style="color:#f92672">]</span>vlan <span style="color:#ae81ff">30</span>
+<span style="color:#75715e"># 配置与dhcp互连的G1/0/1口为Hybrid，放行vlan 30并untagged</span>
+<span style="color:#f92672">[</span>relay-vlan30<span style="color:#f92672">]</span>int g1/0/1
+<span style="color:#f92672">[</span>relay-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port link-type hybrid
+<span style="color:#f92672">[</span>relay-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port hybrid vlan <span style="color:#ae81ff">30</span> untagged
+<span style="color:#f92672">[</span>relay-GigabitEthernet1/0/1<span style="color:#f92672">]</span>undo port hybrid vlan <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>relay-GigabitEthernet1/0/1<span style="color:#f92672">]</span>port hybrid pvid vlan <span style="color:#ae81ff">30</span>
+<span style="color:#f92672">[</span>relay-GigabitEthernet1/0/1<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 配置其他与终端互连的接口为Access，并放行vlan 20</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>int ra g1/0/2 to g1/0/10
+<span style="color:#f92672">[</span>relay-if-range<span style="color:#f92672">]</span>port acc vl <span style="color:#ae81ff">20</span>
+<span style="color:#f92672">[</span>relay-if-range<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 使能vlanif20接口，并配置IP作为vlan20网段网关</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>int vl20
+<span style="color:#f92672">[</span>relay-Vlan-interface20<span style="color:#f92672">]</span>ip add 10.1.2.1 <span style="color:#ae81ff">24</span>
+<span style="color:#f92672">[</span>relay-Vlan-interface20<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># 使能vlanif30接口，并配置管理IP</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>int vl30
+<span style="color:#f92672">[</span>relay-Vlan-interface30<span style="color:#f92672">]</span>ip add 10.1.3.2 <span style="color:#ae81ff">24</span>
+
+<span style="color:#75715e">### 配置dhcp服务器</span>
+<span style="color:#75715e">## 配置vlan10地址池</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>dhcp <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>int vl10
+<span style="color:#f92672">[</span>dhcp-Vlan-interface10<span style="color:#f92672">]</span>dhcp <span style="color:#00a8c8">select</span> server
+<span style="color:#f92672">[</span>dhcp-Vlan-interface10<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>dhcp ser ip vlan10
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan10<span style="color:#f92672">]</span>net 10.1.1.0 mask 255.255.255.0
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan10<span style="color:#f92672">]</span>gat 10.1.1.1
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan10<span style="color:#f92672">]</span>qu
+<span style="color:#75715e"># web服务器的ip已手动设定，不参与动态分配</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>dhcp server forbidden-ip 10.1.1.100
+<span style="color:#75715e">## 配置vlan20地址池</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>int vl20
+<span style="color:#f92672">[</span>dhcp-Vlan-interface20<span style="color:#f92672">]</span>dhcp sel ser
+<span style="color:#f92672">[</span>dhcp-Vlan-interface20<span style="color:#f92672">]</span>qu
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>dhcp ser ip vlan20
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan20<span style="color:#f92672">]</span>net 10.1.2.0 mask 255.255.255.0
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan20<span style="color:#f92672">]</span>gat 10.1.2.1
+<span style="color:#f92672">[</span>dhcp-dhcp-pool-vlan20<span style="color:#f92672">]</span>qu
+
+<span style="color:#75715e">### 配置relay中继</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>dhcp <span style="color:#111">enable</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>int vl20
+<span style="color:#75715e"># 该vlanif20接口的IP在前面已经配置号</span>
+<span style="color:#f92672">[</span>relay-Vlan-interface20<span style="color:#f92672">]</span>dhcp <span style="color:#00a8c8">select</span> relay
+<span style="color:#f92672">[</span>relay-Vlan-interface20<span style="color:#f92672">]</span>dhcp relay server-address 10.1.3.1
+<span style="color:#f92672">[</span>relay-Vlan-interface20<span style="color:#f92672">]</span>qu
+
+<span style="color:#75715e">### 配置两边路由</span>
+<span style="color:#75715e"># 配置dhcp服务器上到vlan20客户端网段的路由</span>
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>ip route-static 10.1.2.0 <span style="color:#ae81ff">24</span> 10.1.3.2
+<span style="color:#75715e"># 配置relay中继上的默认路由</span>
+<span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>ip route-static 0.0.0.0 <span style="color:#ae81ff">0</span> 10.1.3.1
+</code></pre></td></tr></table>
+</div>
+</div><p>因为dhcp服务器跟客户端不在同一个网段，所以需要路由让两边能够数据互通。</p>
+<p>完成以上配置后，dhcp中继就完成配置了，此时在dhcp服务器上查看vlan20地址池，能够看到已经有IP已经分配出去，正是relay那边所连接的客户端IP地址。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>dis dhcp ser ip-in-use pool vlan20
+IP address       Client identifier/    Lease expiration      Type
+                 Hardware address
+10.1.2.2         0038-3839-632e-3763-  Jun  <span style="color:#ae81ff">4</span> 19:35:09 <span style="color:#ae81ff">2023</span>  Auto<span style="color:#f92672">(</span>C<span style="color:#f92672">)</span>
+                 6531-2e30-6230-362d-
+                 4745-302f-302f-31
+10.1.2.3         0038-3839-632e-3863-  Jun  <span style="color:#ae81ff">4</span> 19:35:17 <span style="color:#ae81ff">2023</span>  Auto<span style="color:#f92672">(</span>C<span style="color:#f92672">)</span>
+                 6161-2e30-6330-362d-
+                 4745-302f-302f-31
+<span style="color:#f92672">[</span>dhcp<span style="color:#f92672">]</span>%Jun  <span style="color:#ae81ff">3</span> 19:43:44:599 <span style="color:#ae81ff">2023</span> dhcp STP/6/STP_NOTIFIED_TC: Instance 0<span style="color:#960050;background-color:#1e0010">&#39;</span>s port GigabitEthernet1/0/1 was notified a topology change.
+</code></pre></td></tr></table>
+</div>
+</div><p>如果此前在relay中继上面有配置<code>dhcp relay client-information record</code>启用了中继的用户地址表记录功能，那么在中继上也能看到从dhcp服务器获取的客户端IP地址。</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>relay<span style="color:#f92672">]</span>dis dhcp relay client-information
+Total number of client-information items: <span style="color:#ae81ff">1</span>
+Total number of dynamic items: <span style="color:#ae81ff">1</span>
+Total number of temporary items: <span style="color:#ae81ff">0</span>
+IP address       MAC address      Type        Interface            VPN name
+10.1.2.2         889c-7ce1-0b06   Dynamic     Vlan20               N/A
+</code></pre></td></tr></table>
+</div>
+</div><p>不过，如果是在已经获取到地址后才开启的记录功能，那暂时上看不到信息的，需要等到客户端重新申请IP地址之后，才会被中继记录下来。</p>
+<h3 id="关于中继使用场景">关于中继使用场景</h3>
+<p>关于DHCP中继的使用场景，其实没想明白有哪些情况下必须使用中继，或者是哪些情况下使用中继模式会更好。介绍里只是说当终端和dhcp服务器不在同一个网段的时候，可以使用DHCP中继手段来实现。但是既然终端的IP地址池在dhcp服务器上，那也就是说DHCP服务器上本来就有终端的网段信息的，限制也就只在dhcp服务器与中继互连的那部分端口了，只要把该互连端口配置成与终端同网段的，那dhcp服务器和终端不就在一个网段内了吗？</p>
+<p>为什么非要卡住这个口子不让两边直接互通呢，是出于什么安全考虑吗？</p>
+<h2 id="相关运维命令">相关运维命令</h2>
+<p><code>display dhcp server ip-in-use</code> ：查看DHCP服务器已分配出去的IP地址</p>
+<p><code>display dhcp server free-ip</code>：查看DHCP服务器地址池中空闲IP地址信息</p>
+<p><code>display dhcp server statistics</code>：查看DHCP服务器统计信息</p>
+<p><code>reset dhcp server expired</code>：清除租期过期的绑定信息</p>
+<h2 id="更多配置">更多配置</h2>
+<p>华为、华三等厂家不同型号的网络设备，可配置的DHCP相关功能也不尽相同，更多配置请参考官方文档^_^</p>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://xy-ylr.github.io">四十荀</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://xy-ylr.github.io/it/dhcp_conf/">https://xy-ylr.github.io/it/dhcp_conf/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/it/h3c_huawei_network_basic/">华三华为网络基础配置命令</a></li>
+        
+        <li><a href="/it/h3c_irf_conf/">H3C交换机irf配置</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C'>网络</a></li>
+                
+                <li><a href='/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88'>网络工程师</a></li>
+                
+                <li><a href='/tags/DHCP'>DHCP</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "xy-ylr/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2024 <a href="https://xy-ylr.github.io">四十荀的博客 By 四十荀</a>
+        
+        | <a rel="nofollow" target="_blank" href="http://beian.miit.gov.cn/">浙ICP备2023002264号-1</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://xy-ylr.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xy-ylr.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/kali_configure_openvas/" title="Kali2024.1安装配置openvas(gvm)漏洞扫描软件">Kali2024.1安装配置openvas(gvm)漏洞扫描软件</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/linux_iso2local_yum/" title="Linux使用iso镜像制作本地源">Linux使用iso镜像制作本地源</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vmware_patches_updates/" title="Vmware更新补丁方法">Vmware更新补丁方法</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/zabbix_snmp_trap/" title="Zabbix配置snmp trap接收主动告警">Zabbix配置snmp trap接收主动告警</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/vlmcsd_kms/" title="利用VLMCSD部署本地KMS服务器">利用VLMCSD部署本地KMS服务器</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/snmp/" title="SNMP基础">SNMP基础</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/huawei_css/" title="华为交换机STACK堆叠与CSS集群配置">华为交换机STACK堆叠与CSS集群配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_complex_nat/" title="H3c防火墙双向地址转换配置">H3c防火墙双向地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_snat/" title="H3c防火墙源地址转换配置">H3c防火墙源地址转换配置</a>
+    </li>
+    
+    <li>
+        <a href="https://xy-ylr.github.io/it/h3c_network_nat/" title="H3C防火墙NAT配置">H3C防火墙NAT配置</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://xy-ylr.github.io/categories/Windows/">Windows (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/debian/">debian (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/git/">git (4)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/linux/">linux (9)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/office%E5%8A%9E%E5%85%AC/">office办公 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/snmp/">snmp (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/vmware/">vmware (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/zabbix/">zabbix (2)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%81%A5%E8%BA%AB/">健身 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E5%86%9C%E4%B8%9A/">农业 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%90%86%E8%B4%A2/">理财 (1)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BC%96%E8%BE%91/">编辑 (3)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E7%BD%91%E7%BB%9C/">网络 (11)</a></li>
+    
+    <li><a href="https://xy-ylr.github.io/categories/%E8%BF%90%E7%BB%B4/">运维 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://xy-ylr.github.io/tags/DHCP/">DHCP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/alias/">alias</a>
+    
+    <a href="https://xy-ylr.github.io/tags/apt/">apt</a>
+    
+    <a href="https://xy-ylr.github.io/tags/bash-shell/">bash shell</a>
+    
+    <a href="https://xy-ylr.github.io/tags/css%E9%9B%86%E7%BE%A4/">css集群</a>
+    
+    <a href="https://xy-ylr.github.io/tags/debian/">debian</a>
+    
+    <a href="https://xy-ylr.github.io/tags/dnf/">dnf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/excel/">excel</a>
+    
+    <a href="https://xy-ylr.github.io/tags/firewalld/">firewalld</a>
+    
+    <a href="https://xy-ylr.github.io/tags/git/">git</a>
+    
+    <a href="https://xy-ylr.github.io/tags/github/">github</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c/">h3c</a>
+    
+    <a href="https://xy-ylr.github.io/tags/h3c%E9%98%B2%E7%81%AB%E5%A2%99/">h3c防火墙</a>
+    
+    <a href="https://xy-ylr.github.io/tags/hugo/">hugo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/irf/">irf</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kali/">kali</a>
+    
+    <a href="https://xy-ylr.github.io/tags/kms%E6%BF%80%E6%B4%BB/">kms激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/linux/">linux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/lvm/">lvm</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat/">nat</a>
+    
+    <a href="https://xy-ylr.github.io/tags/nat%E9%85%8D%E7%BD%AE/">nat配置</a>
+    
+    <a href="https://xy-ylr.github.io/tags/network/">network</a>
+    
+    <a href="https://xy-ylr.github.io/tags/openvasgvm/">openvas(gvm)</a>
+    
+    <a href="https://xy-ylr.github.io/tags/patch-update/">patch update</a>
+    
+    <a href="https://xy-ylr.github.io/tags/rime/">rime</a>
+    
+    <a href="https://xy-ylr.github.io/tags/selinux/">selinux</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp/">snmp</a>
+    
+    <a href="https://xy-ylr.github.io/tags/snmp-trap/">snmp trap</a>
+    
+    <a href="https://xy-ylr.github.io/tags/ssh/">ssh</a>
+    
+    <a href="https://xy-ylr.github.io/tags/sudo/">sudo</a>
+    
+    <a href="https://xy-ylr.github.io/tags/typora/">typora</a>
+    
+    <a href="https://xy-ylr.github.io/tags/vmware/">vmware</a>
+    
+    <a href="https://xy-ylr.github.io/tags/windows%E6%BF%80%E6%B4%BB/">windows激活</a>
+    
+    <a href="https://xy-ylr.github.io/tags/yum/">yum</a>
+    
+    <a href="https://xy-ylr.github.io/tags/zabbix/">zabbix</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%81%A5%E8%BA%AB/">健身</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%86%9C%E4%B8%9A/">农业</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%88%86%E5%8C%BA/">分区</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E5%8D%8E%E4%B8%BA/">华为</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%8C%82%E8%BD%BD/">挂载</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96/">格式化</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E6%BC%8F%E6%89%AB/">漏扫</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%82%92%E8%82%A1/">炒股</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%90%86%E8%B4%A2/">理财</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C-MSTP/">网络, MSTP</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E4%B8%A2%E5%8C%85/">网络丢包</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88/">网络工程师</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E6%8E%92%E9%9A%9C/">网络排障</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E7%BD%91%E7%BB%9C%E7%8E%AF%E8%B7%AF/">网络环路</a>
+    
+    <a href="https://xy-ylr.github.io/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://xy-ylr.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

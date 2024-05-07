@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dnf on 四十荀的博客</title>
+    <link>https://xy-ylr.github.io/tags/dnf/</link>
+    <description>Recent content in dnf on 四十荀的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 29 Mar 2024 12:06:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://xy-ylr.github.io/tags/dnf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux使用iso镜像制作本地源</title>
+      <link>https://xy-ylr.github.io/it/linux_iso2local_yum/</link>
+      <pubDate>Fri, 29 Mar 2024 12:06:26 +0800</pubDate>
+      
+      <guid>https://xy-ylr.github.io/it/linux_iso2local_yum/</guid>
+      <description>&lt;p&gt;linux系统使用&lt;code&gt;yum&lt;/code&gt;、&lt;code&gt;dnf&lt;/code&gt;、&lt;code&gt;apt&lt;/code&gt;等命令，通过源仓库一键安装软件，非常的方便。但是对于内网环境，无法正常访问相关源，下载源码自行编译安装或者软件包离线安装的话，又可能出现各种依赖缺失，非常的麻烦。这个时候使用iso镜像做个本地源就很有必要了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
